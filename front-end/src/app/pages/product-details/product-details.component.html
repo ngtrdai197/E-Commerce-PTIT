@@ -3,32 +3,21 @@
   <div class="row">
     <div class="col-md-6 col-lg-6 slide-products">
       <mdb-carousel class="carousel slide carousel-fade" [type]="'carousel-thumbnails'" [animation]="'fade'">
-        <mdb-carousel-item>
-          <img class="d-block w-100" src="https://mdbootstrap.com/img/Photos/Slides/img%20(88).jpg" alt="First slide">
-        </mdb-carousel-item>
-        <mdb-carousel-item>
-          <img class="d-block w-100" src="https://mdbootstrap.com/img/Photos/Slides/img%20(121).jpg" alt="Second slide">
-        </mdb-carousel-item>
-        <mdb-carousel-item>
-          <img class="d-block w-100" src="https://mdbootstrap.com/img/Photos/Slides/img%20(31).jpg" alt="Third slide">
-        </mdb-carousel-item>
-        <mdb-carousel-item>
-          <img class="d-block w-100" src="https://mdbootstrap.com/img/Photos/Slides/img%20(31).jpg" alt="Third slide">
+        <mdb-carousel-item *ngFor="let image of product?.images">
+          <img class="d-block w-100" style="max-height: 350px;" [src]="image" alt="First slide">
         </mdb-carousel-item>
       </mdb-carousel>
     </div>
     <div class="col-md-6 col-lg-6 content-product">
-      <h3>Jeptum ring earrings</h3>
-      <p class="price">£339.00 </p><span class="new-price"> £299.00</span>
-      <div class="description">In bibendum pharetra parturient faucibus condimentum ac a at mus etiam a mollis a justo
-        dui leo semper a consequat vitae facilisis a eu.Eget pulvinar dolor senectus a in etiam ac.
-      </div>
+      <h3>{{product?.title}}</h3>
+      <p class="price">{{product?.oldPrice}}</p><span class="new-price"> {{product?.currentPrice}}</span>
+      <div class="description">{{product?.description}}</div>
       <div class="actions">
         <div class="btn-toolbar" role="toolbar" aria-label="Toolbar with button groups">
           <div class="btn-group mr-2" role="group" aria-label="First group">
-            <button type="button" class="btn btn-black">-</button>
+            <button type="button" class="btn btn-black" (click)="onDecrement()">-</button>
             <button type="button" class="btn btn-white">2</button>
-            <button type="button" class="btn btn-black">+</button>
+            <button type="button" class="btn btn-black" (click)="onIncrement()">+</button>
           </div>
           <div class="btn-group mr-2" role="group" aria-label="Second group">
             <button type="button" class="btn btn-black add-cart">ADD TO CART</button>
@@ -83,7 +72,7 @@
                 <div class="avatar">
                   <img class="rounded-circle"
                     src="https://secure.gravatar.com/avatar/01c41ce93f511cd303418fd52e559f72?s=120&d=mm&r=g" alt=""
-                    style="60px;">
+                    style="width: 60px;">
                 </div>
                 <div class="content">
                   Lorem ipsum dolor sit amet consectetur adipisicing elit. Laudantium nemo aperiam libero nostrum eius

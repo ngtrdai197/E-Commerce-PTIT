@@ -4,10 +4,11 @@
     <div class="sub-cart">
       <span data-toggle="tooltip" data-placement="top" title="Thêm vào giỏ hàng" class="cart"><i class="fa fa-cart-plus"
           aria-hidden="true"></i></span>
-      <span data-toggle="tooltip" data-placement="top" title="Xem chi tiết" class="eye" routerLink="/product/12">
+      <span data-toggle="tooltip" data-placement="top" title="Xem chi tiết" class="eye"
+        [routerLink]="['/product', product?.id]">
         <i class="fa fa-eye" aria-hidden="true"></i></span>
     </div>
   </div>
-  <div class="description">{{product?.description}}</div>
+  <div class="description">{{product?.title}}</div>
   <div class="price">{{product?.currentPrice}}</div>
 </div>

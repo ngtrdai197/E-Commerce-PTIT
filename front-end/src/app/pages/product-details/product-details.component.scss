@@ -3,15 +3,20 @@
     .row {
       .slide-products {
         padding: 30px;
-        margin-bottom: 4.4rem;
+        margin-bottom: 5.4rem;
       }
 
       .content-product {
         padding: 30px;
 
-        .new-price {
-          color: #179a94;
-          font-size: 28px;
+        p {
+          display: inline;
+          font-size: 22px;
+
+          .new-price {
+            color: #179a94;
+            font-size: 28px;
+          }
         }
 
         .description {
@@ -80,6 +85,7 @@
     .feedback {
       background: #F9F9F9;
       padding: 25px 10px;
+      margin-top: 30px;
 
       ul {
         justify-content: center;
@@ -129,8 +135,9 @@
         }
       }
     }
-    .related-product{
-        margin-bottom: 35px;
+
+    .related-product {
+      margin-bottom: 35px;
     }
   }
 }

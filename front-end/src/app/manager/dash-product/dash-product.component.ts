@@ -1,10 +1,10 @@
-import { Component, OnInit, ViewChild, ChangeDetectorRef, Input, ElementRef } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { Title } from '@angular/platform-browser';
 import { MatTableDataSource, MatDialog, MatSort, MatPaginator } from '@angular/material';
 import { IProduct } from 'src/@core/interface/IProduct.interface';
 import { CategoryService } from 'src/@core/services/category/category.service';
 import { ToastrService } from 'ngx-toastr';
-import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { ProductService } from 'src/@core/services/product/product.service';
 import { ICategory } from 'src/@core/interface';
@@ -23,6 +23,7 @@ export class DashProductComponent implements OnInit {
   dataSource: MatTableDataSource<IProduct>;
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
   @ViewChild(MatSort, { static: true }) sort: MatSort;
+  @ViewChild('closeModal', { static: false }) closeModal: ElementRef;
 
   selectedIdDetele = '';
   categoryId = '';
@@ -30,14 +31,13 @@ export class DashProductComponent implements OnInit {
   public createForm: FormGroup;
   public editForm: FormGroup;
   viewImages = [];
-  @Input('actionModal') actionViewImages: ElementRef;
-  @ViewChild('closeModal', { static: false }) closeModal: ElementRef;
+  sex: Number;
   constructor(public dialog: MatDialog, private title: Title,
     private categoryService: CategoryService,
     private toastService: ToastrService,
     private formBuilder: FormBuilder,
     private activatedRoute: ActivatedRoute,
-    private productService: ProductService, private cd: ChangeDetectorRef
+    private productService: ProductService
   ) { }
 
   ngOnInit() {
@@ -50,14 +50,10 @@ export class DashProductComponent implements OnInit {
       this.refresh();
     });
   }
-  onSetTitle() {
-    this.title.setTitle('Quản lý sản phẩm');
-  }
 
   onViewImages(images: string[], productId: string) {
     this.currentProduct = productId;
     if (images.length === 0) {
-      // console.log(this.actionViewImages.nativeElement);
       this.toastService.info('Sản phẩm chưa có hình ảnh.', 'Thông báo');
       return;
     }
@@ -96,7 +92,8 @@ export class DashProductComponent implements OnInit {
       discount: this.createForm.value.discount,
       title: this.createForm.value.title,
       productTotal: this.createForm.value.quantity,
-      productAvailable: this.createForm.value.quantity
+      productAvailable: this.createForm.value.quantity,
+      sex: +this.createForm.value.sex
     }
     this.productService.createProduct(product).subscribe((response) => {
       if (response) {
@@ -123,10 +120,12 @@ export class DashProductComponent implements OnInit {
       title: [product.title, [Validators.required]],
       productTotal: [product.productTotal, [Validators.required]],
       quantity: [product.productTotal, [Validators.required]],
-      images: [product.images]
+      sex: [product.sex, [Validators.required]],
+      images: [null, [Validators.required]]
     });
     this.currentProduct = product.id as string;
   }
+
   getIdToDelete(product: IProduct) {
     this.selectedIdDetele = product.id as string;
   }
@@ -150,6 +149,7 @@ export class DashProductComponent implements OnInit {
     payload.append('discount', this.editForm.value.discount);
     payload.append('title', this.editForm.value.title);
     payload.append('productTotal', this.editForm.value.productTotal);
+    payload.append('sex', this.editForm.value.sex);
     payload.append('id', this.currentProduct);
 
     if (this.editForm.value.images) {
@@ -157,7 +157,6 @@ export class DashProductComponent implements OnInit {
         const element = this.editForm.value.images.images[index];
         payload.append('images', element);
       }
-
     }
     this.productService.updateProduct(payload).subscribe((response) => {
       if (response) {
@@ -178,6 +177,10 @@ export class DashProductComponent implements OnInit {
     });
   }
 
+  private onSetTitle() {
+    this.title.setTitle('Quản lý sản phẩm');
+  }
+
   private buildForm() {
     this.createForm = this.formBuilder.group({
       name: ['', [Validators.required]],
@@ -188,6 +191,7 @@ export class DashProductComponent implements OnInit {
       discount: ['', [Validators.required]],
       quantity: ['', [Validators.required]],
       productTotal: ['', Validators.required],
+      sex: [null, [Validators.required]],
       images: [null],
     });
     this.editForm = this.formBuilder.group({
@@ -199,6 +203,7 @@ export class DashProductComponent implements OnInit {
       discount: ['', [Validators.required]],
       productTotal: ['', Validators.required],
       quantity: ['', [Validators.required]],
+      sex: [null, [Validators.required]],
       images: [null]
     });
   }

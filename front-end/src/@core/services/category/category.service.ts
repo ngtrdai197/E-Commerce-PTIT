@@ -3,6 +3,8 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { ICategory } from 'src/@core/interface/ICategory.interface';
 import { API } from 'src/@core/config/API';
+import { map } from 'rxjs/operators';
+import { IProduct } from 'src/@core/interface';
 
 @Injectable({
   providedIn: 'root'
@@ -11,8 +13,16 @@ export class CategoryService {
 
   constructor(private http: HttpClient) { }
 
-  onFetchCategorys(): Observable<ICategory[]> {
-    return this.http.get<ICategory[]>(`${API.HOST}/${API.CATEGORY.BASE}`);
+  get listCategory() {
+    return this.http.get<ICategory[]>(`${API.HOST}/${API.CATEGORY.BASE}`).pipe(map(x => {
+      return x.filter(x => {
+        return (x.products as IProduct[]).map(x => {
+          x.images = x.images.map(img => {
+            return img = `${API.HOST}/${img}`;
+          });
+        });
+      });
+    }));
   }
 
   onDeleteCategory(id: String): Observable<Object> {

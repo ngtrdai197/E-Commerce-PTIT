@@ -6,6 +6,7 @@ import { API } from 'src/@core/config/API';
 import { ToastrService } from 'ngx-toastr';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { UserService } from 'src/@core/services/user/user.service';
+import { OrderCartService } from 'src/@core/services/order-cart.service';
 
 @Component({
   selector: 'shop-header',
@@ -19,16 +20,22 @@ export class HeaderComponent implements OnInit {
   editForm: FormGroup;
   avatarDefault = 'assets/auth/user-default.png';
   isChangeAvatar = false;
+  order: any;
   constructor(
     private router: Router, private toastService: ToastrService,
     private jwtService: JwtService, private userService: UserService,
     private toast: ToastrService, private formBuilder: FormBuilder,
-    private cd: ChangeDetectorRef
+    private cd: ChangeDetectorRef, private orderCart: OrderCartService
   ) { }
 
   ngOnInit() {
     this.buildForm();
     this.jwtService.getProfile.subscribe(data => this.currentUser = data);
+    this.orderCart.orderCart.subscribe(data => {
+      this.order = data;
+      console.log(this.order);
+      
+    })
   }
 
   onFileChange(event) {

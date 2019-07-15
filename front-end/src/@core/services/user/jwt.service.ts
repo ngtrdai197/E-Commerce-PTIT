@@ -18,11 +18,7 @@ export class JwtService {
   setUserProfile(user: IUser) {
     this.userProfile.next(user);
   }
-
-  // checkUserProfile() {
-  //   return this.userProfile.getValue() ? true : false;
-  // }
-
+  
   getUserProfileByToken() {
     this.http.get(`${API.HOST}/api/auth/profile`).subscribe(response => {
       if(response['avatar']){

@@ -15,6 +15,7 @@ export interface IProduct {
     productTotal?: number;
     productAvailable?: number;
     ratings?: number; // ratings
+    sex?: number; // 0 male 1 female
     productBoughtBy?: Customer;
 }
 
@@ -61,6 +62,10 @@ const productSchema = new mongoose.Schema(
         },
         ratings: {
             type: Number
+        },
+        sex: {
+            type: Number,
+            required: true
         },
         productBoughtBy: new mongoose.Schema({
             customerId: {

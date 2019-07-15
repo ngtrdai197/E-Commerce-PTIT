@@ -48,7 +48,7 @@ export class Product {
         }
     }
 
-    @httpGet(':/id')
+    @httpGet('/:id')
     public async findOne(@requestParam('id') id: string) {
         return await this.productRepo.findOne({ _id: id });
     }
@@ -66,6 +66,7 @@ export class Product {
     public async create(req: Request): Promise<IProduct> {
         try {
             const { body } = req;
+            body.sex = +body.sex; // if sex is string => parse to number
             const product = await this.productRepo.create(body);
             const query = { $push: { products: product } };
             await this.categoryRepo.updateMapping(query, product.category as string);

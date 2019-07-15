@@ -13,6 +13,7 @@ export class HomepageComponent implements OnInit {
 
   categorys: ICategory[] = [];
   products: IProduct[] = [];
+  firstCategoryId = '';
   constructor(private title: Title, private categoryService: CategoryService) { }
 
   ngOnInit() {
@@ -24,21 +25,15 @@ export class HomepageComponent implements OnInit {
     this.categorys.filter(x => {
       if (x.id === categoryId) {
         this.products = x.products as IProduct[];
-        this.products.map(x => {
-          return x.images.map(img => {
-            return img = `${API.HOST}/${img}`;
-          });
-        });
-        console.log(this.products);
       }
     });
-
-
   }
 
   onLoadCategory() {
-    this.categoryService.onFetchCategorys().subscribe(data => {
+    this.categoryService.listCategory.subscribe(data => {
       this.categorys = data;
+      this.firstCategoryId = this.categorys[0].id as string
+      this.filterProducts(this.firstCategoryId);
     });
   }
 

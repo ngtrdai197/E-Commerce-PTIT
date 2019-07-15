@@ -33,10 +33,10 @@ export class DashCategoryComponent implements OnInit {
   }
 
   onFetchUsers() {
-    this.categoryService.onFetchCategorys().subscribe((data: ICategory[]) => {
+    this.categoryService.listCategory.subscribe((data: ICategory[]) => {
       this.categorys = data;
       this.onDataTable();
-    })
+    });
   }
   onCheckedUser(user) {
     if (this.categorys) {

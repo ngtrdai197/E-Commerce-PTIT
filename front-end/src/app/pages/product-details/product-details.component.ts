@@ -1,5 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { ProductService } from 'src/@core/services/product/product.service';
+import { IProduct } from 'src/@core/interface';
+import { OrderCartService } from 'src/@core/services/order-cart.service';
 
 @Component({
   selector: 'shop-product-details',
@@ -8,7 +11,6 @@ import { ActivatedRoute } from '@angular/router';
 })
 export class ProductDetailsComponent implements OnInit {
 
-  productId = '';
   cards = [
     {
       title: 'Card Title 1',
@@ -66,17 +68,32 @@ export class ProductDetailsComponent implements OnInit {
     },
   ];
   slides: any = [[]];
-
-  constructor(private activatedRoute: ActivatedRoute) { }
+  product: IProduct;
+  constructor(private activatedRoute: ActivatedRoute, private productService: ProductService, private orderCart: OrderCartService) { }
 
 
   ngOnInit() {
     this.activatedRoute.params.subscribe(params => {
-      this.productId = params['id'];
+      this.onLoadProduct(params['id']);
     });
     this.slides = this.chunk(this.cards, 4);
-
   }
+
+  onLoadProduct(id: string) {
+    this.productService.getProduct(id).subscribe(data => {
+      this.product = data;
+    });
+  }
+
+  onIncrement() {
+    this.orderCart.increment(this.product);
+  }
+
+  onDecrement() {
+    this.orderCart.decrement(this.product);
+  }
+
+  // slide related products
   chunk(arr, chunkSize) {
     let R = [];
     for (let i = 0, len = arr.length; i < len; i += chunkSize) {

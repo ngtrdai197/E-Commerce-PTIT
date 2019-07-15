@@ -34,13 +34,13 @@
         <div class="item-menu">
           <ul class="nav nav-tabs" id="myTab" role="tablist">
             <li class="nav-item" *ngFor="let category of categorys">
-              <a class="nav-link active" id="home-tab" data-toggle="tab" (click)="filterProducts(category.id)" href="#home" role="tab" aria-controls="home"
+              <a class="nav-link" id="home-tab" data-toggle="tab" [ngClass]="{'active': category.id === firstCategoryId}" (click)="filterProducts(category.id)" href="#home" role="tab" aria-controls="home"
                 aria-selected="true">{{category?.categoryName}}</a>
             </li>
           </ul>
         </div>
       </div>
-      <div class="product-item">
+      <div class="product-item w-100">
         <div class="row">
           <div class="col-sm-6 col-md-4 col-lg-3" *ngFor="let product of products">
             <shop-product [product]="product"></shop-product>
