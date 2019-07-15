@@ -1,0 +1,57 @@
+:host {
+  .homepage {
+    background: #fff;
+    .banner-head {
+      img {
+        width: 100%;
+      }
+      .banner-right {
+        img {
+          height: 100%;
+        }
+      }
+    }
+    .list-product {
+      margin: 15px 0;
+      .menu-head-sub {
+        width: 100%;
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 15px;
+        color: #fff;
+        background: #d23a27;
+        .title-menu {
+          display: flex;
+          align-items: center;
+          padding: 0 15px;
+          font-size: 22px;
+        }
+        .item-menu {
+          flex: 1;
+          justify-content: flex-end;
+          display: flex;
+          ul {
+            display: flex;
+            list-style: none;
+            width: 100%;
+            justify-content: flex-end;
+            border-bottom: 0;
+            li {
+              padding: 8px 12px;
+              a {
+                color: #fff;
+                &.active {
+                  border: none;
+                  color: #333;
+                }
+                &:hover {
+                  border: none;
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

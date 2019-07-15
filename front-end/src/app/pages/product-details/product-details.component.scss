@@ -1,0 +1,136 @@
+:host {
+  .container {
+    .row {
+      .slide-products {
+        padding: 30px;
+        margin-bottom: 4.4rem;
+      }
+
+      .content-product {
+        padding: 30px;
+
+        .new-price {
+          color: #179a94;
+          font-size: 28px;
+        }
+
+        .description {
+          color: #4C4C4C;
+          font-size: 14px;
+          margin-bottom: 20px;
+        }
+
+        .actions {
+          border-bottom: 1px solid rgba(119, 119, 119, .17);
+          padding-bottom: 30px;
+
+          .btn-toolbar {
+            .btn-black {
+              background: #000;
+              color: #fff;
+
+              &.add-cart {
+                padding: 10px 20px;
+                font-size: 14px;
+              }
+            }
+          }
+        }
+
+        .posted-in {
+          font-size: 14px;
+          color: #1B1919;
+          font-weight: 700;
+          padding-top: 30px;
+          margin-bottom: 15px;
+
+          .name-cate {
+            color: #4E4E4E;
+            margin: 0 2px;
+            font-weight: normal;
+          }
+        }
+
+        .product-share {
+          display: flex;
+          font-size: 14px;
+          color: #1B1919;
+          font-weight: bold;
+
+          .social-icons {
+            display: flex;
+            list-style: none;
+            padding: 0;
+
+            li {
+              padding: 0 6px;
+
+              span {
+                font-size: 12px;
+                font-weight: normal;
+                padding-left: 5px;
+                color: #4E4E4E;
+              }
+            }
+          }
+        }
+      }
+    }
+
+    .feedback {
+      background: #F9F9F9;
+      padding: 25px 10px;
+
+      ul {
+        justify-content: center;
+
+        li {
+          width: 200px;
+          text-align: center;
+        }
+      }
+
+      .show-tab {
+        .ct-left {
+          border-right: 1px solid gray;
+        }
+
+        .reviewer {
+          display: flex;
+
+          .avatar {
+            img {
+              width: 60px;
+            }
+          }
+
+          .content {
+            padding-left: 15px;
+            font-size: 14px;
+            padding-top: 5px;
+          }
+        }
+
+        .ct-right {
+          padding-bottom: 50px;
+          padding-left: 30px;
+
+          .btn-primary {
+            color: #000;
+            border: 1px solid #000;
+            padding: 10px 35px;
+            background: #fff !important;
+
+            &:hover {
+              background: #000 !important;
+              color: #fff;
+            }
+          }
+        }
+      }
+    }
+    .related-product{
+        margin-bottom: 35px;
+    }
+  }
+}

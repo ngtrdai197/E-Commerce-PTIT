@@ -1,0 +1,43 @@
+<div class="lowin lowin-purple">
+  <div class="lowin-brand">
+    <img src="../../../assets/auth/kodinger.jpg" alt="logo" routerLink="/">
+  </div>
+  <div class="lowin-wrapper">
+    <div class="lowin-box lowin-register">
+      <div class="lowin-box-inner">
+        <p>Let's create your account</p>
+        <div class="lowin-group">
+          <label>Username</label>
+          <input type="text" name="name" autocomplete="name" class="lowin-input" #username>
+        </div>
+        <div class="lowin-group">
+          <label>Full Name</label>
+          <input type="text" autocomplete="text" name="email" class="lowin-input" #fullname>
+        </div>
+        <div class="lowin-group">
+          <label>Address</label>
+          <input type="text" autocomplete="text" name="email" class="lowin-input" #address>
+        </div>
+        <div class="lowin-group">
+          <label>Email</label>
+          <input type="email" autocomplete="text" name="email" class="lowin-input" #email>
+        </div>
+        <div class="lowin-group">
+          <label>Phone</label>
+          <input type="text" autocomplete="text" name="email" class="lowin-input" #phone>
+        </div>
+        <div class="lowin-group">
+          <label>Password</label>
+          <input type="password" name="password" autocomplete="current-password" class="lowin-input" #password>
+        </div>
+
+        <button class="lowin-btn" (click)="onSignUp(username.value, fullname.value, address.value, password.value, email.value, phone.value)">
+          Sign Up
+        </button>
+        <div class="text-foot">
+          Already have an account? <a href="" class="login-link" routerLink="/auth/sign-in">Login</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

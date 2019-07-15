@@ -1,0 +1,9 @@
+<shop-side-menu></shop-side-menu>
+<section class="wrapping">
+  <shop-header-manager></shop-header-manager>
+  <div class="content-dash">
+    <div class="out-let" [@routeAnimations]="prepareRoute(outlet)">
+      <router-outlet #outlet="outlet"></router-outlet>
+    </div>
+  </div>
+</section>

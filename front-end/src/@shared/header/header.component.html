@@ -1,0 +1,192 @@
+<header>
+  <div id="top-header">
+    <div class="container">
+      <ul class="header-links pull-left">
+        <li><a href="#"><i class="fa fa-phone"></i> +021-95-51-84</a></li>
+        <li><a href="#"><i class="fa fa-envelope-o"></i> email@email.com</a></li>
+        <li><a href="#"><i class="fa fa-map-marker"></i> 1734 Stonecoal Road</a></li>
+      </ul>
+      <ul class="header-links pull-right">
+        <li><a href="#"><i class="fa fa-dollar"></i> USD</a></li>
+        <li *ngIf="!currentUser"><a (click)="myAccount()"><i class="fa fa-user-o"></i> My Account</a></li>
+        <li *ngIf="currentUser"><a class="dropdown-toggle" role="button" id="dropdownMenuButton" data-toggle="dropdown"
+            aria-haspopup="true" aria-expanded="false">Xin chào: {{currentUser?.fullName}}</a>
+          <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+            <a class="dropdown-item" (click)="onNavigateAdmin()" *ngIf="currentUser?.role === role.ADMIN">Dash board
+              (Admin)</a>
+            <a class="dropdown-item" data-toggle="modal" data-target="#inforUser" (click)="uploadProfile()">Thông tin cá
+              nhân</a>
+            <a class="dropdown-item" (click)="onSignOut()">Đăng xuất</a>
+          </div>
+        </li>
+      </ul>
+      <div style="clear: both;"></div>
+    </div>
+  </div>
+  <div id="header">
+    <div class="container">
+      <div class="row w-100">
+        <div class="col-md-3">
+          <div class="header-logo">
+            <a href="#" class="logo">
+              <!-- <img src="../../assets/logo.png" alt=""> -->
+            </a>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="header-search">
+            <form class="d-flex">
+              <select class="input-select">
+                <option value="0">All Categories</option>
+                <option value="1">Category 01</option>
+                <option value="1">Category 02</option>
+              </select>
+              <input class="input" placeholder="Search here">
+              <button class="search-btn">Search</button>
+            </form>
+          </div>
+        </div>
+        <div class="col-md-3 clearfix">
+          <div class="header-ctn">
+            <div>
+              <a href="#">
+                <i class="fa fa-heart-o"></i>
+                <span>Your Wishlist</span>
+                <div class="qty">2</div>
+              </a>
+            </div>
+            <div class="dropdown">
+              <a class="dropdown-toggle" data-toggle="dropdown" aria-expanded="true">
+                <i class="fa fa-shopping-cart"></i>
+                <span>Your Cart</span>
+                <div class="qty">3</div>
+              </a>
+              <div class="cart-dropdown">
+                <div class="cart-list">
+                  <div class="product-widget">
+                    <div class="product-img">
+                      <img src="" alt="">
+                    </div>
+                    <div class="product-body">
+                      <h3 class="product-name"><a href="#">product name goes here</a></h3>
+                      <h4 class="product-price"><span class="qty">1x</span>$980.00</h4>
+                    </div>
+                    <button class="delete"><i class="fa fa-close"></i></button>
+                  </div>
+
+                  <div class="product-widget">
+                    <div class="product-img">
+                      <img src="" alt="">
+                    </div>
+                    <div class="product-body">
+                      <h3 class="product-name"><a href="#">product name goes here</a></h3>
+                      <h4 class="product-price"><span class="qty">3x</span>$980.00</h4>
+                    </div>
+                    <button class="delete"><i class="fa fa-close"></i></button>
+                  </div>
+                </div>
+                <div class="cart-summary">
+                  <small>3 Item(s) selected</small>
+                  <h5>SUBTOTAL: $2940.00</h5>
+                </div>
+                <div class="cart-btns">
+                  <a href="#">View Cart</a>
+                  <a href="#">Checkout <i class="fa fa-arrow-circle-right"></i></a>
+                </div>
+              </div>
+            </div>
+            <div class="menu-toggle">
+              <a href="#">
+                <i class="fa fa-bars"></i>
+                <span>Menu</span>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+<section class="nav-bar-menu">
+  <div class="container">
+    <div class="row">
+      <nav class="navbar navbar-expand-lg navbar-light w-100">
+        <a class="navbar-brand" routerLink="/home">Shop 3s</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+          aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+          <ul class="navbar-nav mr-auto">
+            <li class="nav-item active">
+              <a class="nav-link">Home <span class="sr-only">(current)</span></a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">Link</a>
+            </li>
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown"
+                aria-haspopup="true" aria-expanded="false">
+                Dropdown
+              </a>
+              <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                <a class="dropdown-item" href="#">Action</a>
+                <a class="dropdown-item" href="#">Another action</a>
+                <div class="dropdown-divider"></div>
+                <a class="dropdown-item" href="#">Something else here</a>
+              </div>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link disabled" href="#">Disabled</a>
+            </li>
+          </ul>
+        </div>
+      </nav>
+    </div>
+  </div>
+
+</section>
+
+<div class="modal fade" id="inforUser">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="inner-content">
+        <h4 class="text-center">Thông tin cá nhân</h4>
+        <form [formGroup]="editForm">
+          <div class="avatar" *ngIf="currentUser?.avatar">
+            <img id="preview" [src]="currentUser.avatar" alt="" (click)="uploadFile.click()">
+          </div>
+          <div class="avatar" *ngIf="!currentUser?.avatar">
+            <img id="preview" [src]="avatarDefault" alt="" (click)="uploadFile.click()">
+          </div>
+          <input type="file" #uploadFile style="display: none" (change)="onFileChange($event)">
+          <div class="form-group">
+            <label for="">User name</label>
+            <input type="text" class="form-control" disabled formControlName="username" aria-describedby="helpId">
+          </div>
+          <div class="form-group">
+            <label for="">Họ tên</label>
+            <input type="text" class="form-control" formControlName="fullName" aria-describedby="helpId">
+          </div>
+          <div class="form-group">
+            <label for="">Địa chỉ</label>
+            <input type="text" class="form-control" formControlName="address" aria-describedby="helpId">
+          </div>
+          <div class="form-group">
+            <label for="">Số điện thoại</label>
+            <input type="text" class="form-control" formControlName="phone" aria-describedby="helpId">
+          </div>
+          <div class="form-group">
+            <label for="">Email</label>
+            <input type="email" class="form-control" formControlName="email" aria-describedby="helpId">
+          </div>
+          <div class="cover-button d-flex">
+            <a name="" id="" class="btn btn-primary" (click)="updateUserProfile()" role="button">Cập nhật</a>
+            <a name="" id="" class="btn btn-danger" data-dismiss="modal" role="button">Hủy bỏ</a>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

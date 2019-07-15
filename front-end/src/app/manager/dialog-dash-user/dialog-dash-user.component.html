@@ -1,0 +1,66 @@
+<div class="example-form" *ngIf="data.status">
+  <mat-form-field class="example-full-width">
+    <input matInput type="text" placeholder="Username" [(ngModel)]="username">
+  </mat-form-field>
+  <mat-form-field class="example-full-width">
+    <input matInput type="password" placeholder="Password" [(ngModel)]="password">
+  </mat-form-field>
+  <mat-form-field class="example-full-width">
+    <input matInput type="text" placeholder="Fullname" [(ngModel)]="fullname">
+  </mat-form-field>
+  <mat-form-field class="example-full-width">
+    <input matInput type="text" placeholder="Address" [(ngModel)]="address">
+  </mat-form-field>
+  <mat-form-field class="example-full-width">
+    <input matInput type="text" placeholder="Email" [(ngModel)]="email">
+  </mat-form-field>
+  <mat-form-field class="example-full-width">
+    <input matInput type="text" placeholder="Phone Number" [(ngModel)]="phone">
+  </mat-form-field>
+  <mat-form-field class="example-full-width">
+    <mat-label>Chọn quyền cho người dùng</mat-label>
+    <mat-select [(value)]="role">
+      <mat-option value="Admin">Admin</mat-option>
+      <mat-option value="User">User</mat-option>
+    </mat-select>
+  </mat-form-field>
+  <div class="wrapping-action-button">
+    <button mat-raised-button color="primary" (click)="onUpdate()">Cập nhật</button>
+    <button mat-raised-button mat-dialog-close color="warn">Hủy bỏ</button>
+  </div>
+</div>
+
+<!-- form create new user -->
+
+<div class="example-form" *ngIf="!data.status">
+  <mat-form-field class="example-full-width">
+    <input matInput type="text" placeholder="Username" #username>
+  </mat-form-field>
+  <mat-form-field class="example-full-width">
+    <input matInput type="password" placeholder="Password" #password>
+  </mat-form-field>
+  <mat-form-field class="example-full-width">
+    <input matInput type="text" placeholder="Fullname" #fullname>
+  </mat-form-field>
+  <mat-form-field class="example-full-width">
+    <input matInput type="text" placeholder="Address" #address>
+  </mat-form-field>
+  <mat-form-field class="example-full-width">
+    <input matInput type="text" placeholder="Email" #email>
+  </mat-form-field>
+  <mat-form-field class="example-full-width">
+    <input matInput type="text" placeholder="Phone" #phone>
+  </mat-form-field>
+  <mat-form-field class="example-full-width">
+    <mat-label>Chọn quyền cho người dùng</mat-label>
+    <mat-select [(value)]="role">
+      <mat-option value="Admin">Admin</mat-option>
+      <mat-option value="User">User</mat-option>
+    </mat-select>
+  </mat-form-field>
+  <div class="wrapping-action-button">
+    <button mat-raised-button color="primary"
+      (click)="onAddNewUser(username.value, password.value, fullname.value, address.value, email.value, phone.value)">Thêm</button>
+    <button mat-raised-button mat-dialog-close color="warn">Hủy bỏ</button>
+  </div>
+</div>

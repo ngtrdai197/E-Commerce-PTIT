@@ -1,0 +1,56 @@
+:host {
+  display: block;
+
+  .mat-elevation-z8 {
+    width: 97%;
+    margin: 0 auto;
+    margin-top: 22px;
+
+    table {
+      width: 100%;
+
+      th {
+        &:last-child {
+          padding-right: 0;
+        }
+
+        span {
+          padding: 10px;
+          cursor: pointer;
+          &:hover i{
+            color: #fff;
+          }
+        }
+      }
+
+      td {
+        cursor: pointer;
+
+        &:last-child {
+          padding-right: 0;
+        }
+
+        span {
+          padding: 10px;
+
+          &:first-child {
+            margin-right: 3px;
+          }
+
+          &:hover i {
+            color: #fff;
+          }
+        }
+      }
+    }
+
+    mat-form-field {
+      font-size: 14px;
+      width: 100%;
+      padding-right: 25px;
+      .mat-form-field-wrapper {
+        padding-bottom: 0 !important;
+      }
+    }
+  }
+}

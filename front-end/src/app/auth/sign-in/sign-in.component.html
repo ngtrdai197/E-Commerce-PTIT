@@ -1,0 +1,26 @@
+<div class="lowin lowin-purple">
+  <div class="lowin-brand">
+    <img src="../../../assets/auth/kodinger.jpg" alt="logo" routerLink="/">
+  </div>
+  <div class="lowin-wrapper">
+    <div class="lowin-box lowin-login">
+      <div class="lowin-box-inner">
+        <p>Sign in to continue</p>
+        <div class="lowin-group">
+          <label>Username</label>
+          <input type="text" class="lowin-input" #username (keyup.enter)="onSignIn(username.value, password.value)">
+        </div>
+        <div class="lowin-group password-group">
+          <label>Password</label>
+          <input type="password" class="lowin-input" #password (keyup.enter)="onSignIn(username.value, password.value)">
+        </div>
+        <button class="lowin-btn login-btn" (click)="onSignIn(username.value, password.value)">
+          Sign In
+        </button>
+        <div class="text-foot">
+          Don't have an account? <a href="" class="register-link" routerLink="/auth/sign-up">Register</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,110 @@
+<shop-header></shop-header>
+<section class="homepage">
+  <div class="container">
+    <div class="row banner-head">
+      <div class="col-8">
+        <div class="row" style="padding-bottom: 20px;">
+          <div class="col-12">
+            <img src="https://bigboom.exdomain.net/image/cache/catalog/slider/slider-1-593x321.png" alt="">
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-6">
+            <img src="https://bigboom.exdomain.net/image/cache/catalog/banner/ss-banner-img-2-286x145.jpg" alt="">
+          </div>
+          <div class="col-6">
+            <img src="https://bigboom.exdomain.net/image/cache/catalog/banner/ss-banner-img-3-286x145.jpg" alt="">
+          </div>
+        </div>
+      </div>
+      <div class="col-4 banner-right">
+        <img src="https://bigboom.exdomain.net/image/cache/catalog/banner/ss-banner-img-1-287x485.jpg" alt="">
+      </div>
+    </div>
+    <div class="row banner-adv">
+      <div class="col-6">
+        <img src="https://bigboom.exdomain.net/image/cache/catalog/banner/bg-top1-570x230.jpg" alt="">
+      </div>
+      <div class="col-6"></div>
+      <img src="https://bigboom.exdomain.net/image/cache/catalog/banner/bg-top2-570x230.jpg" alt="">
+    </div>
+    <div class="row list-product">
+      <div class="menu-head-sub">
+        <div class="title-menu">Thời trang nam</div>
+        <div class="item-menu">
+          <ul class="nav nav-tabs" id="myTab" role="tablist">
+            <li class="nav-item" *ngFor="let category of categorys">
+              <a class="nav-link active" id="home-tab" data-toggle="tab" (click)="filterProducts(category.id)" href="#home" role="tab" aria-controls="home"
+                aria-selected="true">{{category?.categoryName}}</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+      <div class="product-item">
+        <div class="row">
+          <div class="col-sm-6 col-md-4 col-lg-3" *ngFor="let product of products">
+            <shop-product [product]="product"></shop-product>
+          </div>
+          <div class="row w-100">
+            <div class="col-12 text-center" style="color: #000; cursor: pointer; padding-bottom: 12px;">Xem thêm ...
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row list-product">
+      <div class="menu-head-sub">
+        <div class="title-menu">Thời trang nữ</div>
+        <div class="item-menu">
+          <ul class="nav nav-tabs" id="myTab" role="tablist">
+            <li class="nav-item">
+              <a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home"
+                aria-selected="true">Home</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" id="profile-tab" data-toggle="tab" href="#profile" role="tab" aria-controls="profile"
+                aria-selected="false">Profile</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" id="contact-tab" data-toggle="tab" href="#contact" role="tab" aria-controls="contact"
+                aria-selected="false">Contact</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+      <div class="product-item">
+        <div class="row">
+          <div class="col-sm-6 col-md-4 col-lg-3">
+            <shop-product></shop-product>
+          </div>
+          <div class="col-sm-6 col-md-4 col-lg-3">
+            <shop-product></shop-product>
+          </div>
+          <div class="col-sm-6 col-md-4 col-lg-3">
+            <shop-product></shop-product>
+          </div>
+          <div class="col-sm-6 col-md-4 col-lg-3">
+            <shop-product></shop-product>
+          </div>
+          <div class="col-sm-6 col-md-4 col-lg-3">
+            <shop-product></shop-product>
+          </div>
+          <div class="col-sm-6 col-md-4 col-lg-3">
+            <shop-product></shop-product>
+          </div>
+          <div class="col-sm-6 col-md-4 col-lg-3">
+            <shop-product></shop-product>
+          </div>
+          <div class="col-sm-6 col-md-4 col-lg-3">
+            <shop-product></shop-product>
+          </div>
+          <div class="row w-100">
+            <div class="col-12 text-center" style="color: #000; cursor: pointer; padding-bottom: 12px;">Xem thêm ...
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<shop-footer></shop-footer>

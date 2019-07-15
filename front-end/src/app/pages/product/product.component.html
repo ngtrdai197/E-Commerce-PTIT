@@ -1,0 +1,13 @@
+<div class="item-wrapping">
+  <div class="wrapping-img">
+    <img [src]="product?.images[0]" alt="">
+    <div class="sub-cart">
+      <span data-toggle="tooltip" data-placement="top" title="Thêm vào giỏ hàng" class="cart"><i class="fa fa-cart-plus"
+          aria-hidden="true"></i></span>
+      <span data-toggle="tooltip" data-placement="top" title="Xem chi tiết" class="eye" routerLink="/product/12">
+        <i class="fa fa-eye" aria-hidden="true"></i></span>
+    </div>
+  </div>
+  <div class="description">{{product?.description}}</div>
+  <div class="price">{{product?.currentPrice}}</div>
+</div>
