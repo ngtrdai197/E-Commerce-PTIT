@@ -1,11 +1,12 @@
 import { controller, httpGet, httpPost, httpDelete, httpPut, requestParam } from "inversify-express-utils";
-import { IProduct } from "../entities";
+import { IProduct, IFeedback } from "../entities";
 import { inject } from "inversify";
-import { TYPES } from "../common";
+import { TYPES, constants } from "../common";
 import { IProductRepository, ICategoryRepository } from "../IRepositories";
 import { Request, Response } from "express";
 import { upload } from "../multer";
 import { unlink } from 'fs';
+import { parser } from "../middleware";
 
 @controller("/product")
 export class Product {
@@ -76,6 +77,7 @@ export class Product {
         }
     }
 
+
     @httpPut("/", upload.any())
     public async update(req: any): Promise<any> {
         try {
@@ -87,6 +89,23 @@ export class Product {
             const product = await this.productRepo.findOne({ _id: (body as IProduct).id });
             body.images = (product.images as string[]).concat(images);
             return await this.productRepo.update(body);
+        } catch (error) {
+            throw error;
+        }
+    }
+
+    @httpPut("/feedback", parser([constants.ROLES.ADMIN, constants.ROLES.USER]))
+    public async updateFeeback(req: any): Promise<any> {
+        try {
+            const { body } = req;
+            const product = await this.productRepo.findOne({ _id: body.product });
+            if (!product.feeback) {
+                const feedback: IFeedback = {
+                    customer: req.user.id,
+                    content: body.content
+                };
+                return await this.productRepo.update(product, feedback);
+            }
         } catch (error) {
             throw error;
         }

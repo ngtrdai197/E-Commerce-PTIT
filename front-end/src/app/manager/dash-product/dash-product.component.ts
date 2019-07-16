@@ -177,6 +177,10 @@ export class DashProductComponent implements OnInit {
     });
   }
 
+  applyFilter(filterValue: string) {    
+    this.dataSource.filter = filterValue.trim().toLowerCase();
+  }
+
   private onSetTitle() {
     this.title.setTitle('Quản lý sản phẩm');
   }

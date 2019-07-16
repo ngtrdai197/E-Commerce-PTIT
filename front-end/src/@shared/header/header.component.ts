@@ -1,19 +1,20 @@
-import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef, OnDestroy } from '@angular/core';
 import { Router } from '@angular/router';
 import { JwtService } from 'src/@core/services/user/jwt.service';
-import { IUser } from 'src/@core/interface';
+import { IUser, IProduct } from 'src/@core/interface';
 import { API } from 'src/@core/config/API';
 import { ToastrService } from 'ngx-toastr';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { UserService } from 'src/@core/services/user/user.service';
 import { OrderCartService } from 'src/@core/services/order-cart.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'shop-header',
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.scss']
 })
-export class HeaderComponent implements OnInit {
+export class HeaderComponent implements OnInit, OnDestroy {
 
   currentUser: IUser;
   role = API.ROLES;
@@ -21,6 +22,7 @@ export class HeaderComponent implements OnInit {
   avatarDefault = 'assets/auth/user-default.png';
   isChangeAvatar = false;
   order: any;
+  subscription: Subscription;
   constructor(
     private router: Router, private toastService: ToastrService,
     private jwtService: JwtService, private userService: UserService,
@@ -31,11 +33,13 @@ export class HeaderComponent implements OnInit {
   ngOnInit() {
     this.buildForm();
     this.jwtService.getProfile.subscribe(data => this.currentUser = data);
-    this.orderCart.orderCart.subscribe(data => {
+    this.subscription = this.orderCart.orderCart.subscribe(data => {
       this.order = data;
-      console.log(this.order);
-      
-    })
+    });
+  }
+
+  removeItem(product: IProduct) {
+    this.orderCart.removeItem(product);
   }
 
   onFileChange(event) {
@@ -115,5 +119,9 @@ export class HeaderComponent implements OnInit {
       phone: ['', [Validators.required]],
       avatar: [null]
     });
+  }
+
+  ngOnDestroy() {
+    this.subscription.unsubscribe();
   }
 }

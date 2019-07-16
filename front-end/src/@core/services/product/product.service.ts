@@ -28,6 +28,10 @@ export class ProductService {
         return this.http.put<IProduct>(`${API.HOST}/${API.PRODUCT.BASE}`, product);
     }
 
+    updateFeeback(body: any): Observable<any> {
+        return this.http.put<any>(`${API.HOST}/${API.PRODUCT.BASE}/${API.PRODUCT.FEEDBACK}`, body);;
+    }
+
     getProduct(id: string): Observable<IProduct> {
         return this.http.get<IProduct>(`${API.HOST}/${API.PRODUCT.BASE}/${id}`).pipe(tap(product => {
             return product.images = product.images.map(img => {

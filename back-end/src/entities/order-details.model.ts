@@ -34,4 +34,4 @@ orderDetailSchema.virtual("id").get(function (this: any) {
     return this._id.toHexString();
 });
 
-export const orderDetailModel = mongoose.model<IOrderDetailsModel>("orderDetail", orderDetailSchema);
+export const orderDetailModel = mongoose.model<IOrderDetailsModel>("OrderDetail", orderDetailSchema);

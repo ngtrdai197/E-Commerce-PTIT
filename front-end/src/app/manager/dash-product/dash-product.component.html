@@ -3,7 +3,7 @@
 </div>
 <div class="mat-elevation-z8">
   <mat-form-field>
-    <input matInput placeholder="Search">
+    <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Search">
   </mat-form-field>
   <table mat-table [dataSource]="dataSource" matSort>
     <ng-container matColumnDef="no">
@@ -20,7 +20,7 @@
     </ng-container>
     <ng-container matColumnDef="description">
       <th mat-header-cell *matHeaderCellDef mat-sort-header> Mô tả </th>
-      <td mat-cell *matCellDef="let product"> {{product?.description}} </td>
+      <td mat-cell *matCellDef="let product" [title]="product?.description"> {{product?.description | describe}} </td>
     </ng-container>
     <ng-container matColumnDef="productTotal">
       <th mat-header-cell *matHeaderCellDef mat-sort-header> Mô tả </th>

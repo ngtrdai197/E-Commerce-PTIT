@@ -63,4 +63,4 @@ userSchema.virtual("id").get(function (this: any) {
   return this._id.toHexString();
 });
 
-export const userModel = mongoose.model<IUserModel>("user", userSchema);
+export const userModel = mongoose.model<IUserModel>("User", userSchema);

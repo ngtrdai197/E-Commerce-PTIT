@@ -17,6 +17,7 @@ export interface IProduct {
     ratings?: number; // ratings
     sex?: number; // 0 male 1 female
     productBoughtBy?: Customer;
+    feeback?: IFeedback
 }
 
 export interface Customer {
@@ -24,9 +25,30 @@ export interface Customer {
     boughtAtDate?: Date;
 }
 
+export interface IFeedback {
+    customer?: string | IUser;
+    content?: string;
+}
+
 export interface IProductModel extends IProduct, mongoose.Document {
     id: string;
 }
+
+
+const feedbackSchema = new mongoose.Schema({
+    customer: {
+        type: mongoose.Schema.Types.ObjectId, ref: 'User',
+        required: true
+    },
+    content: {
+        type: String,
+        required: true
+    },
+    createdAtDate: {
+        type: Date,
+        default: new Date(Date.now())
+    }
+});
 
 const productSchema = new mongoose.Schema(
     {
@@ -76,7 +98,8 @@ const productSchema = new mongoose.Schema(
                 type: Date,
                 required: true
             }
-        })
+        }),
+        feedback: [feedbackSchema]
     },
     {
         toObject: {
@@ -87,6 +110,7 @@ const productSchema = new mongoose.Schema(
         }
     }
 );
+
 productSchema.virtual("id").get(function (this: any) {
     return this._id.toHexString();
 });

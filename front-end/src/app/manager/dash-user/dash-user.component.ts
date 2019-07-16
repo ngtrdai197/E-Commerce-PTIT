@@ -92,9 +92,10 @@ export class DashUserComponent implements OnInit {
     this.isLoading = false;
   }
 
-  applyFilter(filterValue: string) {
+  applyFilter(filterValue: string) {    
     this.dataSource.filter = filterValue.trim().toLowerCase();
   }
+  
   private onSetTitle() {
     this.title.setTitle('Quản lý người dùng');
   }

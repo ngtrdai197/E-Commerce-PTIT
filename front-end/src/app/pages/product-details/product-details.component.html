@@ -1,6 +1,6 @@
 <shop-header></shop-header>
 <div class="container">
-  <div class="row">
+  <div class="row" style="overflow: hidden;">
     <div class="col-md-6 col-lg-6 slide-products">
       <mdb-carousel class="carousel slide carousel-fade" [type]="'carousel-thumbnails'" [animation]="'fade'">
         <mdb-carousel-item *ngFor="let image of product?.images">
@@ -16,7 +16,7 @@
         <div class="btn-toolbar" role="toolbar" aria-label="Toolbar with button groups">
           <div class="btn-group mr-2" role="group" aria-label="First group">
             <button type="button" class="btn btn-black" (click)="onDecrement()">-</button>
-            <button type="button" class="btn btn-white">2</button>
+            <button type="button" class="btn btn-white">{{count}}</button>
             <button type="button" class="btn btn-black" (click)="onIncrement()">+</button>
           </div>
           <div class="btn-group mr-2" role="group" aria-label="Second group">
@@ -57,7 +57,7 @@
         </li>
         <li class="nav-item">
           <a class="nav-link" id="pills-reviewer-tab" data-toggle="pill" href="#pills-reviewer" role="tab"
-            aria-controls="pills-reviewer" aria-selected="false">Reviewes (0)</a>
+            aria-controls="pills-reviewer" aria-selected="false">Reviewes ( {{feedbacks?.length}} )</a>
         </li>
       </ul>
       <div class="tab-content mb-5" id="pills-tabContent">
@@ -68,15 +68,17 @@
           <div class="row">
             <div class="col-md-6 ct-left">
               <h4>Reviews</h4>
-              <div class="reviewer">
+              <div class="reviewer mb-2" *ngFor="let feedback of feedbacks">
                 <div class="avatar">
-                  <img class="rounded-circle"
-                    src="https://secure.gravatar.com/avatar/01c41ce93f511cd303418fd52e559f72?s=120&d=mm&r=g" alt=""
-                    style="width: 60px;">
+                  <img class="rounded-circle" src="http://localhost:3000/{{feedback?.customer?.avatar}}" alt=""
+                    style="width: 60px; height: 60px;">
                 </div>
-                <div class="content">
-                  Lorem ipsum dolor sit amet consectetur adipisicing elit. Laudantium nemo aperiam libero nostrum eius
-                  natus.
+                <div class="content w-100">
+                  <div class="cover-head-infor d-flex justify-content-between">
+                    <div class="name">{{feedback?.customer?.fullName}}</div>
+                    <div class="time-report">{{feedback?.createdAtDate}}</div>
+                  </div>
+                  <div class="feedback-content">{{feedback?.content}}</div>
                 </div>
               </div>
             </div>
@@ -84,18 +86,8 @@
               <h4>Add a review</h4>
               <p> Your email address will not be published. Required fields are marked *</p>
               <p>Your review *</p>
-              <textarea class="w-100" name="" id="" cols="70" rows="5"></textarea>
-              <div class="form-row">
-                <div class="form-group col-md-6">
-                  <label for="inputEmail4">Name</label>
-                  <input type="text" class="form-control" id="inputEmail4" placeholder="Name">
-                </div>
-                <div class="form-group col-md-6">
-                  <label for="inputPassword4">Email</label>
-                  <input type="email" class="form-control" id="inputPassword4" placeholder="Email">
-                </div>
-              </div>
-              <div class="btn btn-primary mt-5">SUBMIT</div>
+              <textarea class="w-100" name="" id="" cols="70" rows="5" #area></textarea>
+              <button class="btn btn-primary mt-5" (click)="updateFeeback(area.value)">SUBMIT</button>
             </div>
           </div>
         </div>

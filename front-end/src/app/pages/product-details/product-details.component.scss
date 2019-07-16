@@ -99,6 +99,8 @@
       .show-tab {
         .ct-left {
           border-right: 1px solid gray;
+          height: 394px;
+          overflow-y: auto;
         }
 
         .reviewer {
@@ -114,6 +116,16 @@
             padding-left: 15px;
             font-size: 14px;
             padding-top: 5px;
+            .name{
+              color: #000;
+              font-size: 13px;
+              text-transform: capitalize;
+              font-style: italic;
+              padding-bottom: 2px;
+            }
+            .time-report{
+              font-size: 11px;  
+            }
           }
         }
 

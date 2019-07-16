@@ -15,6 +15,7 @@ export const API = {
   },
   PRODUCT: {
     BASE: "api/product",
+    FEEDBACK: "feedback",
     UNLINK: "unlink",
     GET_BY_CATEGORY: "category"
   }

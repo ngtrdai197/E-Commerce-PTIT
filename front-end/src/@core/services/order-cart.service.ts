@@ -1,6 +1,6 @@
 import { Injectable } from "@angular/core";
 import { BehaviorSubject } from 'rxjs';
-import { IProduct } from '../interface';
+import { IProduct, ICart } from '../interface';
 
 @Injectable({
     providedIn: "root"
@@ -18,43 +18,63 @@ export class OrderCartService {
 
     increment(product: IProduct) {
         let carts: IProduct[] = [];
-        if ((this.orders.getValue() as IProduct[])) {
-            this.orders.getValue() as IProduct[]
+        if (this.orders.getValue() as IProduct[]) {
+            carts = (this.orders.getValue().products) as IProduct[];
+            const index = carts.findIndex(p => p.id === product.id);
+            if (index != -1) {
+                (carts[index].order.quantityOrder)++;
+            } else {
+                const order: ICart = {
+                    quantityOrder: 1,
+                    totalPayment: 0
+                }
+                product.order = order;
+                carts.push(product);
+            }
         } else {
+            const order: ICart = {
+                quantityOrder: 1,
+                totalPayment: 0
+            }
+            product.order = order;
             carts.push(product);
         }
-        const index = carts.findIndex(p => p.id === product.id);
-        if (index != -1) {
-            (carts[index].order.quantityOrder as number)++;
-        } else {
-            (product.order.quantityOrder as number) = 1;
-            carts.push(product);
-        }
-        console.log(carts);
-
-        const order = {
+        this.orders.next({
             order: this.totalMoney(carts),
             products: carts
-        };
-        this.orders.next(order as any);
+        });
     }
 
     decrement(product: IProduct) {
-        let carts = this.orders.getValue() as IProduct[];
+        let carts = (this.orders.getValue().products) as IProduct[];
         const index = carts.findIndex(p => p.id === product.id);
         if (index != -1) {
-            carts[index].order.quantityOrder > 1 ? (carts[index].order.quantityOrder as number)-- : carts.splice(index, 1);
+            carts[index].order.quantityOrder > 1 ? (carts[index].order.quantityOrder)-- : carts.splice(index, 1);
         }
-        const order = this.totalMoney(carts);
-        this.orders.next(order);
+        this.orders.next({
+            order: this.totalMoney(carts),
+            products: carts
+        });
+    }
+
+    removeItem(product: IProduct) {
+        let carts = (this.orders.getValue().products) as IProduct[];
+        const index = carts.findIndex(p => p.id === product.id);
+        if (index != -1) {
+            carts.splice(index, 1);
+        }
+        this.orders.next({
+            order: this.totalMoney(carts),
+            products: carts
+        });
     }
 
     private totalMoney(products: IProduct[]) {
         let payment: number = 0;
         let quantity: number = 0;
         for (let item of products) {
-            payment += ((item.currentPrice as number) * (item.order.quantityOrder as number));
-            quantity += (item.order.quantityOrder as number);
+            payment += ((item.currentPrice) * (item.order.quantityOrder));
+            quantity += (item.order.quantityOrder);
         }
         const order: any = {
             quantity: quantity,

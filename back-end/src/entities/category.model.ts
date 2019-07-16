@@ -33,4 +33,4 @@ categorySchema.virtual("id").get(function (this: any) {
     return this._id.toHexString();
 });
 
-export const categoryModel = mongoose.model<ICategoryModel>("category", categorySchema);
+export const categoryModel = mongoose.model<ICategoryModel>("Category", categorySchema);

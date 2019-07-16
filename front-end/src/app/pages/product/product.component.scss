@@ -11,7 +11,9 @@
 
       &:hover>.sub-cart {
         display: block;
-        transition: all ease-in-out 1s;
+        transition: all ease-in-out 0.5s;
+        opacity: 1;
+        margin-top: 0;
       }
 
       img {
@@ -19,19 +21,21 @@
       }
 
       .sub-cart {
-        transition: all ease-in-out 1s;
-        // display: none;
+        transition: all ease-in-out 0.6s;
         position: absolute;
         top: 50%;
         left: 50%;
         transform: translate(-50%, -50%);
-        background: orange;
+        background: #ff3547 !important;
         padding: 5px 9px;
+        margin-top: 100px;
+        opacity: 0;
 
         span {
           padding: 0 10px;
           color: #ffff;
           border-left: 1px solid #fff;
+          outline: none !important;
 
           &:first-child {
             border-left: none;
