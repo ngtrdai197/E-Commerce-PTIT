@@ -76,19 +76,17 @@ export class ProductDetailsComponent implements OnInit {
   isLogin = localStorage.getItem('x-access-token');
   constructor(private activatedRoute: ActivatedRoute,
     private productService: ProductService,
-    private orderCart: OrderCartService, private toast: ToastrService
+    private orderCartService: OrderCartService, private toast: ToastrService
   ) { }
 
 
   ngOnInit() {
     this.activatedRoute.params.subscribe(params => {
       this.onLoadProduct(params['id']);
-      this.orderCart.orderCart.subscribe(data => {
+      this.orderCartService.orderCart.subscribe(data => {
         if (data) {
           const index = +(data.products as IProduct[]).findIndex(x => x.id === params['id']);
-          if ((data.products as IProduct[])[index]) {
-            this.count = (data.products as IProduct[])[index].order.quantityOrder;
-          }
+          this.count = (data.products as IProduct[])[index] ? (data.products as IProduct[])[index].order.quantityOrder : 0;
         }
       })
     });
@@ -117,7 +115,7 @@ export class ProductDetailsComponent implements OnInit {
       this.product = data;
       this.feedbacks = this.product.feedback;
       this.feedbacks.map(x => {
-        if(x.createdAtDate){
+        if (x.createdAtDate) {
           x.createdAtDate = moment(x.createdAtDate).format('MMMM Do YYYY, h:mm a');
         }
       });
@@ -127,12 +125,12 @@ export class ProductDetailsComponent implements OnInit {
 
   onIncrement() {
     this.count++;
-    this.orderCart.increment(this.product);
+    this.orderCartService.increment(this.product);
   }
 
   onDecrement() {
     this.count--;
-    this.orderCart.decrement(this.product);
+    this.orderCartService.decrement(this.product);
   }
 
   // slide related products

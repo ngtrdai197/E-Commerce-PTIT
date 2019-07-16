@@ -1,0 +1,27 @@
+<shop-header></shop-header>
+<section class="container">
+  <div class="row">
+    <div class="col-sm-12 col-md-8">
+      <table class="table table-hover table-inverse">
+        <thead class="thead-inverse">
+          <tr>
+            <th>Sản phẩm</th>
+            <th>Giá</th>
+            <th>Số lượng</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let order of order?.products">
+            <td scope="row">
+              <img [src]="order?.images[0]" alt="" srcset="">
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="col-sm-12 col-md-4">
+
+    </div>
+  </div>
+</section>
+<shop-footer></shop-footer>

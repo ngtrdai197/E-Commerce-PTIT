@@ -64,14 +64,15 @@
                 <div class="qty" *ngIf="!order">0</div>
               </a>
               <div class="dropdown-menu cart" aria-labelledby="dropdownMenuLink">
-                <div *ngIf="!order" class="text-center" style="font-size: 14px;">Giỏ hàng đang rỗng</div>
-                <a class="dropdown-item" *ngFor="let product of order?.products">
+                <div *ngIf="order?.products.length <= 0" class="text-center" style="font-size: 14px;">Giỏ hàng đang rỗng
+                </div>
+                <a class="dropdown-item" *ngFor="let product of order?.products" [title]="product?.title">
                   <div class="product-widget">
-                    <div class="product-img text-center mb-2">
+                    <div class="product-img text-center mb-2" [routerLink]="['/product', product.id]">
                       <img [src]="product.images[0]" alt="" style="width: 150px; height: 150px;">
                     </div>
-                    <div class="product-body">
-                      <h3 class="product-name"><a>{{product?.title}}</a></h3>
+                    <div class="product-body" [routerLink]="['/product', product.id]">
+                      <h3 class="product-name"><a>{{product?.title | subtitle}}</a></h3>
                       <h4 class="product-price"><span class="qty">3x</span>{{product?.order?.quantityOrder}}</h4>
                     </div>
                     <div class="btn-delete">
@@ -79,6 +80,7 @@
                     </div>
                   </div>
                 </a>
+                <button class="btn btn-primary btn-block mx-auto" style="width: 90%;" routerLink="/order" *ngIf="order?.products.length > 0">Đặt hàng ngay</button>
               </div>
             </div>
             <div class="menu-toggle">
@@ -98,7 +100,7 @@
   <nav class="navbar navbar-expand-lg navbar-dark primary-color">
 
     <!-- Navbar brand -->
-    <a class="navbar-brand" href="#">Navbar</a>
+    <a class="navbar-brand" routerLink="/home">Navbar</a>
 
     <!-- Collapse button -->
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#basicExampleNav"
@@ -112,7 +114,7 @@
       <!-- Links -->
       <ul class="navbar-nav mr-auto">
         <li class="nav-item active">
-          <a class="nav-link" href="#">Home
+          <a class="nav-link" routerLink="/home">Home
             <span class="sr-only">(current)</span>
           </a>
         </li>

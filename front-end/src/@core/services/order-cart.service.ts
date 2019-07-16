@@ -9,8 +9,10 @@ import { IProduct, ICart } from '../interface';
 export class OrderCartService {
 
     private orders = new BehaviorSubject<any>(null);
-
-    constructor() { }
+    ordereLocal = localStorage.getItem('orderLocal');
+    constructor() {
+        this.getLocalStorage();
+    }
 
     get orderCart() {
         return this.orders.asObservable();
@@ -39,10 +41,12 @@ export class OrderCartService {
             product.order = order;
             carts.push(product);
         }
+
         this.orders.next({
             order: this.totalMoney(carts),
             products: carts
         });
+        this.setLocalStorage();
     }
 
     decrement(product: IProduct) {
@@ -55,6 +59,7 @@ export class OrderCartService {
             order: this.totalMoney(carts),
             products: carts
         });
+        this.setLocalStorage();
     }
 
     removeItem(product: IProduct) {
@@ -67,6 +72,24 @@ export class OrderCartService {
             order: this.totalMoney(carts),
             products: carts
         });
+        this.setLocalStorage();
+    }
+
+    private setLocalStorage() {
+        if ((this.orders.getValue().products as []).length > 0) {
+            localStorage.removeItem('orderLocal');
+            localStorage.setItem('orderLocal', JSON.stringify(this.orders.getValue()));
+        } else {
+            localStorage.removeItem('orderLocal');
+        }
+    }
+
+    private getLocalStorage() {
+        if (this.ordereLocal) {
+            this.orders.next(JSON.parse(localStorage.getItem('orderLocal')));
+        } else {
+            this.orders.next(null);
+        }
     }
 
     private totalMoney(products: IProduct[]) {

@@ -18,12 +18,12 @@ export const inversifyExpressServer = async (
         app
     );
     server.setConfig(app => {
-        app.options('*', cors());
         app.use(
             bodyParser.urlencoded({
                 extended: true
             })
         );
+        app.use('*', cors());
         app.use(express.static(__dirname + '/public'));
         app.use(bodyParser.json());
         app.use(helmet());

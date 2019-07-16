@@ -27,19 +27,19 @@ export class HeaderComponent implements OnInit, OnDestroy {
     private router: Router, private toastService: ToastrService,
     private jwtService: JwtService, private userService: UserService,
     private toast: ToastrService, private formBuilder: FormBuilder,
-    private cd: ChangeDetectorRef, private orderCart: OrderCartService
+    private cd: ChangeDetectorRef, private orderCartService: OrderCartService
   ) { }
 
   ngOnInit() {
     this.buildForm();
     this.jwtService.getProfile.subscribe(data => this.currentUser = data);
-    this.subscription = this.orderCart.orderCart.subscribe(data => {
+    this.subscription = this.orderCartService.orderCart.subscribe(data => {
       this.order = data;
     });
   }
 
   removeItem(product: IProduct) {
-    this.orderCart.removeItem(product);
+    this.orderCartService.removeItem(product);
   }
 
   onFileChange(event) {
