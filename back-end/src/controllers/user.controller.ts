@@ -1,9 +1,8 @@
 import { controller, httpGet, httpPost, httpPut, httpDelete } from "inversify-express-utils";
 import { inject } from "inversify";
-import { Request } from "express";
+import { Request, Response } from "express";
 import { TYPES, constants } from "../common";
 import { IUser } from "../entities";
-import * as httpError from 'http-errors';
 import { parser } from "../middleware";
 import { hashSync } from 'bcryptjs';
 import { email } from '../common/email';
@@ -46,7 +45,7 @@ export class UserController {
   }
 
   @httpPost("/")
-  public async create(req: Request): Promise<IUser> {
+  public async create(req: Request, res: Response) {
     try {
       const user = req.body as IUser;
       const checkUserName = await this.userRepository.findOne({ username: user.username });
@@ -56,9 +55,9 @@ export class UserController {
           user.password = await hashSync((user.password as string), 10);
           return await this.userRepository.create(user);
         }
-        throw httpError(400, 'Email đã bị trùng');
+        return res.status(400).send('Email đã bị trùng');
       }
-      throw httpError(400, 'Username đã bị trùng');
+      return res.status(400).send('Username đã bị trùng');
     } catch (error) {
       throw error;
     }
@@ -93,7 +92,7 @@ export class UserController {
   public async update(req: any): Promise<IUser> {
     try {
       const user = (req.body as IUser);
-      if (req.files.length > 0) {
+      if (req.files && req.files.length > 0) {
         user.avatar = `avatars/${req.files[0].filename}`;
       }
       return await this.userRepository.update(user);
@@ -105,7 +104,9 @@ export class UserController {
   @httpDelete("/:id")
   public async delete(req: Request): Promise<any> {
     try {
-      return await this.userRepository.delete(req.params.id);
+      const user = await this.userRepository.findOne({ _id: req.params.id });
+      user.isDeleted = true;
+      return await this.userRepository.update(user);
     } catch (error) {
       throw error;
     }

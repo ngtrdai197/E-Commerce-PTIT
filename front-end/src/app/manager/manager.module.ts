@@ -19,7 +19,7 @@ import { DialogDashCategoryComponent } from './dialog-dash-category/dialog-dash-
 import { DialogDashProductComponent } from './dialog-dash-product/dialog-dash-product.component';
 import { SharedModule } from 'src/@shared/shared.module';
 import { OrderManagementComponent } from './order-management/order-management.component';
-
+import { NgxSpinnerModule } from 'ngx-spinner';
 
 const routes: Routes = [
   {
@@ -43,6 +43,7 @@ const routes: Routes = [
   ],
   imports: [
     CommonModule,
+    NgxSpinnerModule,
     FormsModule,
     SharedModule,
     MatTableModule,

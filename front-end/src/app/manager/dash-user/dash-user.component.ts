@@ -1,10 +1,11 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatPaginator, MatTableDataSource, MatSort, MatDialog } from '@angular/material';
 import { Title } from '@angular/platform-browser';
-import { UserService } from 'src/@core/services/user/user.service';
+import { UserService } from 'src/@core/services/user.service';
 import { IUser } from 'src/@core/interface/IUser.interface';
 import { DialogDashUserComponent } from '../dialog-dash-user/dialog-dash-user.component';
 import { ToastrService } from 'ngx-toastr';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
   selector: 'shop-dash-user',
@@ -15,7 +16,6 @@ import { ToastrService } from 'ngx-toastr';
 export class DashUserComponent implements OnInit {
   users: IUser[] = [];
   isToggle: Boolean = false;
-  isLoading = true;
   displayedColumns: string[] = ['no', 'username', 'fullname', 'address', 'role', 'action'];
   dataSource: MatTableDataSource<IUser>;
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
@@ -24,26 +24,24 @@ export class DashUserComponent implements OnInit {
   selectedIdDetele = '';
   constructor(public dialog: MatDialog, private title: Title,
     private userService: UserService,
-    private toastService: ToastrService,
+    private toastService: ToastrService, private spinner: NgxSpinnerService
   ) { }
 
   ngOnInit() {
     this.onSetTitle();
     this.onFetchUsers();
+    this.spinner.show();
   }
 
   onFetchUsers() {
     this.userService.onFetchUsers().subscribe((data: IUser[]) => {
       this.users = data;
       this.onDataTable();
+      this.spinner.hide();
     });
   }
-  onCheckedUser(user) {
-    if (this.users) {
-      this.isToggle = true;
-    } else {
-      this.isToggle = false;
-    }
+  onCheckedUser() {
+    this.isToggle = this.users ? true : false;
   }
 
   openDialogEdit(user) {
@@ -89,13 +87,12 @@ export class DashUserComponent implements OnInit {
     this.dataSource = new MatTableDataSource<IUser>(this.users);
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
-    this.isLoading = false;
   }
 
-  applyFilter(filterValue: string) {    
+  applyFilter(filterValue: string) {
     this.dataSource.filter = filterValue.trim().toLowerCase();
   }
-  
+
   private onSetTitle() {
     this.title.setTitle('Quản lý người dùng');
   }

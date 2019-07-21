@@ -10,8 +10,9 @@ export interface IUser {
   email?: string;
   role?: string;
   address?: string;
+  isDeleted?: boolean;
   avatar?: string;
-  orderDetails?: string | IOrderDetails;
+  orderDetails?: string[] | IOrderDetails[];
 }
 
 export interface IUserModel extends IUser, mongoose.Document {
@@ -35,6 +36,10 @@ const userSchema = new mongoose.Schema(
     phone: {
       type: String,
       required: true
+    },
+    isDeleted: {
+      type: Boolean,
+      default: false
     },
     email: {
       type: String,

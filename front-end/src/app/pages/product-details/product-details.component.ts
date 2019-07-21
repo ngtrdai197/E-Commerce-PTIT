@@ -1,10 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { ProductService } from 'src/@core/services/product/product.service';
+import { ProductService } from 'src/@core/services/product.service';
 import { IProduct, IFeedback } from 'src/@core/interface';
 import { OrderCartService } from 'src/@core/services/order-cart.service';
 import { ToastrService } from 'ngx-toastr';
 import * as moment from 'moment';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
   selector: 'shop-product-details',
@@ -75,27 +76,46 @@ export class ProductDetailsComponent implements OnInit {
   count = 0;
   isLogin = localStorage.getItem('x-access-token');
   constructor(private activatedRoute: ActivatedRoute,
-    private productService: ProductService,
-    private orderCartService: OrderCartService, private toast: ToastrService
+    private productService: ProductService, private spinner: NgxSpinnerService,
+    private orderCartService: OrderCartService, private toast: ToastrService,
   ) { }
 
 
   ngOnInit() {
+    this.spinner.show();
     this.activatedRoute.params.subscribe(params => {
       this.onLoadProduct(params['id']);
       this.orderCartService.orderCart.subscribe(data => {
         if (data) {
-          const index = +(data.products as IProduct[]).findIndex(x => x.id === params['id']);
-          this.count = (data.products as IProduct[])[index] ? (data.products as IProduct[])[index].order.quantityOrder : 0;
+          const index = data.carts.findIndex(x => x.product.id === params['id']);
+          this.count = index != -1 ? data.carts[index].quantity : 0;
         }
-      })
+      });
     });
     this.slides = this.chunk(this.cards, 4);
   }
 
+  updateOrders(product) {
+    const order = {
+      product,
+      quantity: this.count
+    }
+    this.orderCartService.checkCart().subscribe(data => {
+      if (!data['cartEmpty']) {
+        this.orderCartService.updateCart(order);
+      } else {
+        console.log('create');
+        
+        this.orderCartService.createCart(order);
+      }
+    });
+    this.spinner.show();
+  }
+
+
   updateFeeback(content: string) {
     if (!this.isLogin) {
-      this.toast.info('Đăng nhập để bình luận', 'Thông báo');
+      this.toast.info('Đăng nhập để bình luận');
       return;
     }
     const body = {
@@ -119,18 +139,12 @@ export class ProductDetailsComponent implements OnInit {
           x.createdAtDate = moment(x.createdAtDate).format('MMMM Do YYYY, h:mm a');
         }
       });
-      console.log(this.feedbacks);
+      this.spinner.hide();
     });
   }
 
-  onIncrement() {
-    this.count++;
-    this.orderCartService.increment(this.product);
-  }
-
-  onDecrement() {
-    this.count--;
-    this.orderCartService.decrement(this.product);
+  onCountQuantity(action: string) {
+    action === 'increment' ? this.count++ : this.count--;
   }
 
   // slide related products

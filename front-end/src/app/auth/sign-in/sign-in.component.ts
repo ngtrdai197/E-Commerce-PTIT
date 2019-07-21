@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Title } from '@angular/platform-browser';
-import { UserService } from 'src/@core/services/user/user.service';
-import { JwtService } from 'src/@core/services/user/jwt.service';
+import { UserService } from 'src/@core/services/user.service';
+import { JwtService } from 'src/@core/services/jwt.service';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 
@@ -20,6 +20,7 @@ export class SignInComponent implements OnInit {
 
   ngOnInit() {
     this.onSetTitle();
+    this.onCheckSingIn();
   }
 
   onSignIn(username: string, password: string) {
@@ -30,14 +31,19 @@ export class SignInComponent implements OnInit {
       if (data) {
         this.jwtService.setToken(data.token);
         this.jwtService.getUserProfileByToken();
-        this.toastService.success('Đăng nhập thành công', ' Đăng nhập');
+        this.toastService.success('Đăng nhập thành công');
         this.router.navigate(['']);
       }
     }, (err) => {
-      if (err.error.statusCode === 404) {
-        this.toastService.error(err.error.message, 'Đăng nhập không thành công');
-      }
+      this.toastService.error(err.error);
     })
+  }
+
+  onCheckSingIn() {
+    const token = this.jwtService.getToken();
+    if (token) {
+      this.router.navigate(['home']);
+    }
   }
 
   onSetTitle() {

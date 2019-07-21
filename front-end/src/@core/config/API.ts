@@ -18,6 +18,9 @@ export const API = {
     FEEDBACK: "feedback",
     UNLINK: "unlink",
     GET_BY_CATEGORY: "category"
+  },
+  ORDER: {
+    BASE: "api/order"
   }
 
 }

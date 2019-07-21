@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
-import { JwtService } from '../services/user/jwt.service';
+import { JwtService } from '../services/jwt.service';
 import { CanActivate } from '@angular/router';
 
 @Injectable({

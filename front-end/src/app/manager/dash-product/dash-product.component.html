@@ -1,6 +1,6 @@
-<div *ngIf="isLoading" style="color: #87c4a3" class="icon-loading la-ball-clip-rotate la-3x">
-  <div></div>
-</div>
+<ngx-spinner bdColor="rgba(51,51,51,0.8)" size="medium" color="#fff" type="ball-scale-multiple">
+  <p style="font-size: 20px; color: white">Loading...</p>
+</ngx-spinner>
 <div class="mat-elevation-z8">
   <mat-form-field>
     <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Search">

@@ -4,6 +4,7 @@ import { ProductDetailsComponent } from './product-details.component';
 import { Routes, RouterModule } from '@angular/router';
 import { MDBBootstrapModule } from 'angular-bootstrap-md';
 import { SharedModule } from 'src/@shared/shared.module';
+import { NgxSpinnerModule } from 'ngx-spinner';
 
 const routes: Routes = [
   { path: '', component: ProductDetailsComponent }
@@ -13,6 +14,7 @@ const routes: Routes = [
   declarations: [ProductDetailsComponent],
   imports: [
     CommonModule,
+    NgxSpinnerModule,
     MDBBootstrapModule,
     SharedModule,
     RouterModule.forChild(routes)

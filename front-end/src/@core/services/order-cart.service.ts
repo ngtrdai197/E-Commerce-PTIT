@@ -1,109 +1,111 @@
 import { Injectable } from "@angular/core";
-import { BehaviorSubject } from 'rxjs';
-import { IProduct, ICart } from '../interface';
+import { BehaviorSubject, Observable } from "rxjs";
+import { HttpClient } from "@angular/common/http";
+import { API } from "../config/API";
+import { tap, map } from "rxjs/operators";
+import { ToastrService } from "ngx-toastr";
+import { NgxSpinnerService } from 'ngx-spinner';
+import { IOrder } from '../interface/IOrder.interface';
+import { IProduct } from '../interface';
 
 @Injectable({
     providedIn: "root"
 })
-
 export class OrderCartService {
-
     private orders = new BehaviorSubject<any>(null);
-    ordereLocal = localStorage.getItem('orderLocal');
-    constructor() {
-        this.getLocalStorage();
+    ordereLocal = localStorage.getItem("orderLocal");
+    constructor(private http: HttpClient, private toast: ToastrService, private spinner: NgxSpinnerService) {
+        // this.getOrdersCart();
+    }
+
+    confirmOrder(order: any): Observable<any> {
+        return this.http.post(`${API.HOST}/${API.ORDER.BASE}/confirm/order`, order);
     }
 
     get orderCart() {
         return this.orders.asObservable();
     }
 
-    increment(product: IProduct) {
-        let carts: IProduct[] = [];
-        if (this.orders.getValue() as IProduct[]) {
-            carts = (this.orders.getValue().products) as IProduct[];
-            const index = carts.findIndex(p => p.id === product.id);
-            if (index != -1) {
-                (carts[index].order.quantityOrder)++;
-            } else {
-                const order: ICart = {
-                    quantityOrder: 1,
-                    totalPayment: 0
-                }
-                product.order = order;
-                carts.push(product);
-            }
-        } else {
-            const order: ICart = {
-                quantityOrder: 1,
-                totalPayment: 0
-            }
-            product.order = order;
-            carts.push(product);
-        }
-
-        this.orders.next({
-            order: this.totalMoney(carts),
-            products: carts
-        });
-        this.setLocalStorage();
+    removeCart() {
+        this.orders.next(null);
     }
 
-    decrement(product: IProduct) {
-        let carts = (this.orders.getValue().products) as IProduct[];
-        const index = carts.findIndex(p => p.id === product.id);
-        if (index != -1) {
-            carts[index].order.quantityOrder > 1 ? (carts[index].order.quantityOrder)-- : carts.splice(index, 1);
-        }
-        this.orders.next({
-            order: this.totalMoney(carts),
-            products: carts
-        });
-        this.setLocalStorage();
+    checkCart(): Observable<any> {
+        return this.http.get(`${API.HOST}/${API.ORDER.BASE}`);
     }
 
     removeItem(product: IProduct) {
-        let carts = (this.orders.getValue().products) as IProduct[];
-        const index = carts.findIndex(p => p.id === product.id);
-        if (index != -1) {
-            carts.splice(index, 1);
-        }
-        this.orders.next({
-            order: this.totalMoney(carts),
-            products: carts
+        this.http.put(`${API.HOST}/${API.ORDER.BASE}/delete`, product).pipe(
+            map(transform => {
+                if (transform) {
+                    transform['carts'].map(order => {
+                        order.product.images = order.product.images.map((img: string) => {
+                            return (img = `${API.HOST}/${img}`);
+                        });
+                    });
+                }
+            })
+        ).subscribe((data) => {
+            this.spinner.hide();
+            this.orders.next(data);
+            this.toast.success('Đã cập nhật giỏ hàng.');
         });
-        this.setLocalStorage();
     }
 
-    private setLocalStorage() {
-        if ((this.orders.getValue().products as []).length > 0) {
-            localStorage.removeItem('orderLocal');
-            localStorage.setItem('orderLocal', JSON.stringify(this.orders.getValue()));
-        } else {
-            localStorage.removeItem('orderLocal');
-        }
+    createCart(order: any) {
+        this.http
+            .post(`${API.HOST}/${API.ORDER.BASE}`, order)
+            .pipe(
+                tap(transform => {
+                    if (transform) {
+                        transform['carts'].map(order => {
+                            order.product.images = order.product.images.map((img: string) => {
+                                return (img = `${API.HOST}/${img}`);
+                            });
+                        });
+                    }
+                })
+            ).subscribe((data) => {
+                this.spinner.hide();
+                this.orders.next(data);
+                this.toast.success('Đã cập nhật giỏ hàng.');
+            });
     }
 
-    private getLocalStorage() {
-        if (this.ordereLocal) {
-            this.orders.next(JSON.parse(localStorage.getItem('orderLocal')));
-        } else {
-            this.orders.next(null);
-        }
+    updateCart(order: any) {
+        this.http.put(`${API.HOST}/${API.ORDER.BASE}`, order).pipe(
+            tap(transform => {
+                if (transform) {
+                    transform['carts'].map(order => {
+                        return order.product.images = order.product.images.map((img: string) => {
+                            return (img = `${API.HOST}/${img}`);
+                        });
+                    });
+                }
+            })
+        ).subscribe(data => {
+            this.spinner.hide();
+            this.orders.next(data);
+            this.toast.success('Đã cập nhật giỏ hàng.');
+        });
     }
 
-    private totalMoney(products: IProduct[]) {
-        let payment: number = 0;
-        let quantity: number = 0;
-        for (let item of products) {
-            payment += ((item.currentPrice) * (item.order.quantityOrder));
-            quantity += (item.order.quantityOrder);
-        }
-        const order: any = {
-            quantity: quantity,
-            totalPayment: payment
-        };
-        return order;
+    getOrdersCart() {
+        this.http
+            .get(`${API.HOST}/${API.ORDER.BASE}`)
+            .pipe(
+                tap(transform => {
+                    if (!transform['cartEmpty']) {
+                        transform["order"].carts.map(order => {
+                            order.product.images = order.product.images.map(img => {
+                                return (img = `${API.HOST}/${img}`);
+                            });
+                        });
+                    }
+                })
+            )
+            .subscribe(data => {
+                this.orders.next(data["order"]);
+            });
     }
-
 }

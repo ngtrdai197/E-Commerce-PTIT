@@ -10,7 +10,7 @@ export class UserRepository implements IUserRepository {
   };
 
   findAll = async (): Promise<IUser[]> => {
-    return await userModel.find({}).select('-__v');
+    return await userModel.find({ isDeleted: false }).select('-__v');
   };
 
   getUserProfile = async (query: any): Promise<IUser> => {
@@ -30,7 +30,7 @@ export class UserRepository implements IUserRepository {
   };
 
   delete = async (id: string): Promise<any> => {
-    await userModel.findByIdAndRemove(id);
+    await userModel.update({ _id: id }, { isDeleted: true });
     return { isDeleted: true, message: `Successfully deleted user with id: ${id}` };
   }
 }

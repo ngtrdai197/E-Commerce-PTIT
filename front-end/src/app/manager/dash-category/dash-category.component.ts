@@ -4,7 +4,8 @@ import { Title } from '@angular/platform-browser';
 import { ToastrService } from 'ngx-toastr';
 import { DialogDashCategoryComponent } from '../dialog-dash-category/dialog-dash-category.component';
 import { ICategory } from 'src/@core/interface/ICategory.interface';
-import { CategoryService } from 'src/@core/services/category/category.service';
+import { CategoryService } from 'src/@core/services/category.service';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
   selector: 'shop-dash-category',
@@ -12,9 +13,7 @@ import { CategoryService } from 'src/@core/services/category/category.service';
   styleUrls: ['./dash-category.component.scss']
 })
 export class DashCategoryComponent implements OnInit {
-  isLoading = true;
   categorys: ICategory[] = [];
-  isToggle: Boolean = false;
   productChecked: '';
   displayedColumns: string[] = ['no', 'categoryname', 'action'];
   dataSource: MatTableDataSource<ICategory>;
@@ -24,26 +23,22 @@ export class DashCategoryComponent implements OnInit {
   selectedIdDetele = '';
   constructor(public dialog: MatDialog, private title: Title,
     private categoryService: CategoryService,
-    private toastService: ToastrService
+    private toastService: ToastrService, private spinner: NgxSpinnerService
   ) { }
 
   ngOnInit() {
     this.onSetTitle();
     this.onFetchUsers();
+    this.spinner.show();
+
   }
 
   onFetchUsers() {
     this.categoryService.listCategory.subscribe((data: ICategory[]) => {
       this.categorys = data;
       this.onDataTable();
+      this.spinner.hide();
     });
-  }
-  onCheckedUser(user) {
-    if (this.categorys) {
-      this.isToggle = true;
-    } else {
-      this.isToggle = false;
-    }
   }
 
   openDialogEdit(category) {
@@ -89,7 +84,6 @@ export class DashCategoryComponent implements OnInit {
     this.dataSource = new MatTableDataSource<ICategory>(this.categorys);
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
-    this.isLoading = false;
   }
 
   applyFilter(filterValue: string) {

@@ -1,40 +1,56 @@
 import * as mongoose from 'mongoose';
-import { IOrderDetails } from './index';
+import { IProduct } from './product.model';
+import { IUser } from './user.model';
 
 export interface IOrder {
     id?: string;
     createdDate?: string | Date;
-    payments?: string;
-    total?: number;
-    statePayment?: boolean;
-    orderDetails?: string | IOrderDetails
+    completedDate?: string | Date;
+    payments?: string; // hình thức thanh toán
+    statePayment?: boolean; // trạng thái thanh toán
+    user?: string | IUser;
+    carts?: string[] | ICart[];
 }
 
 export interface IOrderModel extends IOrder, mongoose.Document {
     id: string;
 }
 
+export interface ICart {
+    id?: string;
+    quantity?: number; // so luong dat cua san pham
+    totalPayment?: number; // so tien phai thanh toan
+    product?: string | IProduct; // san pham
+}
+
+const cartSchema = new mongoose.Schema({
+    quantity: {
+        type: Number,
+        required: true
+    },
+    totalPayment: {
+        type: Number,
+        required: true
+    },
+    product: { type: mongoose.Schema.Types.ObjectId, ref: 'Product' },
+})
+
 export const orderSchema = new mongoose.Schema({
     createdDate: {
         type: Date,
         default: new Date
     },
+    completedDate: Date,
     payments: {
         type: String,
         default: "Nhận tiền khi giao dịch"
-    },
-    total: {
-        type: Number,
-        required: true
     },
     statePayment: {
         type: Boolean,
         default: false
     },
-    orderDetails: {
-        type: mongoose.Schema.Types.ObjectId, ref: 'OrderDetails',
-        required: true
-    }
+    carts: [cartSchema],
+    user: { type: mongoose.Schema.Types.ObjectId, ref: 'User' }
 },
     {
         toObject: {

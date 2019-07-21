@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { ShareService } from 'src/@core/services/shared/share.service';
-import { CategoryService } from 'src/@core/services/category/category.service';
+import { ShareService } from 'src/@core/services/share.service';
+import { CategoryService } from 'src/@core/services/category.service';
 import { ICategory } from 'src/@core/interface/ICategory.interface';
 
 @Component({

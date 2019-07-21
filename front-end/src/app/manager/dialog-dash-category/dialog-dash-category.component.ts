@@ -2,7 +2,7 @@ import { Component, OnInit, Inject } from '@angular/core';
 import { IDialogCategory } from 'src/@core/interface/IDialogUser.interface';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
 import { ToastrService } from 'ngx-toastr';
-import { CategoryService } from 'src/@core/services/category/category.service';
+import { CategoryService } from 'src/@core/services/category.service';
 import { ICategory } from 'src/@core/interface/ICategory.interface';
 
 @Component({

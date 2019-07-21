@@ -1,13 +1,14 @@
 import { Component, OnInit, ChangeDetectorRef, OnDestroy } from '@angular/core';
 import { Router } from '@angular/router';
-import { JwtService } from 'src/@core/services/user/jwt.service';
+import { JwtService } from 'src/@core/services/jwt.service';
 import { IUser, IProduct } from 'src/@core/interface';
 import { API } from 'src/@core/config/API';
 import { ToastrService } from 'ngx-toastr';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { UserService } from 'src/@core/services/user/user.service';
+import { UserService } from 'src/@core/services/user.service';
 import { OrderCartService } from 'src/@core/services/order-cart.service';
 import { Subscription } from 'rxjs';
+import { IOrder } from 'src/@core/interface/IOrder.interface';
 
 @Component({
   selector: 'shop-header',
@@ -21,25 +22,41 @@ export class HeaderComponent implements OnInit, OnDestroy {
   editForm: FormGroup;
   avatarDefault = 'assets/auth/user-default.png';
   isChangeAvatar = false;
-  order: any;
+  order: IOrder = {};
   subscription: Subscription;
+  totalOrders = 0;
   constructor(
     private router: Router, private toastService: ToastrService,
     private jwtService: JwtService, private userService: UserService,
     private toast: ToastrService, private formBuilder: FormBuilder,
     private cd: ChangeDetectorRef, private orderCartService: OrderCartService
-  ) { }
+  ) {
+  }
 
   ngOnInit() {
     this.buildForm();
-    this.jwtService.getProfile.subscribe(data => this.currentUser = data);
-    this.subscription = this.orderCartService.orderCart.subscribe(data => {
-      this.order = data;
+    this.subscription = this.jwtService.getProfile.subscribe(data => this.currentUser = data);
+    this.orderCartService.getOrdersCart();
+    this.onGetOrders();
+  }
+
+  onGetOrders() {
+    this.orderCartService.orderCart.subscribe((data: IOrder) => {
+      this.totalOrders = 0;
+      if (data) {
+        this.order = data;
+        this.order.carts.map(x => {
+          this.totalOrders += x.quantity;
+        });
+      } else {
+        this.order = {};
+      }
     });
   }
 
   removeItem(product: IProduct) {
     this.orderCartService.removeItem(product);
+    this.onGetOrders();
   }
 
   onFileChange(event) {
@@ -104,7 +121,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
   }
 
   onSignOut() {
-    this.jwtService.destroyToken();
+    this.jwtService.destroyWithSignOut();
     this.jwtService.setUserProfile(null);
     this.toast.success('Đăng xuất thành công', 'Thông báo');
     this.router.navigate(['/']);

@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Title } from '@angular/platform-browser';
 import { IUser } from 'src/@core/interface/IUser.interface';
-import { UserService } from 'src/@core/services/user/user.service';
+import { UserService } from 'src/@core/services/user.service';
 import { ToastrService } from 'ngx-toastr';
 import { Router } from '@angular/router';
 

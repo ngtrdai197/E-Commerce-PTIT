@@ -28,7 +28,7 @@
       <div class="row w-100">
         <div class="col-md-3">
           <div class="header-logo">
-            <a href="#" class="logo">
+            <a routerLink="/home" class="logo">
               <!-- <img src="../../assets/logo.png" alt=""> -->
             </a>
           </div>
@@ -60,27 +60,30 @@
                 aria-expanded="false" style="cursor: pointer;">
                 <i class="fa fa-shopping-cart"></i>
                 <span>Your Cart</span>
-                <div class="qty">{{order?.order?.quantity}}</div>
-                <div class="qty" *ngIf="!order">0</div>
+                <div class="qty">{{totalOrders}}</div>
               </a>
-              <div class="dropdown-menu cart" aria-labelledby="dropdownMenuLink">
-                <div *ngIf="order?.products.length <= 0" class="text-center" style="font-size: 14px;">Giỏ hàng đang rỗng
-                </div>
-                <a class="dropdown-item" *ngFor="let product of order?.products" [title]="product?.title">
+              <div class="dropdown-menu cart" aria-labelledby="dropdownMenuLink" style="max-height: 600px;
+              overflow-y: auto;">
+                <!-- <div *ngIf="order?.products.length <= 0" class="text-center" style="font-size: 14px;">Giỏ hàng đang rỗng -->
+                <!-- </div> -->
+                <a class="dropdown-item" *ngFor="let item of order?.carts" [title]="item?.product?.title">
                   <div class="product-widget">
-                    <div class="product-img text-center mb-2" [routerLink]="['/product', product.id]">
-                      <img [src]="product.images[0]" alt="" style="width: 150px; height: 150px;">
+                    <div class="product-img text-center mb-2" [routerLink]="['/product', item?.product?.id]">
+                      <img [src]="item?.product.images[0]" alt="" style="width: 150px; height: 150px;">
                     </div>
-                    <div class="product-body" [routerLink]="['/product', product.id]">
-                      <h3 class="product-name"><a>{{product?.title | subtitle}}</a></h3>
-                      <h4 class="product-price"><span class="qty">3x</span>{{product?.order?.quantityOrder}}</h4>
+                    <div class="product-body" [routerLink]="['/product', item?.product.id]">
+                      <h3 class="product-name"><a>{{item?.product?.title | subtitle}}</a></h3>
+                      <h4 class="product-price"><span class="qty">{{item?.quantity}} x
+                        </span>{{item?.product?.currentPrice}}</h4>
                     </div>
                     <div class="btn-delete">
-                      <button class="btn btn-danger" (click)="removeItem(product)"><i class="fa fa-close"></i></button>
+                      <button class="btn btn-danger" (click)="removeItem(item?.product)"><i
+                          class="fa fa-close"></i></button>
                     </div>
                   </div>
                 </a>
-                <button class="btn btn-primary btn-block mx-auto" style="width: 90%;" routerLink="/order" *ngIf="order?.products.length > 0">Đặt hàng ngay</button>
+                <button class="btn btn-primary btn-block mx-auto" style="width: 90%;" routerLink="/order"
+                  *ngIf="totalOrders > 0">Đặt hàng ngay</button>
               </div>
             </div>
             <div class="menu-toggle">

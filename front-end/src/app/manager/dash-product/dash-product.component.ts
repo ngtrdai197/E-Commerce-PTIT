@@ -2,12 +2,13 @@ import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { Title } from '@angular/platform-browser';
 import { MatTableDataSource, MatDialog, MatSort, MatPaginator } from '@angular/material';
 import { IProduct } from 'src/@core/interface/IProduct.interface';
-import { CategoryService } from 'src/@core/services/category/category.service';
+import { CategoryService } from 'src/@core/services/category.service';
 import { ToastrService } from 'ngx-toastr';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
-import { ProductService } from 'src/@core/services/product/product.service';
+import { ProductService } from 'src/@core/services/product.service';
 import { ICategory } from 'src/@core/interface';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
   selector: 'shop-dash-product',
@@ -37,7 +38,7 @@ export class DashProductComponent implements OnInit {
     private toastService: ToastrService,
     private formBuilder: FormBuilder,
     private activatedRoute: ActivatedRoute,
-    private productService: ProductService
+    private productService: ProductService, private spinner: NgxSpinnerService
   ) { }
 
   ngOnInit() {
@@ -45,7 +46,7 @@ export class DashProductComponent implements OnInit {
     this.buildForm();
     this.activatedRoute.params.subscribe(params => {
       this.categoryId = params['id'];
-      this.isLoading = true;
+      this.spinner.show();
       this.viewImages = [];
       this.refresh();
     });
@@ -173,7 +174,7 @@ export class DashProductComponent implements OnInit {
       this.dataSource = new MatTableDataSource<IProduct>(response.products as IProduct[]);
       this.dataSource.paginator = this.paginator;
       this.dataSource.sort = this.sort;
-      this.isLoading = false;
+      this.spinner.hide();
     });
   }
 

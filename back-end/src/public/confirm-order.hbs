@@ -1,0 +1,38 @@
+<!DOCTYPE html
+	PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<title>Demystifying Email Design</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+</head>
+
+<body style="margin: 0; padding: 0;">
+	{{order}}
+	<div
+		style="color: #153643; font-family: Arial, sans-serif; font-size: 19px; margin-bottom: 30px; text-align: center;">
+		<b>Xác nhận đơn hàng</b>
+		<br>
+		<b>Mã đơn đặt hàng của bạn là: {{order.id}}</b>
+		<br>
+		<b>Thanh toán: {{order.payments}}</b>
+	</div>
+	<table class="w3-table" align="center" border="0" cellpadding="0" cellspacing="0" width="300">
+		{{#each order.carts}}
+		<tr>
+			<td>
+				<img src="cid:imagepath" alt="" width="100%" height="140"
+					style="display: block; padding-bottom: 20px;" />
+			</td>
+		</tr>
+		{{/each}}
+		{{#each order.carts}}
+		<tr>
+			<td>{{lookup ../pro this.productName}}<td>
+		</tr>
+		{{/each}}
+	</table>
+</body>
+
+</html>

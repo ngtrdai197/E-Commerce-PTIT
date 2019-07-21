@@ -15,7 +15,7 @@ export interface IProduct {
   ratings?: number; // ratings
   sex: number; // 0 male 1 female
   productBoughtBy?: Customer;
-  order?: ICart;
+  order?: IAMount;
   feedback?: IFeedback[];
 }
 
@@ -31,7 +31,7 @@ export interface IFeedback {
   createdAtDate?: string | Date;
 }
 
-export interface ICart {
-  quantityOrder?: number;
+export interface IAMount {
+  quantity?: number;
   totalPayment?: number;
 }

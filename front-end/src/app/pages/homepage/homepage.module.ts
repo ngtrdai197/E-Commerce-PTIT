@@ -4,6 +4,7 @@ import { HomepageComponent } from './homepage.component';
 import { Routes, RouterModule } from '@angular/router';
 import { SharedModule } from 'src/@shared/shared.module';
 import { ProductComponent } from '../product/product.component';
+import { NgxSpinnerModule } from 'ngx-spinner';
 
 const routes: Routes = [
   { path: "", component: HomepageComponent }
@@ -17,6 +18,7 @@ const routes: Routes = [
   ],
   imports: [
     CommonModule,
+    NgxSpinnerModule,
     SharedModule,
     RouterModule.forChild(routes)
   ]

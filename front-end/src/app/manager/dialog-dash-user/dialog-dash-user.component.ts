@@ -2,7 +2,7 @@ import { Component, OnInit, Inject } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import { ToastrService } from 'ngx-toastr';
 import { IDialogUser } from 'src/@core/interface/IDialogUser.interface';
-import { UserService } from 'src/@core/services/user/user.service';
+import { UserService } from 'src/@core/services/user.service';
 import { IUser } from 'src/@core/interface/IUser.interface';
 import { IRole } from 'src/@core/interface/IRole.interface';
 
@@ -81,6 +81,8 @@ export class DialogDashUserComponent implements OnInit {
         this.dialogRef.close();
       }
     }, err => {
+      console.log(err);
+      
       if (err) {
         this.toastService.error(`${err.error}`, 'Thông báo');
       }

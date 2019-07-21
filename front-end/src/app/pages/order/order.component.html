@@ -1,26 +1,59 @@
 <shop-header></shop-header>
-<section class="container">
-  <div class="row">
-    <div class="col-sm-12 col-md-8">
-      <table class="table table-hover table-inverse">
-        <thead class="thead-inverse">
-          <tr>
-            <th>Sản phẩm</th>
-            <th>Giá</th>
-            <th>Số lượng</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr *ngFor="let order of order?.products">
-            <td scope="row">
-              <img [src]="order?.images[0]" alt="" srcset="">
-            </td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-    <div class="col-sm-12 col-md-4">
-
+<section style="background: #eae4e461">
+  <div class="container">
+    <div class="row">
+      <div class="col-sm-12 col-md-8 content-left">
+        <table class="table table-hover table-inverse">
+          <thead class="thead-inverse">
+            <tr>
+              <th>Sản phẩm</th>
+              <th>Giá</th>
+              <th>Số lượng</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let order of order?.carts">
+              <td scope="row" class="item-order">
+                <img [src]="order?.product?.images[0]" alt="" srcset="">
+              </td>
+              <td>
+                <div class="cover-price">
+                  <div class="current-price">{{order?.product?.currentPrice}} đ</div>
+                  <div class="old-price">{{order?.product?.oldPrice}} đ</div>
+                </div>
+              </td>
+              <td>{{order?.quantity}}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="col-sm-12 col-md-4 order-right">
+        <div class="cover-payment">
+          <div class="header-title">Thanh toán</div>
+          <div class="sub-title">Thanh toán vận chuyển</div>
+          <div class="infor-order">
+            <div class="name-line">
+              <div class="name">{{currentUser?.fullName}}</div>
+              <div class="edit">Chỉnh sửa</div>
+            </div>
+            <div class="address">{{currentUser?.address}}</div>
+            <div>
+              <span><i class="fa fa-phone" aria-hidden="true"></i>
+              </span> {{currentUser?.phone}}</div>
+            <div>
+              <span><i class="fa fa-envelope" aria-hidden="true"></i>
+              </span> {{currentUser?.email}}</div>
+          </div>
+          <div class="infor-cart">Thông tin đơn hàng</div>
+          <div class="cover-quantity">
+            <div class="quantity">Tạm tính: ( {{order?.carts.length}} sản phẩm )</div>
+            <div class="payment">{{totalPayment}} đ</div>
+          </div>
+          <div class="send-order mt-5">
+            <button class="btn btn-block btn-primary" (click)="confirmOrder()">Xác nhận đặt hàng</button>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </section>

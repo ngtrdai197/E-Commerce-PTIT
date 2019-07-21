@@ -20,20 +20,22 @@
         }
 
         .description {
-          color: #4C4C4C;
+          color: #4c4c4c;
           font-size: 14px;
           margin-bottom: 20px;
         }
 
         .actions {
-          border-bottom: 1px solid rgba(119, 119, 119, .17);
+          border-bottom: 1px solid rgba(119, 119, 119, 0.17);
           padding-bottom: 30px;
 
           .btn-toolbar {
             .btn-black {
               background: #000;
               color: #fff;
-
+              &:hover{
+                background: #ed3737 !important;
+              }
               &.add-cart {
                 padding: 10px 20px;
                 font-size: 14px;
@@ -44,13 +46,13 @@
 
         .posted-in {
           font-size: 14px;
-          color: #1B1919;
+          color: #1b1919;
           font-weight: 700;
           padding-top: 30px;
           margin-bottom: 15px;
 
           .name-cate {
-            color: #4E4E4E;
+            color: #4e4e4e;
             margin: 0 2px;
             font-weight: normal;
           }
@@ -59,7 +61,7 @@
         .product-share {
           display: flex;
           font-size: 14px;
-          color: #1B1919;
+          color: #1b1919;
           font-weight: bold;
 
           .social-icons {
@@ -74,7 +76,7 @@
                 font-size: 12px;
                 font-weight: normal;
                 padding-left: 5px;
-                color: #4E4E4E;
+                color: #4e4e4e;
               }
             }
           }
@@ -83,7 +85,7 @@
     }
 
     .feedback {
-      background: #F9F9F9;
+      background: #f9f9f9;
       padding: 25px 10px;
       margin-top: 30px;
 
@@ -116,15 +118,15 @@
             padding-left: 15px;
             font-size: 14px;
             padding-top: 5px;
-            .name{
+            .name {
               color: #000;
               font-size: 13px;
               text-transform: capitalize;
               font-style: italic;
               padding-bottom: 2px;
             }
-            .time-report{
-              font-size: 11px;  
+            .time-report {
+              font-size: 11px;
             }
           }
         }

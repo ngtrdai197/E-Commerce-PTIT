@@ -1,9 +1,9 @@
 import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
-import { JwtService } from 'src/@core/services/user/jwt.service';
+import { JwtService } from 'src/@core/services/jwt.service';
 import { Router } from '@angular/router';
 import { IUser } from 'src/@core/interface';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { UserService } from 'src/@core/services/user/user.service';
+import { UserService } from 'src/@core/services/user.service';
 import { ToastrService } from 'ngx-toastr';
 
 @Component({
@@ -30,7 +30,7 @@ export class HeaderManagerComponent implements OnInit {
   }
 
   onSignOut() {
-    this.jwtService.destroyToken();
+    this.jwtService.destroyWithSignOut();
     this.router.navigate(['']);
   }
 

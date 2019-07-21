@@ -2,7 +2,7 @@
   <div class="wrapping-img">
     <img [src]="product?.images[0]" alt="">
     <div class="sub-cart">
-      <span data-toggle="tooltip" data-placement="top" title="Thêm vào giỏ hàng" class="cart"><i class="fa fa-cart-plus"
+      <span data-toggle="tooltip" (click)="addToCart(product)" data-placement="top" title="Thêm vào giỏ hàng" class="cart"><i class="fa fa-cart-plus"
           aria-hidden="true"></i></span>
       <span data-toggle="tooltip" data-placement="top" title="Xem chi tiết" class="eye"
         [routerLink]="['/product', product?.id]">

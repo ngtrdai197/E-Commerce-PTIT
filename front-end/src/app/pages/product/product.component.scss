@@ -36,7 +36,9 @@
           color: #ffff;
           border-left: 1px solid #fff;
           outline: none !important;
-
+          &:hover{
+            color: #333;
+          }
           &:first-child {
             border-left: none;
           }
