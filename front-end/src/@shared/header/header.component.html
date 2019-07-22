@@ -16,6 +16,7 @@
               (Admin)</a>
             <a class="dropdown-item" data-toggle="modal" data-target="#inforUser" (click)="uploadProfile()">Thông tin cá
               nhân</a>
+              <a class="dropdown-item" routerLink="/my-order">Đơn hàng của tôi</a>
             <a class="dropdown-item" (click)="onSignOut()">Đăng xuất</a>
           </div>
         </li>
@@ -64,8 +65,9 @@
               </a>
               <div class="dropdown-menu cart" aria-labelledby="dropdownMenuLink" style="max-height: 600px;
               overflow-y: auto;">
-                <!-- <div *ngIf="order?.products.length <= 0" class="text-center" style="font-size: 14px;">Giỏ hàng đang rỗng -->
-                <!-- </div> -->
+                <div *ngIf="order?.products?.length <= 0" class="text-center" style="font-size: 14px;">Giỏ hàng đang
+                  rỗng
+                </div>
                 <a class="dropdown-item" *ngFor="let item of order?.carts" [title]="item?.product?.title">
                   <div class="product-widget">
                     <div class="product-img text-center mb-2" [routerLink]="['/product', item?.product?.id]">
@@ -189,7 +191,8 @@
             <input type="email" class="form-control" formControlName="email" aria-describedby="helpId">
           </div>
           <div class="cover-button d-flex">
-            <a name="" id="" class="btn btn-primary" (click)="updateUserProfile()" role="button">Cập nhật</a>
+            <a name="" id="" class="btn btn-primary" data-dismiss="modal" (click)="updateUserProfile()"
+              role="button">Cập nhật</a>
             <a name="" id="" class="btn btn-danger" data-dismiss="modal" role="button">Hủy bỏ</a>
           </div>
         </form>

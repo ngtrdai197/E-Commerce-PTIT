@@ -1,4 +1,6 @@
 <shop-header></shop-header>
+<ngx-spinner bdColor="rgba(51,51,51,0.8)" size="medium" color="#fff" type="ball-scale-multiple">
+</ngx-spinner>
 <section style="background: #eae4e461">
   <div class="container">
     <div class="row">
@@ -50,7 +52,8 @@
             <div class="payment">{{totalPayment}} đ</div>
           </div>
           <div class="send-order mt-5">
-            <button class="btn btn-block btn-primary" (click)="confirmOrder()">Xác nhận đặt hàng</button>
+            <button class="btn btn-block btn-primary" (click)="confirmOrder()" *ngIf="stateOrder === -1">Xác nhận đặt hàng</button>
+            <div class="p-3 mb-2 text-center bg-info text-white" *ngIf="stateOrder === 0">Đã đặt hàng</div>
           </div>
         </div>
       </div>

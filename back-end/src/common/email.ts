@@ -18,11 +18,20 @@ class Email {
     public async sendEmail(toEmails: string, content: any): Promise<string> {
         const source = fs.readFileSync(path.join(__dirname, '../public/confirm-order.hbs'), 'utf8');
         const template = handlebars.compile(source);
-        content.order.carts.map((x: any, index: any) => {
-            return x.product.images[index] = (x.product.images[0].substring(22, x.product.images[index].length));
+        let attacks: any[] = [];
+        content.order.carts.map((x: any) => {
+            return x.product.images[0] = (x.product.images[0].substring(22, x.product.images[0].length));
         })
-        console.log(content.order.carts[0]);
-
+        content.order.carts.forEach((el: any) => {
+            const att: any = {
+                filename: el.product.images[0],
+                path: `src/public/${el.product.images[0]}`,
+                cid: el.product.images[0]
+            }
+            attacks.push(att);
+        });
+        
+        content.images = attacks;
         return new Promise((resolve, reject) => {
             var transporter = nodeMailer.createTransport(smtpTransport({
                 host: 'smtp.gmail.com', port: 465, secure: true,
@@ -39,18 +48,7 @@ class Email {
                 subject: 'Shop 3s', // sender address
                 to: 'ngtrdai290197@gmail.com', // list of receivers
                 html: template(content),
-                attachments: [
-                    { // Use a URL as an attachment
-                        filename: 'your-testla.png',
-                        path: `src/public/avatars/1563518178924-background_vue.png`,
-                        cid: 'imagepath'
-                    },
-                    { // Use a URL as an attachment
-                        filename: 'your-testla.png',
-                        path: `src/public/products/1563099970679-8bj18a005-sj375-3130-.jpg`,
-                        cid: 'imagepath2'
-                    }
-                ]
+                attachments: attacks
             };
             transporter.sendMail(mailOptions, (error: any, info: any) => {
                 if (error) {

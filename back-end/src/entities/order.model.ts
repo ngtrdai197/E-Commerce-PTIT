@@ -8,6 +8,7 @@ export interface IOrder {
     completedDate?: string | Date;
     payments?: string; // hình thức thanh toán
     statePayment?: boolean; // trạng thái thanh toán
+    stateOrder?: number;
     user?: string | IUser;
     carts?: string[] | ICart[];
 }
@@ -44,6 +45,9 @@ export const orderSchema = new mongoose.Schema({
     payments: {
         type: String,
         default: "Nhận tiền khi giao dịch"
+    },
+    stateOrder: {
+        type: Number,
     },
     statePayment: {
         type: Boolean,

@@ -19,6 +19,7 @@ export class OrderCartService {
     }
 
     confirmOrder(order: any): Observable<any> {
+        order.stateOrder = 0;
         return this.http.post(`${API.HOST}/${API.ORDER.BASE}/confirm/order`, order);
     }
 
@@ -73,6 +74,8 @@ export class OrderCartService {
     }
 
     updateCart(order: any) {
+        console.log(1234);
+        
         this.http.put(`${API.HOST}/${API.ORDER.BASE}`, order).pipe(
             tap(transform => {
                 if (transform) {
@@ -84,6 +87,8 @@ export class OrderCartService {
                 }
             })
         ).subscribe(data => {
+            console.log(data);
+            
             this.spinner.hide();
             this.orders.next(data);
             this.toast.success('Đã cập nhật giỏ hàng.');

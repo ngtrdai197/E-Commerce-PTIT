@@ -15,6 +15,7 @@ const routes: Routes = [
   { path: 'admin', loadChildren: () => import('./manager/manager.module').then(m => m.ManagerModule), canActivate: [AuthGuard] },
   { path: 'product/:id', loadChildren: () => import('./pages/product-details/product-details.module').then(m => m.ProductDetailsModule) },
   { path: 'order', loadChildren: () => import('./pages/order/order.module').then(m => m.OrderModule) },
+  { path: 'my-order', loadChildren: () => import('./pages/order-me/order-me.module').then(m => m.OrderMeModule) },
   { path: '**', component: PageNotFoundComponent }
 ];
 

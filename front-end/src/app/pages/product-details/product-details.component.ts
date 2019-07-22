@@ -100,6 +100,7 @@ export class ProductDetailsComponent implements OnInit {
       product,
       quantity: this.count
     }
+    
     this.orderCartService.checkCart().subscribe(data => {
       if (!data['cartEmpty']) {
         this.orderCartService.updateCart(order);

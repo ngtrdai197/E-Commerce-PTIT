@@ -19,13 +19,16 @@ export class OrderController {
     public async confirmOrders(req: any, res: Response) {
         try {
             const user = await this.userRepo.findOne({ _id: req.body.user });
+            const orderUpdated = await this.orderRepo.update(req.body);
             const content = {
                 user,
                 order: req.body
             };
+            console.log(req.body);
+
             const result = await email.sendEmail(user.email as string, content);
             if (result) {
-                return res.status(200).send({ message: 'Đã xác nhận đơn đặt hàng. Thông tin đã được gửi về  email, vui lòng xác nhận.' });
+                return res.status(200).send({ data: orderUpdated, message: 'Đặt hàng thành công' });
             }
             return res.status(400).send('Gửi thất bại. Kiểm tra lại');
         } catch (error) {
@@ -43,7 +46,8 @@ export class OrderController {
                 quantity: req.body.quantity
             };
             const order: IOrder = {
-                user: req.user.id
+                user: req.user.id,
+                stateOrder: -1
             };
             const created = await this.orderRepo.create(order);
             const data = await this.orderRepo.pushCart(created.id as string, cart);
@@ -59,7 +63,7 @@ export class OrderController {
         try {
             // body => {product, quantity}
             const product: IProduct = req.body.product;
-            const order = await this.orderRepo.findOne({ user: req.user.id, statePayment: false });
+            const order = await this.orderRepo.findOne({ user: req.user.id, statePayment: false, stateOrder: { $lt: 0 } });
             if (order) {
                 let carts = order.carts as ICart[];
                 const index = carts.findIndex(p => p.product == product.id);
@@ -114,7 +118,7 @@ export class OrderController {
     public async getOrderCart(req: any, res: Response) {
         try {
             const userId = req.user.id;
-            const order = await this.orderRepo.findOnePopulate({ user: userId, statePayment: false });
+            const order = await this.orderRepo.findOnePopulate({ user: userId, statePayment: false, stateOrder: { $lt: 0 } });
             if (order) {
                 return res.status(200).send({ order, cartEmpty: false });
             }
