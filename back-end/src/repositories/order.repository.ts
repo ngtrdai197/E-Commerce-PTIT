@@ -19,6 +19,10 @@ export class OrderRepository implements IOrderRepository {
         return await orderModel.find({});
     };
 
+    findWithFilter = async (query: any): Promise<IOrder[]> => {
+        return await orderModel.find(query);
+    };
+
     create = async (order: IOrder, cart?: ICart): Promise<any> => {
         return await orderModel.create(order);
     };

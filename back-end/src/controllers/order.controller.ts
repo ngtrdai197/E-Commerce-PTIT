@@ -127,4 +127,21 @@ export class OrderController {
             throw error;
         }
     }
+
+    // 0 đã đặt hàng - -1 chưa đặt hàng - 1 đã giao hàng
+    @httpGet('/filter', parser([constants.ROLES.ADMIN]))
+    public async getOrderWithFilter(req: any, res: Response) {
+        try {
+            const query = JSON.parse('"' + req.query.keyword + '"');
+            console.log(query);
+            const order = await this.orderRepo.findWithFilter({ statePayment: false, stateOrder: { $lt: 0 } });
+            if (order) {
+                return res.status(200).send({ order, cartEmpty: false });
+            }
+            return res.status(200).json({ cartEmpty: true });
+        } catch (error) {
+            throw error;
+        }
+    }
+
 }
