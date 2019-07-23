@@ -74,8 +74,6 @@ export class OrderCartService {
     }
 
     updateCart(order: any) {
-        console.log(1234);
-        
         this.http.put(`${API.HOST}/${API.ORDER.BASE}`, order).pipe(
             tap(transform => {
                 if (transform) {
@@ -87,8 +85,6 @@ export class OrderCartService {
                 }
             })
         ).subscribe(data => {
-            console.log(data);
-            
             this.spinner.hide();
             this.orders.next(data);
             this.toast.success('Đã cập nhật giỏ hàng.');
@@ -112,5 +108,21 @@ export class OrderCartService {
             .subscribe(data => {
                 this.orders.next(data["order"]);
             });
+    }
+
+    getOrdersWithFilter(stateOrder: number): Observable<any> {
+        return this.http
+            .get(`${API.HOST}/${API.ORDER.BASE}/filter?keyword={stateOrder:${stateOrder}}`)
+            .pipe(
+                tap(transform => {
+                    console.log(transform);
+                    
+                    // transform["order"].carts.map(order => {
+                    //     order.product.images = order.product.images.map(img => {
+                    //         return (img = `${API.HOST}/${img}`);
+                    //     });
+                    // });
+                })
+            );
     }
 }

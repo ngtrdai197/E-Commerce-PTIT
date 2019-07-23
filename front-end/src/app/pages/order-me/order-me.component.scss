@@ -1,0 +1,39 @@
+:host {
+  .order-me {
+    background: #eff0f4;
+
+    .order-item {
+      margin: 15px 0;
+      background: #fff;
+      padding: 15px 0;
+      box-shadow: 7px 8px 10px -7px;
+
+      .row {
+        .col-4 {
+          display: flex;
+
+          img {
+            width: 100px;
+            height: 100px;
+          }
+
+          span {
+            font-size: 14px;
+            padding-top: 10px;
+            padding-left: 15px;
+          }
+        }
+
+        .col-2 {
+          display: flex;
+
+          span {
+            font-size: 14px;
+            padding-top: 10px;
+            padding-left: 15px;
+          }
+        }
+      }
+    }
+  }
+}

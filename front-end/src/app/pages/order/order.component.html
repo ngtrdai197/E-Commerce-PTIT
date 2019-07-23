@@ -51,7 +51,7 @@
             <div class="quantity">Tạm tính: ( {{order?.carts.length}} sản phẩm )</div>
             <div class="payment">{{totalPayment}} đ</div>
           </div>
-          <div class="send-order mt-5">
+          <div class="send-order mt-5" *ngIf="order">
             <button class="btn btn-block btn-primary" (click)="confirmOrder()" *ngIf="stateOrder === -1">Xác nhận đặt hàng</button>
             <div class="p-3 mb-2 text-center bg-info text-white" *ngIf="stateOrder === 0">Đã đặt hàng</div>
           </div>

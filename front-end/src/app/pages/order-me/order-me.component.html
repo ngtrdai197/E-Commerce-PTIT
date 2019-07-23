@@ -1,16 +1,74 @@
 <shop-header></shop-header>
-<div class="container">
-  <div class="row">
-    <mat-horizontal-stepper>
-      <mat-step label="Step 1">
-        Content 1
-      </mat-step>
-      <mat-step label="Step 1">
-        Content 2
-      </mat-step>
-    </mat-horizontal-stepper>
+<section class="order-me">
+  <div class="container">
+    <div class="row">
+      <div class="col-12">
+        <h5 class="my-3">Đơn hàng của tôi</h5>
+        <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
+          <li class="nav-item">
+            <a class="nav-link active" id="pills-home-tab" data-toggle="pill" href="#pills-home" role="tab"
+              aria-controls="pills-home" aria-selected="true">Tất cả</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" id="pills-profile-tab" data-toggle="pill" href="#pills-profile" role="tab"
+              aria-controls="pills-profile" aria-selected="false">Chờ vận chuyển</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" id="pills-contact-tab" data-toggle="pill" href="#pills-contact" role="tab"
+              aria-controls="pills-contact" aria-selected="false">Chờ giao hàng</a>
+          </li>
+        </ul>
+        <div class="tab-content all-order" id="pills-tabContent">
+          <div class="tab-pane fade show active" id="pills-home" role="tabpanel" aria-labelledby="pills-home-tab">
+            <div class="order-item">
+              <div class="container-fluid">
+                <div class="row">
+                  <div class="col-4">
+                    <img src="https://vn-live-02.slatic.net/original/e7e75286b577a56382f9d00badeae4c4.jpg" alt="">
+                    <span>Dây khoá số loại lớn, đổi được mật mã.</span>
+                  </div>
+                  <div class="col-2">
+                    <span class="quantity"><span style="color: lightgray"> Qty</span>: 2</span>
+                  </div>
+                  <div class="col-2">
+                    <span class="delivered">Đã giao hàng</span>
+                  </div>
+                  <div class="col-4">
+                    <span class="time">Đã giao ngày 21 thg 12 2018</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="order-item">
+                <div class="container-fluid">
+                  <div class="row">
+                    <div class="col-4">
+                      <img src="https://vn-live-02.slatic.net/original/e7e75286b577a56382f9d00badeae4c4.jpg" alt="">
+                      <span>Dây khoá số loại lớn, đổi được mật mã.</span>
+                    </div>
+                    <div class="col-2">
+                      <span class="quantity"><span style="color: lightgray"> Qty</span>: 2</span>
+                    </div>
+                    <div class="col-2">
+                      <span class="delivered">Đã giao hàng</span>
+                    </div>
+                    <div class="col-4">
+                      <span class="time">Đã giao ngày 21 thg 12 2018</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+          </div>
+          <div class="tab-pane fade" id="pills-profile" role="tabpanel" aria-labelledby="pills-profile-tab">Chờ vận
+            chuyển
+          </div>
+          <div class="tab-pane fade" id="pills-contact" role="tabpanel" aria-labelledby="pills-contact-tab">Chờ giao
+            hàng
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
-</div>
 
-
+</section>
 <shop-footer></shop-footer>

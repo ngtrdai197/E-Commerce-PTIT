@@ -28,7 +28,7 @@ const routes: Routes = [
       { path: 'user-management', component: DashUserComponent, data: { animation: 'Dash-User' } },
       { path: 'product-management/:id', component: DashProductComponent, data: { animation: 'Dash-Product' } },
       { path: 'category-management', component: DashCategoryComponent, data: { animation: 'Dash-Category' } },
-      { path: 'order-management', component: OrderManagementComponent, data: { animation: 'Dash-Order' } }
+      { path: 'order-management/:status', component: OrderManagementComponent, data: { animation: 'Dash-Order' } }
     ]
   }
 ]
