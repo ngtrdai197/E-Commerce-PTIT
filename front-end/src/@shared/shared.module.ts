@@ -8,15 +8,20 @@ import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { DescriptionPipe } from './describe.pipe';
 import { RouterModule } from '@angular/router';
 import { SubTitlePipe } from './title-cart.pipe';
+import { ParserOrderPipe } from './order-name.pipe';
 
 @NgModule({
-  declarations: [FooterComponent, HeaderComponent, LayoutComponent, AnimationCpnDirective, DescriptionPipe, SubTitlePipe],
+  declarations: [
+    FooterComponent, HeaderComponent, LayoutComponent,
+    AnimationCpnDirective, DescriptionPipe, SubTitlePipe,
+    ParserOrderPipe
+  ],
   imports: [
     CommonModule,
     ReactiveFormsModule,
     FormsModule,
     RouterModule
   ],
-  exports: [HeaderComponent, FooterComponent, LayoutComponent, AnimationCpnDirective, DescriptionPipe, SubTitlePipe]
+  exports: [HeaderComponent, FooterComponent, LayoutComponent, AnimationCpnDirective, DescriptionPipe, SubTitlePipe, ParserOrderPipe]
 })
 export class SharedModule { }

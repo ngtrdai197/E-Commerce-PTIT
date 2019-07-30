@@ -62,19 +62,11 @@ export class Category {
     }
 
     @httpGet("/query")
-    public async categoryTypes(req: Request): Promise<any> {
+    public async categoryTypes(req: Request, res: Response): Promise<any> {
         try {
-            const data = await this.categoryRespository.findAll();
-            let pants: ICategory[] = [];
-            let shirts: ICategory[] = [];
-            data.filter(async x => {
-                if ((x.categoryName as string).toLocaleLowerCase().includes('quần')) {
-                    await pants.push(x);
-                } else {
-                    await shirts.push(x);
-                }
-            })
-            return Promise.resolve({ pants, shirts });
+            const data = await this.categoryRespository.findAllCategoryName();
+            if (!data) return res.status(404).json({ statusCode: 404, message: 'Danh mục sản phẩm không tồn tại' });
+            return res.status(200).send(data);
         } catch (error) {
             throw error;
         }

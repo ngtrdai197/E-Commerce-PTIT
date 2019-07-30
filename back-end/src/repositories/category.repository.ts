@@ -16,7 +16,11 @@ export class CategoryRepository implements ICategoryRepository {
   };
 
   findAll = async (): Promise<ICategory[]> => {
-    return await categoryModel.find({}).populate('products');
+    return await categoryModel.find().populate('products');
+  };
+
+  findAllCategoryName = async (): Promise<ICategory[]> => {
+    return await categoryModel.find();
   };
 
   updateMapping = async (query: any, id: string): Promise<ICategory> => {

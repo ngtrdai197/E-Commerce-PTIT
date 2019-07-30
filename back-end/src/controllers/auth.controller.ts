@@ -46,8 +46,6 @@ export class AuthController {
 
     @httpGet('/profile', parser([constants.ROLES.ADMIN, constants.ROLES.USER]))
     async getUserProfile(req: any): Promise<any> {
-        // console.log(req.user);
-
         return await this.userRepo.getUserProfile({ _id: req.user.id });
     }
 }

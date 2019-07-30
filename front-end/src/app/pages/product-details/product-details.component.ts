@@ -100,13 +100,10 @@ export class ProductDetailsComponent implements OnInit {
       product,
       quantity: this.count
     }
-    
     this.orderCartService.checkCart().subscribe(data => {
       if (!data['cartEmpty']) {
         this.orderCartService.updateCart(order);
       } else {
-        console.log('create');
-        
         this.orderCartService.createCart(order);
       }
     });
@@ -127,8 +124,7 @@ export class ProductDetailsComponent implements OnInit {
       if (data) {
         this.onLoadProduct(this.product.id);
       }
-
-    })
+    });
   }
 
   onLoadProduct(id: string) {
@@ -137,7 +133,7 @@ export class ProductDetailsComponent implements OnInit {
       this.feedbacks = this.product.feedback;
       this.feedbacks.map(x => {
         if (x.createdAtDate) {
-          x.createdAtDate = moment(x.createdAtDate).format('MMMM Do YYYY, h:mm a');
+          x.createdAtDate = moment(x.createdAtDate).format('DD-MM-YYYY HH:mm');
         }
       });
       this.spinner.hide();

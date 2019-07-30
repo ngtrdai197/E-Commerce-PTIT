@@ -6,6 +6,7 @@ export interface IOrder {
     completedDate?: string | Date;
     payments?: string; // hình thức thanh toán
     statePayment?: boolean; // trạng thái thanh toán
+    stateOrder?: string; // trang thai don hang
     carts?: ICart[];
     user?: string | IUser;
 }

@@ -20,7 +20,9 @@ export class OrderRepository implements IOrderRepository {
     };
 
     findWithFilter = async (query: any): Promise<IOrder[]> => {
-        return await orderModel.find(query);
+        return await orderModel.find(query)
+            .populate('carts.product')
+            .populate({ path: 'user', select: '-password' });
     };
 
     create = async (order: IOrder, cart?: ICart): Promise<any> => {
@@ -30,6 +32,10 @@ export class OrderRepository implements IOrderRepository {
     update = async (order: IOrder): Promise<any> => {
         return await orderModel.findByIdAndUpdate(order.id, order);
     };
+
+    updateState = async (orderId: string, query: any): Promise<any> => {
+        return await orderModel.findByIdAndUpdate(orderId, query);
+    }
 
     pushCart = async (orderId: string, cart?: ICart): Promise<any> => {
         await orderModel.update({ _id: orderId }, { $push: { carts: cart } });

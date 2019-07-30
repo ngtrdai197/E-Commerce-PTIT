@@ -1,5 +1,5 @@
 import { controller, httpPost, httpGet, httpPut } from "inversify-express-utils";
-import { Response } from "express";
+import { Response, Request } from "express";
 import { inject } from "inversify";
 import { TYPES, constants } from "../common";
 import { IOrderRepository, IUserRepository } from "../IRepositories";
@@ -14,7 +14,6 @@ export class OrderController {
         @inject(TYPES.IUserRepository) private userRepo: IUserRepository
     ) { }
 
-
     @httpPost('/confirm/order', parser([constants.ROLES.ADMIN, constants.ROLES.USER]))
     public async confirmOrders(req: any, res: Response) {
         try {
@@ -24,8 +23,6 @@ export class OrderController {
                 user,
                 order: req.body
             };
-            console.log(req.body);
-
             const result = await email.sendEmail(user.email as string, content);
             if (result) {
                 return res.status(200).send({ data: orderUpdated, message: 'Đặt hàng thành công' });
@@ -47,10 +44,16 @@ export class OrderController {
             };
             const order: IOrder = {
                 user: req.user.id,
-                stateOrder: -1
+                stateOrder: 'not-ordered'
             };
             const created = await this.orderRepo.create(order);
             const data = await this.orderRepo.pushCart(created.id as string, cart);
+            //update order to user
+            // const user = await this.userRepo.findOne(req.user.id);
+            // const orders = [];
+            // orders.push(created.id);
+            // (user.orders as string[]) = orders as string[];
+            // await this.userRepo.update(user);
             return res.status(200).send(data);
         } catch (error) {
             return res.status(500).send({ message: error.message });
@@ -63,7 +66,7 @@ export class OrderController {
         try {
             // body => {product, quantity}
             const product: IProduct = req.body.product;
-            const order = await this.orderRepo.findOne({ user: req.user.id, statePayment: false, stateOrder: { $lt: 0 } });
+            const order = await this.orderRepo.findOne({ user: req.user.id, statePayment: false, stateOrder: 'not-ordered' });
             if (order) {
                 let carts = order.carts as ICart[];
                 const index = carts.findIndex(p => p.product == product.id);
@@ -88,9 +91,30 @@ export class OrderController {
                     return res.status(200).send(data);
                 }
             }
-            return res.status(500).send({ message: 'Giỏ hàng không tồn tại. Kiểm tra lại!' });
+            return res.status(404).send({ message: 'Giỏ hàng không tồn tại. Kiểm tra lại!' });
         } catch (error) {
             return res.status(500).send({ message: error.message });
+        }
+    }
+
+    @httpPut('/state/:id', parser([constants.ROLES.ADMIN]))
+    public async updateStateOrder(req: Request, res: Response) {
+        try {
+            const orderId = req.params.id;
+            let query = {};
+            if (req.body.state === 'completed') {
+                query = { stateOrder: req.body.state, statePayment: true };
+            } else {
+                query = { stateOrder: req.body.state };
+            }
+            const updated = await this.orderRepo.updateState(orderId, query);
+            if (updated) {
+                const order = await this.orderRepo.findOne({ _id: orderId });
+                return res.status(200).send(order);
+            }
+            return res.status(400).json({ statusCode: 400, message: 'Cập nhật không thành công. Kiểm tra lại thông tin' });
+        } catch (error) {
+            return res.status(500).json({ statusCode: 500, message: error.message });
         }
     }
 
@@ -118,7 +142,7 @@ export class OrderController {
     public async getOrderCart(req: any, res: Response) {
         try {
             const userId = req.user.id;
-            const order = await this.orderRepo.findOnePopulate({ user: userId, statePayment: false, stateOrder: { $lt: 0 } });
+            const order = await this.orderRepo.findOnePopulate({ user: userId, statePayment: false, stateOrder: 'not-ordered' });
             if (order) {
                 return res.status(200).send({ order, cartEmpty: false });
             }
@@ -128,14 +152,18 @@ export class OrderController {
         }
     }
 
-    // 0 đã đặt hàng - -1 chưa đặt hàng - 1 đã giao hàng
     @httpGet('/filter', parser([constants.ROLES.ADMIN]))
     public async getOrderWithFilter(req: any, res: Response) {
         try {
-            const query = JSON.parse('"' + req.query.keyword + '"');
-            console.log(query);
-            const order = await this.orderRepo.findWithFilter({ statePayment: false, stateOrder: { $lt: 0 } });
-            if (order) {
+            const { stateOrder, statePayment } = req.query;
+            let query;
+            if (req.user.role === 'User') {
+                query = stateOrder === 'all' ? { user: req.user.id } : { user: req.user.id, statePayment: statePayment, stateOrder: stateOrder };
+            } else {
+                query = stateOrder === 'all' ? {} : { statePayment: statePayment, stateOrder: stateOrder };
+            }
+            const order = await this.orderRepo.findWithFilter(query);
+            if (order.length > 0) {
                 return res.status(200).send({ order, cartEmpty: false });
             }
             return res.status(200).json({ cartEmpty: true });

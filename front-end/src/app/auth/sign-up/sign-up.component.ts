@@ -4,6 +4,7 @@ import { IUser } from 'src/@core/interface/IUser.interface';
 import { UserService } from 'src/@core/services/user.service';
 import { ToastrService } from 'ngx-toastr';
 import { Router } from '@angular/router';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 
 @Component({
   selector: 'shop-sign-up',
@@ -12,22 +13,24 @@ import { Router } from '@angular/router';
 })
 export class SignUpComponent implements OnInit {
 
-  constructor(private title: Title, private userService: UserService, private toastService: ToastrService, private router: Router) { }
+  registerForm: FormGroup;
+  constructor(private title: Title, private userService: UserService,
+    private toastService: ToastrService, private router: Router,
+    private formBuilder: FormBuilder
+  ) { }
 
   ngOnInit() {
     this.onSetTitle();
+    this.buildForm();
   }
 
-  onSignUp(username, fullName, address, password, email, phone) {
-    const newUser: IUser = {
-      username, password, fullName, address, email, phone
-    };
-    this.userService.onCreateNewUser(newUser).subscribe(response => {
+  onSignUp() {
+    const newUser = this.registerForm.value;
+    this.userService.onCreateNewUser(newUser as IUser).subscribe(response => {
       if (response) {
-        console.log(response);
         this.toastService.success(`${response['message']}`, 'Thông báo');
         this.router.navigate(['auth/sign-in']);
-      } 
+      }
     }, err => {
       if (err) {
         this.toastService.error(`${err.error.message}`, 'Thông báo');
@@ -37,6 +40,17 @@ export class SignUpComponent implements OnInit {
 
   private onSetTitle() {
     this.title.setTitle('Đăng ký tài khoản');
+  }
+
+  private buildForm() {
+    this.registerForm = this.formBuilder.group({
+      username: ['', [Validators.required, Validators.minLength(8), Validators.maxLength(16)]],
+      password: ['', [Validators.required, Validators.minLength(8), Validators.maxLength(16)]],
+      fullName: ['', [Validators.required, Validators.minLength(8), Validators.maxLength(30)]],
+      phone: ['', [Validators.required]],
+      email: ['', [Validators.required, Validators.email]],
+      address: ['', [Validators.required]]
+    });
   }
 
 }

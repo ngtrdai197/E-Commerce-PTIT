@@ -11,16 +11,17 @@ import { ICategory } from 'src/@core/interface/ICategory.interface';
 export class SideMenuComponent implements OnInit {
 
   toggleSideBar = true;
-  categoryTypes: any;
+  categoryTypes: any[] = [];
   constructor(private categoryService: CategoryService) { }
 
   ngOnInit() {
     this.categoryService.onCategoryTypes().subscribe(data => {
       this.categoryTypes = data;
+      console.log(this.categoryTypes);
     });
   }
-  selectCategory(category: ICategory){
-    
+  selectCategory(category: ICategory) {
+
   }
 
 }

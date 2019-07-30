@@ -11,5 +11,6 @@ export abstract class IOrderRepository {
     abstract pullCart(orderId: string, cartId?: string): Promise<any>;
     abstract create(order: IOrder, cart?: ICart): Promise<IOrder>;
     abstract update(order: IOrder): Promise<IOrder>;
+    abstract updateState(orderId: string, query: any): Promise<any>;
     abstract delete(id: string): Promise<any>;
 }

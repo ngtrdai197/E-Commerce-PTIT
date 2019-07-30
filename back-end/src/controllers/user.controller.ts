@@ -53,13 +53,16 @@ export class UserController {
         const checkEmail = await this.userRepository.findOne({ email: user.email });
         if (!checkEmail) {
           user.password = await hashSync((user.password as string), 10);
-          return await this.userRepository.create(user);
+          const created = await this.userRepository.create(user);
+          if (created) {
+            return res.status(200).json({ statusCode: 200, message: 'Tạo tài khoản thành công!' });
+          }
         }
         return res.status(400).send('Email đã bị trùng');
       }
       return res.status(400).send('Username đã bị trùng');
     } catch (error) {
-      throw error;
+      return res.status(500).json({ statusCode: 500, message: error.message });
     }
   }
 
@@ -88,12 +91,15 @@ export class UserController {
     }
   }
 
-  @httpPut("/update", upload.any())
+  @httpPut("/update", upload.any(), parser([constants.ROLES.ADMIN, constants.ROLES.USER]))
   public async update(req: any): Promise<IUser> {
     try {
       const user = (req.body as IUser);
       if (req.files && req.files.length > 0) {
         user.avatar = `avatars/${req.files[0].filename}`;
+      }
+      if (user.password) {
+        user.password = await hashSync(user.password as string, 10);
       }
       return await this.userRepository.update(user);
     } catch (error) {

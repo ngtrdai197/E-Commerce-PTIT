@@ -7,6 +7,7 @@ import { IOrder } from 'src/@core/interface/IOrder.interface';
 import { Subscription } from 'rxjs';
 import { ToastrService } from 'ngx-toastr';
 import { NgxSpinnerService } from 'ngx-spinner';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'shop-order',
@@ -19,10 +20,11 @@ export class OrderComponent implements OnInit, OnDestroy {
   currentUser: IUser;
   totalPayment = 0;
   subscription: Subscription;
-  stateOrder = -1;
+  stateOrder = '';
   constructor(private title: Title,
     private orderCartService: OrderCartService, private jwtService: JwtService,
-    private toast: ToastrService, private spinner: NgxSpinnerService
+    private toast: ToastrService, private spinner: NgxSpinnerService,
+    private router: Router
 
   ) { }
 
@@ -45,9 +47,9 @@ export class OrderComponent implements OnInit, OnDestroy {
     this.spinner.show();
     this.orderCartService.confirmOrder(this.order).subscribe(data => {
       if (data) {
-        this.stateOrder = data.stateOrder;
         this.spinner.hide();
         this.toast.success(data.message);
+        this.router.navigate(['']);
       }
     }, err => console.log(err));
   }

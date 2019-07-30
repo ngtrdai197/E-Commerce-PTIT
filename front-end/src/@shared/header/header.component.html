@@ -16,7 +16,7 @@
               (Admin)</a>
             <a class="dropdown-item" data-toggle="modal" data-target="#inforUser" (click)="uploadProfile()">Thông tin cá
               nhân</a>
-              <a class="dropdown-item" routerLink="/my-order">Đơn hàng của tôi</a>
+            <a class="dropdown-item" routerLink="/my-order" *ngIf="currentUser?.role != role.ADMIN">Đơn hàng của tôi</a>
             <a class="dropdown-item" (click)="onSignOut()">Đăng xuất</a>
           </div>
         </li>
@@ -49,16 +49,16 @@
         </div>
         <div class="col-md-3 clearfix">
           <div class="header-ctn">
-            <div>
+            <!-- <div>
               <a href="#">
                 <i class="fa fa-heart-o"></i>
                 <span>Your Wishlist</span>
                 <div class="qty">2</div>
               </a>
-            </div>
+            </div> -->
             <div class="dropdown">
               <a class="dropdown-toggle" data-toggle="dropdown" role="button" id="dropdownMenuLink"
-                aria-expanded="false" style="cursor: pointer;">
+                aria-expanded="false" style="cursor: pointer;" *ngIf="currentUser?.role !== role.ADMIN">
                 <i class="fa fa-shopping-cart"></i>
                 <span>Your Cart</span>
                 <div class="qty">{{totalOrders}}</div>

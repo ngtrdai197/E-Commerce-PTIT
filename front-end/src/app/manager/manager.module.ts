@@ -20,6 +20,7 @@ import { DialogDashProductComponent } from './dialog-dash-product/dialog-dash-pr
 import { SharedModule } from 'src/@shared/shared.module';
 import { OrderManagementComponent } from './order-management/order-management.component';
 import { NgxSpinnerModule } from 'ngx-spinner';
+import { MDBBootstrapModule } from 'angular-bootstrap-md';
 
 const routes: Routes = [
   {
@@ -28,7 +29,7 @@ const routes: Routes = [
       { path: 'user-management', component: DashUserComponent, data: { animation: 'Dash-User' } },
       { path: 'product-management/:id', component: DashProductComponent, data: { animation: 'Dash-Product' } },
       { path: 'category-management', component: DashCategoryComponent, data: { animation: 'Dash-Category' } },
-      { path: 'order-management/:status', component: OrderManagementComponent, data: { animation: 'Dash-Order' } }
+      { path: 'order-management/:state', component: OrderManagementComponent, data: { animation: 'Dash-Order' } }
     ]
   }
 ]
@@ -39,10 +40,12 @@ const routes: Routes = [
     DashboardComponent, DashboardContentComponent,
     DashUserComponent, DashProductComponent,
     DialogDashUserComponent, DashCategoryComponent,
-    DialogDashCategoryComponent, DialogDashProductComponent, OrderManagementComponent
+    DialogDashCategoryComponent, DialogDashProductComponent, 
+    OrderManagementComponent
   ],
   imports: [
     CommonModule,
+    MDBBootstrapModule,
     NgxSpinnerModule,
     FormsModule,
     SharedModule,

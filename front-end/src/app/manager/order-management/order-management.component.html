@@ -1,1 +1,77 @@
-<p>order-management works!</p>
+<ngx-spinner bdColor="rgba(51,51,51,0.8)" size="medium" color="#fff" type="ball-scale-multiple">
+</ngx-spinner>
+<div class="container">
+  <div class="row">
+    <div class="col-sm-6 col-md-6 col-lg-4 col-xl-3 mb-4" *ngFor="let order of orders">
+      <mdb-card>
+        <mdb-card-body>
+          <mdb-card-title>
+            <h4>{{order?.stateOrder | parserorder}}</h4>
+          </mdb-card-title>
+          <mdb-card-text>{{order?.payments}}</mdb-card-text>
+          <div>KH: {{order?.user?.fullName}}</div>
+          <div>Email: {{order?.user?.email}}</div>
+          <div>Phone: {{order?.user?.phone}}</div>
+          <div>Address: {{order?.user?.address}}</div>
+          <div>Ngày tạo đơn: {{order?.createdDate | date:'dd/MM/yyyy, hh:mm:a'}}</div>
+          <a mdbBtn color="primary" class="d-flex justify-content-center" data-toggle="modal"
+            data-target="#order-details" mdbWavesEffect (click)="onShowOrderDetails(order)">Chi tiết</a>
+        </mdb-card-body>
+      </mdb-card>
+    </div>
+  </div>
+</div>
+
+<div class="not-order" *ngIf="cartEmpty && actionFilter === 'delivered'">
+  Hiện tại chưa có đơn hàng nào đang được chuyển đi
+</div>
+<div class="not-order" *ngIf="cartEmpty && actionFilter === 'ordered'">
+  Hiện tại chưa có đơn hàng nào đang được xác nhận đặt
+</div>
+<div class="not-order" *ngIf="cartEmpty && actionFilter === 'not-ordered'">
+  Hiện tại chưa có đơn hàng nào được tạo
+</div>
+<div class="not-order" *ngIf="cartEmpty && actionFilter === 'completed'">
+  Hiện tại chưa có đơn hàng nào được giao thành công
+</div>
+<!-- Modal -->
+<div class="modal fade" id="order-details" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+  aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Chi tiết đơn hàng</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form [formGroup]="orderDetailsForm">
+          <label for="">Tên khách hàng</label>
+          <input type="text" class="form-control" autocomplete="" formControlName="fullName" readonly>
+          <label for="">Địa chỉ khách hàng</label>
+          <input type="text" class="form-control" autocomplete="" formControlName="address" readonly>
+          <label for="">Email khách hàng</label>
+          <input type="text" class="form-control" autocomplete="" formControlName="email" readonly>
+          <label for="">Số điện thoại khách hàng</label>
+          <input type="text" class="form-control" autocomplete="" formControlName="phone" readonly>
+          <label for="">Hình thức thanh toán</label>
+          <input type="text" class="form-control" autocomplete="" formControlName="payments">
+          <label for="">Trạng thái đặt hàng</label>
+          <select class="form-control" formControlName="stateOrder">
+            <option value="ordered" class="w-100">Đã đặt hàng</option>
+            <option value="not-ordered" class="w-100">Chưa đặt hàng</option>
+            <option value="delivered" class="w-100">Đang chuyển hàng</option>
+            <option value="completed" class="w-100">Đã giao hàng thành công</option>
+          </select>
+          <label for="">Trạng thái thanh toán</label>
+          <input type="text" class="form-control" autocomplete="" formControlName="statePayment">
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary" data-dismiss="modal" (click)="updateOrder()">Save changes</button>
+      </div>
+    </div>
+  </div>
+</div>

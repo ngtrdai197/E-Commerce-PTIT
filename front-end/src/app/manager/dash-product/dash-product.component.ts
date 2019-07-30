@@ -142,12 +142,18 @@ export class DashProductComponent implements OnInit {
 
   onUpdateProduct() {
     const payload = new FormData();
+    if (this.editForm.value.discount) {
+      payload.append('discount', this.editForm.value.discount);
+    }
+    if (this.editForm.value.description) {
+      payload.append('description', this.editForm.value.description);
+    }
+    if (this.editForm.value.oldPrice) {
+      payload.append('oldPrice', this.editForm.value.oldPrice);
+    }
     payload.append('productName', this.editForm.value.name);
     payload.append('category', this.categoryId);
     payload.append('currentPrice', this.editForm.value.currentPrice);
-    payload.append('oldPrice', this.editForm.value.oldPrice);
-    payload.append('description', this.editForm.value.description);
-    payload.append('discount', this.editForm.value.discount);
     payload.append('title', this.editForm.value.title);
     payload.append('productTotal', this.editForm.value.productTotal);
     payload.append('sex', this.editForm.value.sex);
@@ -178,7 +184,7 @@ export class DashProductComponent implements OnInit {
     });
   }
 
-  applyFilter(filterValue: string) {    
+  applyFilter(filterValue: string) {
     this.dataSource.filter = filterValue.trim().toLowerCase();
   }
 

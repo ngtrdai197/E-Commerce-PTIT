@@ -37,32 +37,17 @@
       <div class="bg-white py-2 collapse-inner rounded">
         <h6 class="collapse-header">Order management</h6>
         <a class="collapse-item" routerLinkActive="active-link" [routerLinkActiveOptions]="{exact:
-        true}" [routerLink]="['/admin/dash-board/order-management', true]">Đang đặt hàng</a>
+        true}" [routerLink]="['/admin/dash-board/order-management', 'ordered']">Đang đặt hàng</a>
         <a class="collapse-item" routerLinkActive="active-link" [routerLinkActiveOptions]="{exact:
-        true}" [routerLink]="['/admin/dash-board/order-management', false]">Đã giao hàng</a>
+        true}" [routerLink]="['/admin/dash-board/order-management', 'completed']">Đã giao hàng</a>
+        <a class="collapse-item" routerLinkActive="active-link" [routerLinkActiveOptions]="{exact:
+          true}" [routerLink]="['/admin/dash-board/order-management', 'not-ordered']">Chưa đặt hàng</a><a
+          class="collapse-item" routerLinkActive="active-link" [routerLinkActiveOptions]="{exact:
+            true}" [routerLink]="['/admin/dash-board/order-management', 'delivered']">Đang chuyển hàng</a>
       </div>
     </div>
   </li>
 
-  <!-- Nav Item - Utilities Collapse Menu -->
-  <li class="nav-item">
-    <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseUtilities" aria-expanded="true"
-      aria-controls="collapseUtilities">
-      <i class="fas fa-fw fa-wrench"></i>
-      <span>Utilities</span>
-    </a>
-    <div id="collapseUtilities" class="collapse" aria-labelledby="headingUtilities" data-parent="#accordionSidebar">
-      <div class="bg-white py-2 collapse-inner rounded">
-        <h6 class="collapse-header">Custom Utilities:</h6>
-        <a class="collapse-item" href="utilities-color.html">Colors</a>
-        <a class="collapse-item" href="utilities-border.html">Borders</a>
-        <a class="collapse-item" href="utilities-animation.html">Animations</a>
-        <a class="collapse-item" href="utilities-other.html">Other</a>
-      </div>
-    </div>
-  </li>
-
-  <!-- Divider -->
   <hr class="sidebar-divider" />
 
   <!-- Heading -->
@@ -79,17 +64,13 @@
     </a>
     <div id="collapsePages" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
       <div class="bg-white py-2 collapse-inner rounded">
-        <h6 class="collapse-header">Quần: </h6>
-        <a class="collapse-item" *ngFor="let item of categoryTypes?.pants" routerLinkActive="active-link"
-          [routerLinkActiveOptions]="{exact:
-          true}" [routerLink]="['/admin/dash-board/product-management',item._id ]"
-          (click)="selectCategory(item)">{{item.categoryName}}</a>
-        <div class="collapse-divider"></div>
-        <h6 class="collapse-header">Áo:</h6>
-        <a class="collapse-item" *ngFor="let item of categoryTypes?.shirts" routerLinkActive="active-link"
-          [routerLinkActiveOptions]="{exact:
-          true}" [routerLink]="['/admin/dash-board/product-management',item._id ]"
-          (click)="selectCategory(item)">{{item.categoryName}}</a>
+        <ng-container *ngFor="let item of categoryTypes">
+          <h6 class="collapse-header">{{item?.categoryName}}: </h6>
+          <a class="collapse-item" routerLinkActive="active-link" [routerLinkActiveOptions]="{exact:
+          true}" [routerLink]="['/admin/dash-board/product-management',item.id ]"
+            (click)="selectCategory(item)">{{item.categoryName}}</a>
+          <div class="collapse-divider"></div>
+        </ng-container>
       </div>
     </div>
   </li>
@@ -110,13 +91,6 @@
     true}">
       <i class="fas fa-fw fa-table"></i>
       <span>Danh mục sản phẩm</span></a>
-  </li>
-  <li class="nav-item">
-    <a class="nav-link" routerLink="/admin/dash-board/order-management" routerLinkActive="active-link"
-      [routerLinkActiveOptions]="{exact:
-    true}">
-      <i class="fas fa-fw fa-table"></i>
-      <span>Quản lý đơn hàng</span></a>
   </li>
   <!-- Divider -->
   <hr class="sidebar-divider d-none d-md-block" />

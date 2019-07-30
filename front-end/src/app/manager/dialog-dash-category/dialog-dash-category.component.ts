@@ -12,51 +12,49 @@ import { ICategory } from 'src/@core/interface/ICategory.interface';
 })
 export class DialogDashCategoryComponent implements OnInit {
 
-  categoryName: String;
   constructor(
     public dialogRef: MatDialogRef<DialogDashCategoryComponent>,
     @Inject(MAT_DIALOG_DATA) public data: IDialogCategory,
     private toastService: ToastrService,
     private categoryService: CategoryService
-  ) {
-    this.onCheckData();
-  }
+  ) { }
 
   ngOnInit() {
   }
 
-  onCheckData() {
-    if (this.data.category) {
-      this.categoryName = this.data.category.categoryName;
-    }
-  }
-
   onUpdate() {
-    this.data.category.categoryName = this.categoryName;
+    if (!this.data.category.categoryName) {
+      this.toastService.warning('Cập nhật tên danh mục không được để  trống. Kiểm tra lại');
+      return;
+    }
     this.categoryService.onUpdateCategory(this.data.category).subscribe(response => {
       if (response) {
         this.toastService.success(`Cập nhật danh mục thành công`);
-        this.dialogRef.close();
       }
     }, err => {
       if (err) {
         this.toastService.error(`${err.error.message}`, 'Thông báo');
       }
-    })
+    });
+    this.dialogRef.close();
   }
   onAddNewCategory(categoryName: string) {
+    if (!categoryName) {
+      this.toastService.warning('Chưa nhập tên cho danh mục sản phẩm');
+      return;
+    }
     const category: ICategory = {
       categoryName
     }
     this.categoryService.onAddCategory(category).subscribe(response => {
       if (response) {
         this.toastService.success(`Thêm danh mục thành công`);
-        this.dialogRef.close();
       }
     }, err => {
       if (err) {
         this.toastService.error(`${err.error.message}`, 'Thông báo');
       }
-    })
+    });
+    this.dialogRef.close();
   }
 }

@@ -19,7 +19,7 @@ export class OrderCartService {
     }
 
     confirmOrder(order: any): Observable<any> {
-        order.stateOrder = 0;
+        order.stateOrder = 'ordered';
         return this.http.post(`${API.HOST}/${API.ORDER.BASE}/confirm/order`, order);
     }
 
@@ -110,19 +110,26 @@ export class OrderCartService {
             });
     }
 
-    getOrdersWithFilter(stateOrder: number): Observable<any> {
+    getOrdersWithFilter(state: string, payment: boolean): Observable<any> {
         return this.http
-            .get(`${API.HOST}/${API.ORDER.BASE}/filter?keyword={stateOrder:${stateOrder}}`)
+            .get(`${API.HOST}/${API.ORDER.BASE}/filter?stateOrder=${state}&statePayment=${payment}`)
             .pipe(
                 tap(transform => {
-                    console.log(transform);
-                    
-                    // transform["order"].carts.map(order => {
-                    //     order.product.images = order.product.images.map(img => {
-                    //         return (img = `${API.HOST}/${img}`);
-                    //     });
-                    // });
+                    if (!transform['cartEmpty']) {
+                        transform["order"].map((order: any) => {
+                            order.carts.map((cart: any) => {
+                                cart.product.images = cart.product.images.map((img: string) => {
+                                    return (img = `${API.HOST}/${img}`);
+                                });
+                            });
+                        });
+                    }
                 })
             );
+    }
+
+    updateStateOrder(orderId: string, state: string): Observable<any> {
+        const body = { state };
+        return this.http.put<any>(`${API.HOST}/${API.ORDER.BASE}/state/${orderId}`, body);
     }
 }
