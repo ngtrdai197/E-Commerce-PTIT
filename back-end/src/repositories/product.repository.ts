@@ -9,8 +9,20 @@ export class ProductRepository implements IProductRepository {
         return product as IProduct;
     };
 
-    search = async (keyword: string): Promise<IProduct[]> => {
-        return await productModel.find({ textSlug: { $regex: keyword, $options: "i" }, isDeleted: false });
+    search = async (query: any): Promise<any> => {
+        const products = await productModel
+            .find({ textSlug: { $regex: query.keyword, $options: "i" }, isDeleted: false })
+            .sort({ currentPrice: query.sort })
+            .skip((query.page * query.perPage) - query.perPage)
+            .limit(query.perPage);
+        const counter = await productModel.count({ textSlug: { $regex: query.keyword, $options: "i" }, isDeleted: false });
+        const result = {
+            products,
+            current: query.page,
+            total: counter,
+            pages: Math.ceil(counter / query.perPage)
+        }
+        return Promise.resolve(result);
     }
 
     relatedProduct = async (query: any): Promise<IProduct[]> => {

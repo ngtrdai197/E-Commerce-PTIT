@@ -7,6 +7,7 @@ import { Request, Response } from "express";
 import { upload } from "../multer";
 import { unlink } from 'fs';
 import { parser } from "../middleware";
+import { toSlug } from '../common/slug';
 
 @controller("/product")
 export class Product {
@@ -74,7 +75,9 @@ export class Product {
         try {
             const { body } = req;
             body.sex = +body.sex; // if sex is string => parse to number
-            const product = await this.productRepo.create(body);
+            const p: IProduct = body;
+            p.textSlug = toSlug(p.title as string);
+            const product = await this.productRepo.create(p);
             const query = { $push: { products: product } };
             await this.categoryRepo.updateMapping(query, product.category as string);
             return product;

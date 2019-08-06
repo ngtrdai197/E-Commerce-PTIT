@@ -8,6 +8,6 @@ export abstract class IProductRepository {
     abstract create(product: IProduct): Promise<IProduct>;
     abstract update(product: IProduct, feedback?: IFeedback): Promise<IProduct>;
     abstract delete(id: string): Promise<any>;
-    abstract search(keyword: string): Promise<IProduct[]>;
+    abstract search(query: any): Promise<IProduct[]>;
     abstract relatedProduct(query: any): Promise<IProduct[]>;
 }

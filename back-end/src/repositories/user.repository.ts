@@ -5,7 +5,7 @@ import { IUser, userModel } from "../entities";
 @injectable()
 export class UserRepository implements IUserRepository {
   findOne = async (query: any): Promise<IUser> => {
-    const user = await userModel.findOne(query).select('-__v -password');
+    const user = await userModel.findOne(query).select('-__v');
     return user as IUser;
   };
 
