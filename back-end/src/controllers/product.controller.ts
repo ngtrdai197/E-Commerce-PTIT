@@ -16,9 +16,14 @@ export class Product {
     ) { }
 
     @httpGet('/')
-    public async findAll(): Promise<IProduct[]> {
+    public async findAll(): Promise<IProduct[] | any> {
         try {
-            return await this.productRepo.findAll({});
+            const query = { isDeleted: false };
+            const products = await this.productRepo.findAll(query);
+            // products.map(async p => {
+            //     await this.productRepo.update(p);
+            // })
+            return products;
         } catch (error) {
             throw error;
         }
@@ -55,11 +60,12 @@ export class Product {
     }
 
     @httpGet("/category/:id")
-    public async findByCategory(@requestParam('id') id: string): Promise<IProduct[]> {
+    public async findByCategory(@requestParam('id') id: string, res: Response) {
         try {
-            return await this.productRepo.findAll({ category: id });
+            const products = await this.productRepo.findAll({ category: id, isDeleted: false });
+            return res.status(200).send(products);
         } catch (error) {
-            throw error;
+            return res.status(500).json({ statusCode: 500, message: error.message });
         }
     }
 
@@ -111,16 +117,23 @@ export class Product {
         }
     }
 
+
+    // không cho xóa sản phẩm nếu đang tồn tại ở 1 giỏ hàng nào đó !
     @httpDelete('/:id')
-    public async delete(req: Request): Promise<any> {
+    public async delete(req: Request, res: Response): Promise<any> {
         try {
             const { id } = req.params;
             const product = await this.productRepo.findOne({ _id: id });
             if (product) {
+                product.isDeleted = true;
                 const query = { $pull: { products: { $in: id } } };
                 await this.categoryRepo.updateMapping(query, product.category as string);
+                const updated = await this.productRepo.update(product);
+                if (updated) {
+                    return res.status(200).json({ isDeleted: true, message: `Successfully deleted product with id: ${id}` })
+                }
             }
-            return await this.productRepo.delete(id);
+            return res.status(400).json({ statusCode: 400, message: 'Xóa thất bại. Kiểm tra lại' });
         } catch (error) {
             throw error;
         }

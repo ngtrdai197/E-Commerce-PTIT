@@ -40,12 +40,27 @@
               padding: 8px 12px;
               a {
                 color: #fff;
+                cursor: pointer;
                 &.active {
                   border: none;
                   color: #333;
                 }
                 &:hover {
                   border: none;
+                }
+              }
+              &.show-more-catalog {
+                a {
+                  cursor: pointer;
+                  color: #333;
+                  &.active{
+                    background: #4285f4;
+                    color: #fff; 
+                  }
+                  &:hover{
+                    color: #fff;
+                    background: #4285f4;
+                  }
                 }
               }
             }

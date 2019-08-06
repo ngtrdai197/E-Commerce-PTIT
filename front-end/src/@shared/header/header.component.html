@@ -42,8 +42,8 @@
                 <option value="1">Category 01</option>
                 <option value="1">Category 02</option>
               </select>
-              <input class="input" placeholder="Search here">
-              <button class="search-btn">Search</button>
+              <input class="input" #search (keyup.enter)="onSearch(search.value)" placeholder="Search here">
+              <button class="search-btn" (click)="onSearch(search.value)">Search</button>
             </form>
           </div>
         </div>
@@ -100,60 +100,36 @@
     </div>
   </div>
 </header>
-<section>
-  <!--Navbar-->
-  <nav class="navbar navbar-expand-lg navbar-dark primary-color">
-
-    <!-- Navbar brand -->
-    <a class="navbar-brand" routerLink="/home">Navbar</a>
-
-    <!-- Collapse button -->
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#basicExampleNav"
-      aria-controls="basicExampleNav" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-
-    <!-- Collapsible content -->
-    <div class="collapse navbar-collapse" id="basicExampleNav">
-
-      <!-- Links -->
-      <ul class="navbar-nav mr-auto">
-        <li class="nav-item active">
-          <a class="nav-link" routerLink="/home">Home
-            <span class="sr-only">(current)</span>
-          </a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="#">Features</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="#">Pricing</a>
-        </li>
-
-        <!-- Dropdown -->
-        <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true"
-            aria-expanded="false">Dropdown</a>
-          <div class="dropdown-menu dropdown-primary" aria-labelledby="navbarDropdownMenuLink">
-            <a class="dropdown-item" href="#">Action</a>
-            <a class="dropdown-item" href="#">Another action</a>
-            <a class="dropdown-item" href="#">Something else here</a>
-          </div>
-        </li>
-
-      </ul>
-      <!-- Links -->
-
-      <form class="form-inline">
-        <div class="md-form my-0">
-          <input class="form-control mr-sm-2" type="text" placeholder="Search" aria-label="Search">
+<section style="background: #4285f4 !important;">
+  <div class="container">
+    <div class="row justify-content-center">
+      <nav class="navbar navbar-expand-lg navbar-dark primary-color">
+        <a class="navbar-brand" routerLink="/home">Shop 3S</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#basicExampleNav"
+          aria-controls="basicExampleNav" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="basicExampleNav">
+          <ul class="navbar-nav mr-auto">
+            <li class="nav-item active">
+              <a class="nav-link" routerLink="/home">Trang chủ
+                <span class="sr-only">(current)</span>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">Danh mục sản phẩm</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" routerLink="/contact">Liên hệ</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">Giới thiệu</a>
+            </li>
+          </ul>
         </div>
-      </form>
+      </nav>
     </div>
-    <!-- Collapsible content -->
-
-  </nav>
-  <!--/.Navbar-->
+  </div>
 
 </section>
 
@@ -173,26 +149,41 @@
           <div class="form-group">
             <label for="">User name</label>
             <input type="text" class="form-control" disabled formControlName="username" aria-describedby="helpId">
+            <div class="alert alert-danger mt-1 py-1 mb-0"
+              *ngIf="editForm.controls['username'].invalid && (editForm.controls['username'].dirty || editForm.controls['username'].touched)">
+              Username không được để trống</div>
           </div>
           <div class="form-group">
             <label for="">Họ tên</label>
             <input type="text" class="form-control" formControlName="fullName" aria-describedby="helpId">
+            <div class="alert alert-danger mt-1 py-1 mb-0"
+              *ngIf="editForm.controls['fullName'].invalid && (editForm.controls['fullName'].dirty || editForm.controls['fullName'].touched)">
+              Họ tên không được để trống</div>
           </div>
           <div class="form-group">
             <label for="">Địa chỉ</label>
             <input type="text" class="form-control" formControlName="address" aria-describedby="helpId">
+            <div class="alert alert-danger mt-1 py-1 mb-0"
+              *ngIf="editForm.controls['address'].invalid && (editForm.controls['address'].dirty || editForm.controls['address'].touched)">
+              Địa chỉ không được để trống</div>
           </div>
           <div class="form-group">
             <label for="">Số điện thoại</label>
             <input type="text" class="form-control" formControlName="phone" aria-describedby="helpId">
+            <div class="alert alert-danger mt-1 py-1 mb-0"
+              *ngIf="editForm.controls['phone'].invalid && (editForm.controls['phone'].dirty || editForm.controls['phone'].touched)">
+              Số điện thoại không được để trống</div>
           </div>
           <div class="form-group">
             <label for="">Email</label>
             <input type="email" class="form-control" formControlName="email" aria-describedby="helpId">
+            <div class="alert alert-danger mt-1 py-1 mb-0"
+              *ngIf="editForm.controls['email'].invalid && (editForm.controls['email'].dirty || editForm.controls['email'].touched)">
+              Email không được để trống</div>
           </div>
           <div class="cover-button d-flex">
-            <a name="" id="" class="btn btn-primary" data-dismiss="modal" (click)="updateUserProfile()"
-              role="button">Cập nhật</a>
+            <button name="" id="" class="btn btn-primary" [disabled]="!editForm.valid" data-dismiss="modal"
+              (click)="updateUserProfile()" role="button">Cập nhật</button>
             <a name="" id="" class="btn btn-danger" data-dismiss="modal" role="button">Hủy bỏ</a>
           </div>
         </form>

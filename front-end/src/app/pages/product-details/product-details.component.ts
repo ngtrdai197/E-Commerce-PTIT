@@ -6,6 +6,7 @@ import { OrderCartService } from 'src/@core/services/order-cart.service';
 import { ToastrService } from 'ngx-toastr';
 import * as moment from 'moment';
 import { NgxSpinnerService } from 'ngx-spinner';
+import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms';
 
 @Component({
   selector: 'shop-product-details',
@@ -14,70 +15,73 @@ import { NgxSpinnerService } from 'ngx-spinner';
 })
 export class ProductDetailsComponent implements OnInit {
 
-  cards = [
-    {
-      title: 'Card Title 1',
-      description: 'Some quick example text to build on the card title and make up the bulk of the card content',
-      buttonText: 'Button',
-      img: 'https://mdbootstrap.com/img/Photos/Horizontal/Nature/4-col/img%20(34).jpg'
-    },
-    {
-      title: 'Card Title 2',
-      description: 'Some quick example text to build on the card title and make up the bulk of the card content',
-      buttonText: 'Button',
-      img: 'https://mdbootstrap.com/img/Photos/Horizontal/Nature/4-col/img%20(34).jpg'
-    },
-    {
-      title: 'Card Title 3',
-      description: 'Some quick example text to build on the card title and make up the bulk of the card content',
-      buttonText: 'Button',
-      img: 'https://mdbootstrap.com/img/Photos/Horizontal/Nature/4-col/img%20(34).jpg'
-    },
-    {
-      title: 'Card Title 4',
-      description: 'Some quick example text to build on the card title and make up the bulk of the card content',
-      buttonText: 'Button',
-      img: 'https://mdbootstrap.com/img/Photos/Horizontal/Nature/4-col/img%20(34).jpg'
-    },
-    {
-      title: 'Card Title 5',
-      description: 'Some quick example text to build on the card title and make up the bulk of the card content',
-      buttonText: 'Button',
-      img: 'https://mdbootstrap.com/img/Photos/Horizontal/Nature/4-col/img%20(34).jpg'
-    },
-    {
-      title: 'Card Title 6',
-      description: 'Some quick example text to build on the card title and make up the bulk of the card content',
-      buttonText: 'Button',
-      img: 'https://mdbootstrap.com/img/Photos/Horizontal/Nature/4-col/img%20(34).jpg'
-    },
-    {
-      title: 'Card Title 7',
-      description: 'Some quick example text to build on the card title and make up the bulk of the card content',
-      buttonText: 'Button',
-      img: 'https://mdbootstrap.com/img/Photos/Horizontal/Nature/4-col/img%20(34).jpg'
-    },
-    {
-      title: 'Card Title 8',
-      description: 'Some quick example text to build on the card title and make up the bulk of the card content',
-      buttonText: 'Button',
-      img: 'https://mdbootstrap.com/img/Photos/Horizontal/Nature/4-col/img%20(34).jpg'
-    },
-    {
-      title: 'Card Title 9',
-      description: 'Some quick example text to build on the card title and make up the bulk of the card content',
-      buttonText: 'Button',
-      img: 'https://mdbootstrap.com/img/Photos/Horizontal/Nature/4-col/img%20(34).jpg'
-    },
-  ];
+  // cards = [
+  //   {
+  //     title: 'Card Title 1',
+  //     description: 'Some quick example text to build on the card title and make up the bulk of the card content',
+  //     buttonText: 'Button',
+  //     img: 'https://mdbootstrap.com/img/Photos/Horizontal/Nature/4-col/img%20(34).jpg'
+  //   },
+  //   {
+  //     title: 'Card Title 2',
+  //     description: 'Some quick example text to build on the card title and make up the bulk of the card content',
+  //     buttonText: 'Button',
+  //     img: 'https://mdbootstrap.com/img/Photos/Horizontal/Nature/4-col/img%20(34).jpg'
+  //   },
+  //   {
+  //     title: 'Card Title 3',
+  //     description: 'Some quick example text to build on the card title and make up the bulk of the card content',
+  //     buttonText: 'Button',
+  //     img: 'https://mdbootstrap.com/img/Photos/Horizontal/Nature/4-col/img%20(34).jpg'
+  //   },
+  //   {
+  //     title: 'Card Title 4',
+  //     description: 'Some quick example text to build on the card title and make up the bulk of the card content',
+  //     buttonText: 'Button',
+  //     img: 'https://mdbootstrap.com/img/Photos/Horizontal/Nature/4-col/img%20(34).jpg'
+  //   },
+  //   {
+  //     title: 'Card Title 5',
+  //     description: 'Some quick example text to build on the card title and make up the bulk of the card content',
+  //     buttonText: 'Button',
+  //     img: 'https://mdbootstrap.com/img/Photos/Horizontal/Nature/4-col/img%20(34).jpg'
+  //   },
+  //   {
+  //     title: 'Card Title 6',
+  //     description: 'Some quick example text to build on the card title and make up the bulk of the card content',
+  //     buttonText: 'Button',
+  //     img: 'https://mdbootstrap.com/img/Photos/Horizontal/Nature/4-col/img%20(34).jpg'
+  //   },
+  //   {
+  //     title: 'Card Title 7',
+  //     description: 'Some quick example text to build on the card title and make up the bulk of the card content',
+  //     buttonText: 'Button',
+  //     img: 'https://mdbootstrap.com/img/Photos/Horizontal/Nature/4-col/img%20(34).jpg'
+  //   },
+  //   {
+  //     title: 'Card Title 8',
+  //     description: 'Some quick example text to build on the card title and make up the bulk of the card content',
+  //     buttonText: 'Button',
+  //     img: 'https://mdbootstrap.com/img/Photos/Horizontal/Nature/4-col/img%20(34).jpg'
+  //   },
+  //   {
+  //     title: 'Card Title 9',
+  //     description: 'Some quick example text to build on the card title and make up the bulk of the card content',
+  //     buttonText: 'Button',
+  //     img: 'https://mdbootstrap.com/img/Photos/Horizontal/Nature/4-col/img%20(34).jpg'
+  //   },
+  // ];
   slides: any = [[]];
+  relatedProduct: IProduct[] = [];
   product: IProduct;
   feedbacks: IFeedback[];
   count = 0;
   isLogin = localStorage.getItem('x-access-token');
+  feedbackForm: FormGroup;
   constructor(private activatedRoute: ActivatedRoute,
     private productService: ProductService, private spinner: NgxSpinnerService,
     private orderCartService: OrderCartService, private toast: ToastrService,
+    private formBuilder: FormBuilder
   ) { }
 
 
@@ -92,7 +96,7 @@ export class ProductDetailsComponent implements OnInit {
         }
       });
     });
-    this.slides = this.chunk(this.cards, 4);
+    this.buildForm();
   }
 
   updateOrders(product) {
@@ -111,18 +115,19 @@ export class ProductDetailsComponent implements OnInit {
   }
 
 
-  updateFeeback(content: string) {
+  updateFeeback() {
     if (!this.isLogin) {
       this.toast.info('Đăng nhập để bình luận');
       return;
     }
     const body = {
-      content,
+      content: this.feedbackForm.value.feedbacks,
       product: this.product.id
     };
     this.productService.updateFeeback(body).subscribe(data => {
       if (data) {
         this.onLoadProduct(this.product.id);
+        this.feedbackForm.reset();
       }
     });
   }
@@ -136,12 +141,21 @@ export class ProductDetailsComponent implements OnInit {
           x.createdAtDate = moment(x.createdAtDate).format('DD-MM-YYYY HH:mm');
         }
       });
+      this.onRelatedProduct(); // Get list of related products
       this.spinner.hide();
     });
   }
 
   onCountQuantity(action: string) {
     action === 'increment' ? this.count++ : this.count--;
+  }
+
+  onRelatedProduct() {
+    this.productService.relatedProduct(this.product.category).subscribe(data => {
+      this.relatedProduct = data;
+      this.relatedProduct.splice(this.relatedProduct.findIndex(x => x.id === this.product.id), 1);
+      this.slides = this.chunk(this.relatedProduct, 4); // set sliders related products
+    })
   }
 
   // slide related products
@@ -151,5 +165,11 @@ export class ProductDetailsComponent implements OnInit {
       R.push(arr.slice(i, i + chunkSize));
     }
     return R;
+  }
+
+  private buildForm() {
+    this.feedbackForm = this.formBuilder.group({
+      feedbacks: new FormControl('', [Validators.required])
+    })
   }
 }

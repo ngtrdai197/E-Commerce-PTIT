@@ -18,7 +18,8 @@ export class UserController {
   @httpGet("/")
   public async findAll(): Promise<IUser[]> {
     try {
-      return await this.userRepository.findAll();
+      const users = await this.userRepository.findAll();
+      return users;
     } catch (error) {
       throw error;
     }

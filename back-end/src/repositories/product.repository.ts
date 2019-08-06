@@ -9,6 +9,14 @@ export class ProductRepository implements IProductRepository {
         return product as IProduct;
     };
 
+    search = async (keyword: string): Promise<IProduct[]> => {
+        return await productModel.find({ textSlug: { $regex: keyword, $options: "i" }, isDeleted: false });
+    }
+
+    relatedProduct = async (query: any): Promise<IProduct[]> => {
+        return await productModel.find(query).limit(10);
+    }
+
     findAll = async (query: any): Promise<IProduct[]> => {
         return await productModel.find(query);
     };

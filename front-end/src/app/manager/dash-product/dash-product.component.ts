@@ -4,7 +4,7 @@ import { MatTableDataSource, MatDialog, MatSort, MatPaginator } from '@angular/m
 import { IProduct } from 'src/@core/interface/IProduct.interface';
 import { CategoryService } from 'src/@core/services/category.service';
 import { ToastrService } from 'ngx-toastr';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { ProductService } from 'src/@core/services/product.service';
 import { ICategory } from 'src/@core/interface';
@@ -20,7 +20,7 @@ export class DashProductComponent implements OnInit {
   categorys: IProduct[] = [];
   isToggle: Boolean = false;
   productChecked: '';
-  displayedColumns: string[] = ['no', 'productName', 'title', 'description', 'productTotal', 'currentPrice', 'oldPrice', 'discount', 'images', 'action'];
+  displayedColumns: string[] = ['productName', 'title', 'description', 'productTotal', 'currentPrice', 'oldPrice', 'discount', 'images', 'action'];
   dataSource: MatTableDataSource<IProduct>;
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
   @ViewChild(MatSort, { static: true }) sort: MatSort;
@@ -33,6 +33,7 @@ export class DashProductComponent implements OnInit {
   public editForm: FormGroup;
   viewImages = [];
   sex: Number;
+  urlImage = '';
   constructor(public dialog: MatDialog, private title: Title,
     private categoryService: CategoryService,
     private toastService: ToastrService,
@@ -63,8 +64,12 @@ export class DashProductComponent implements OnInit {
     })];
   }
 
-  removeImageOfProduct(image: string) {
-    const index = this.viewImages.indexOf(image);
+  getUrlImageDelete(url: string) {
+    this.urlImage = url ? url : '';
+  }
+
+  removeImageOfProduct() {
+    const index = this.viewImages.indexOf(this.urlImage);
     if (index != -1) {
       const body = {
         productId: this.currentProduct,
@@ -90,10 +95,8 @@ export class DashProductComponent implements OnInit {
       currentPrice: this.createForm.value.currentPrice,
       oldPrice: this.createForm.value.oldPrice,
       description: this.createForm.value.description,
-      discount: this.createForm.value.discount,
       title: this.createForm.value.title,
-      productTotal: this.createForm.value.quantity,
-      productAvailable: this.createForm.value.quantity,
+      productTotal: this.createForm.value.productTotal,
       sex: +this.createForm.value.sex
     }
     this.productService.createProduct(product).subscribe((response) => {
@@ -113,16 +116,14 @@ export class DashProductComponent implements OnInit {
 
   update(product: IProduct) {
     this.editForm = this.formBuilder.group({
-      name: [product.productName, [Validators.required]],
-      currentPrice: [product.currentPrice, [Validators.required]],
-      oldPrice: [product.oldPrice, [Validators.required]],
-      description: [product.description, [Validators.required]],
-      discount: [product.discount, [Validators.required]],
-      title: [product.title, [Validators.required]],
-      productTotal: [product.productTotal, [Validators.required]],
-      quantity: [product.productTotal, [Validators.required]],
-      sex: [product.sex, [Validators.required]],
-      images: [null, [Validators.required]]
+      name: new FormControl(product.productName, Validators.required),
+      currentPrice: new FormControl(product.currentPrice, Validators.required),
+      oldPrice: new FormControl(product.oldPrice),
+      description: new FormControl(product.description, Validators.required),
+      title: new FormControl(product.title, Validators.required),
+      productTotal: new FormControl(product.productTotal, Validators.required),
+      sex: new FormControl(product.sex),
+      images: new FormControl(null)
     });
     this.currentProduct = product.id as string;
   }
@@ -142,9 +143,6 @@ export class DashProductComponent implements OnInit {
 
   onUpdateProduct() {
     const payload = new FormData();
-    if (this.editForm.value.discount) {
-      payload.append('discount', this.editForm.value.discount);
-    }
     if (this.editForm.value.description) {
       payload.append('description', this.editForm.value.description);
     }
@@ -194,28 +192,24 @@ export class DashProductComponent implements OnInit {
 
   private buildForm() {
     this.createForm = this.formBuilder.group({
-      name: ['', [Validators.required]],
-      title: ['', [Validators.required]],
-      currentPrice: ['', [Validators.required]],
-      oldPrice: ['', [Validators.required]],
-      description: ['', [Validators.required]],
-      discount: ['', [Validators.required]],
-      quantity: ['', [Validators.required]],
-      productTotal: ['', Validators.required],
-      sex: [null, [Validators.required]],
-      images: [null],
+      name: new FormControl('', [Validators.required]),
+      title: new FormControl('', [Validators.required]),
+      currentPrice: new FormControl('', [Validators.required]),
+      oldPrice: new FormControl(''),
+      description: new FormControl('', [Validators.required]),
+      productTotal: new FormControl('', [Validators.required]),
+      sex: new FormControl(null, [Validators.required]),
+      images: new FormControl(null),
     });
     this.editForm = this.formBuilder.group({
-      name: ['', [Validators.required]],
-      title: ['', [Validators.required]],
-      currentPrice: ['', [Validators.required]],
-      oldPrice: ['', [Validators.required]],
-      description: ['', [Validators.required]],
-      discount: ['', [Validators.required]],
-      productTotal: ['', Validators.required],
-      quantity: ['', [Validators.required]],
-      sex: [null, [Validators.required]],
-      images: [null]
+      name: new FormControl('', [Validators.required]),
+      title: new FormControl('', [Validators.required]),
+      currentPrice: new FormControl('', [Validators.required]),
+      oldPrice: new FormControl(''),
+      description: new FormControl('', [Validators.required]),
+      productTotal: new FormControl('', [Validators.required]),
+      sex: new FormControl(null, [Validators.required]),
+      images: new FormControl(null)
     });
   }
 }

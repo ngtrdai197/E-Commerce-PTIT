@@ -5,6 +5,9 @@ export const API = {
     ADMIN: 'Admin',
     USER: 'User'
   },
+  SEARCH: {
+    BASE: "api/search"
+  },
   USER: {
     BASE: "api/user",
     UPDATE: 'update'
@@ -17,7 +20,8 @@ export const API = {
     BASE: "api/product",
     FEEDBACK: "feedback",
     UNLINK: "unlink",
-    GET_BY_CATEGORY: "category"
+    GET_BY_CATEGORY: "category",
+    RELATED_PRODUCT: "filter"
   },
   ORDER: {
     BASE: "api/order"

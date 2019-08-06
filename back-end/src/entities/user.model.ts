@@ -1,5 +1,4 @@
 import * as mongoose from "mongoose";
-import { IOrder } from "./order.model";
 
 export interface IUser {
   id?: string;
@@ -12,7 +11,7 @@ export interface IUser {
   address?: string;
   isDeleted?: boolean;
   avatar?: string;
-  orders?: string[] | IOrder[];
+  // orders?: string[] | IOrder[];
 }
 
 export interface IUserModel extends IUser, mongoose.Document {
@@ -53,8 +52,11 @@ const userSchema = new mongoose.Schema(
       type: String,
       required: true
     },
-    avatar: String,
-    orders: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Orders' }]
+    avatar: String
+    // orderDetails: [
+    //   { type: mongoose.Schema.Types.ObjectId, ref: 'OrderDetails' }
+    // ],
+    // orders: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Orders' }]
   },
   {
     toObject: {

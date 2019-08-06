@@ -2,13 +2,18 @@
   <div class="wrapping-img">
     <img [src]="product?.images[0]" alt="">
     <div class="sub-cart">
-      <span data-toggle="tooltip" (click)="addToCart(product)" data-placement="top" title="Thêm vào giỏ hàng" class="cart"><i class="fa fa-cart-plus"
-          aria-hidden="true"></i></span>
+      <span data-toggle="tooltip" (click)="addToCart(product)" data-placement="top" title="Thêm vào giỏ hàng"
+        class="cart"><i class="fa fa-cart-plus" aria-hidden="true"></i></span>
       <span data-toggle="tooltip" data-placement="top" title="Xem chi tiết" class="eye"
         [routerLink]="['/product', product?.id]">
         <i class="fa fa-eye" aria-hidden="true"></i></span>
     </div>
   </div>
   <div class="description">{{product?.title}}</div>
-  <div class="price">{{product?.currentPrice}}</div>
+  <div class="price">{{product?.currentPrice | currency:' ': 'symbol' : '1.0-3'}} đ</div>
+  <div class="price" *ngIf="product?.oldPrice > product?.currentPrice">
+    <span class="old">
+      {{product?.oldPrice | currency:' ': 'symbol' : '1.0-3'}} đ</span>
+    <span class="percent">- {{((product?.oldPrice - product?.currentPrice)/ product.oldPrice) | percent}}</span>
+  </div>
 </div>

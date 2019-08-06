@@ -3,14 +3,14 @@
 </ngx-spinner>
 <div class="container">
   <div class="row" style="overflow: hidden;">
-    <div class="col-md-6 col-lg-6 slide-products">
+    <div class="col-md-5 col-lg-5 slide-products">
       <mdb-carousel class="carousel slide carousel-fade" [type]="'carousel-thumbnails'" [animation]="'fade'">
         <mdb-carousel-item *ngFor="let image of product?.images">
           <img class="d-block w-100" style="max-height: 350px;" [src]="image" alt="First slide">
         </mdb-carousel-item>
       </mdb-carousel>
     </div>
-    <div class="col-md-6 col-lg-6 content-product">
+    <div class="col-md-7 col-lg-7 content-product">
       <h3>{{product?.title}}</h3>
       <p class="price">{{product?.oldPrice}}</p><span class="new-price"> {{product?.currentPrice}}</span>
       <div class="description">{{product?.description}}</div>
@@ -26,7 +26,8 @@
           </div> 
         -->
           <div class="btn-group mr-2" role="group" aria-label="Second group">
-            <button type="button" class="btn btn-black add-cart" (click)="updateOrders(product)">Thêm vào giỏ hàng</button>
+            <button type="button" class="btn btn-black add-cart" (click)="updateOrders(product)">Thêm vào giỏ
+              hàng</button>
           </div>
         </div>
       </div>
@@ -49,10 +50,6 @@
   </div>
   <div class="row feedback">
     <div class="col-12">
-      <!-- <div class="spinner-border text-success" role="status">
-        <span class="sr-only">Loading...</span>
-      </div> -->
-      <!-- Nav Tabs -->
       <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
         <li class="nav-item">
           <a class="nav-link active" id="pills-description-tab" data-toggle="pill" href="#pills-description" role="tab"
@@ -80,7 +77,7 @@
                 </div>
                 <div class="content w-100">
                   <div class="cover-head-infor d-flex justify-content-between">
-                    <div class="name">{{feedback?.customer?.fullName}}</div>
+                    <div class="name" [innerHTML]="feedback?.customer?.fullName"></div>
                     <div class="time-report">{{feedback?.createdAtDate}}</div>
                   </div>
                   <div class="feedback-content">{{feedback?.content}}</div>
@@ -88,11 +85,17 @@
               </div>
             </div>
             <div class="col-md-6 ct-right">
-              <h4>Add a review</h4>
-              <p> Your email address will not be published. Required fields are marked *</p>
-              <p>Your review *</p>
-              <textarea class="w-100" name="" id="" cols="70" rows="5" #area></textarea>
-              <button class="btn btn-primary mt-5" (click)="updateFeeback(area.value)">SUBMIT</button>
+              <form [formGroup]="feedbackForm">
+                <h4>Add a review</h4>
+                <p> Your email address will not be published. Required fields are marked *</p>
+                <p>Your review *</p>
+                <textarea class="w-100" name="" id="" cols="70" rows="5" formControlName="feedbacks"></textarea>
+                <div class="alert alert-danger mt-1 py-1 mb-0"
+                  *ngIf="feedbackForm.controls['feedbacks'].invalid && (feedbackForm.controls['feedbacks'].dirty || feedbackForm.controls['feedbacks'].touched)">
+                  Nội dung phản hồi không được để trống</div>
+                <button class="btn btn-primary mt-3" (click)="updateFeeback()"
+                  [disabled]="!feedbackForm.valid">SUBMIT</button>
+              </form>
             </div>
           </div>
         </div>
@@ -107,13 +110,12 @@
           <div class="col-md-3" [ngClass]="{'d-none d-md-block': cardIndex !== 0}"
             *ngFor="let card of item; let cardIndex = index">
             <mdb-card class="my-1">
-              <mdb-card-img [src]="card.img" alt="Card image cap"></mdb-card-img>
+              <mdb-card-img [src]="card?.images[0]" [alt]="card?.title"></mdb-card-img>
               <mdb-card-body>
                 <mdb-card-title>
-                  <h4>{{card.title}}</h4>
+                  <h4 style="font-size: 15px" [title]="card?.description">{{card?.title}}</h4>
                 </mdb-card-title>
-                <p>{{card.description}}</p>
-                <a href="#" mdbBtn color="primary" class="waves-light" mdbWavesEffect>{{card.buttonText}}</a>
+                <a href="#" mdbBtn color="primary" class="waves-light" mdbWavesEffect style="padding: 10px 30px;">Chi tiết</a>
               </mdb-card-body>
             </mdb-card>
           </div>

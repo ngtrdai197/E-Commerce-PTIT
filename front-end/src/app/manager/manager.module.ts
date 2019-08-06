@@ -24,7 +24,7 @@ import { MDBBootstrapModule } from 'angular-bootstrap-md';
 
 const routes: Routes = [
   {
-    path: 'dash-board', component: DashboardComponent, children: [
+    path: 'dashboard', component: DashboardComponent, children: [
       { path: '', redirectTo: 'user-management', pathMatch: 'full' },
       { path: 'user-management', component: DashUserComponent, data: { animation: 'Dash-User' } },
       { path: 'product-management/:id', component: DashProductComponent, data: { animation: 'Dash-Product' } },

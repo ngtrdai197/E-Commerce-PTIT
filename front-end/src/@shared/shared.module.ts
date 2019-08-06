@@ -9,12 +9,13 @@ import { DescriptionPipe } from './describe.pipe';
 import { RouterModule } from '@angular/router';
 import { SubTitlePipe } from './title-cart.pipe';
 import { ParserOrderPipe } from './order-name.pipe';
+import { ProductComponent } from 'src/app/pages/product/product.component';
 
 @NgModule({
   declarations: [
     FooterComponent, HeaderComponent, LayoutComponent,
     AnimationCpnDirective, DescriptionPipe, SubTitlePipe,
-    ParserOrderPipe
+    ParserOrderPipe, ProductComponent
   ],
   imports: [
     CommonModule,
@@ -22,6 +23,6 @@ import { ParserOrderPipe } from './order-name.pipe';
     FormsModule,
     RouterModule
   ],
-  exports: [HeaderComponent, FooterComponent, LayoutComponent, AnimationCpnDirective, DescriptionPipe, SubTitlePipe, ParserOrderPipe]
+  exports: [HeaderComponent, ProductComponent, FooterComponent, LayoutComponent, AnimationCpnDirective, DescriptionPipe, SubTitlePipe, ParserOrderPipe]
 })
 export class SharedModule { }

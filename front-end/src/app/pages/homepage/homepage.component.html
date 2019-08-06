@@ -1,35 +1,25 @@
 <shop-header></shop-header>
-<ngx-spinner bdColor="rgba(51,51,51,0.8)" size="medium" color="#fff" type="ball-scale-multiple">
+<ngx-spinner bdColor="rgba(51,51,51,0.8)" size="small" color="#fff" type="line-scale-party">
+  <p style="color: #fff">Đang tải. Vui lòng đợi !</p>
 </ngx-spinner>
+<section class="sliders">
+  <swiper [config]="config">
+    <div>
+      <img src="assets/banner/f125d2fb88b9a52b495d4d7ef6db60ef.jpg" alt="" srcset="" style="width: 100%">
+    </div>
+    <div>
+      <img src="assets/banner/5ff2287f592c47c88ee4a26eb72073db.jpg" alt="" srcset="" style="width: 100%">
+    </div>
+    <div>
+      <img src="assets/banner/786d98beb7074710838967a1329cdab9.jpg" alt="" srcset="" style="width: 100%">
+    </div>
+    <div>
+      <img src="assets/banner/ca6fab2715cdb3334deef2c4d3d68339.png" alt="" srcset="" style="width: 100%">
+    </div>
+  </swiper>
+</section>
 <section class="homepage">
   <div class="container">
-    <!-- <div class="row banner-head">
-      <div class="col-8">
-        <div class="row" style="padding-bottom: 20px;">
-          <div class="col-12">
-            <img src="https://bigboom.exdomain.net/image/cache/catalog/slider/slider-1-593x321.png" alt="">
-          </div>
-        </div>
-        <div class="row">
-          <div class="col-6">
-            <img src="https://bigboom.exdomain.net/image/cache/catalog/banner/ss-banner-img-2-286x145.jpg" alt="">
-          </div>
-          <div class="col-6">
-            <img src="https://bigboom.exdomain.net/image/cache/catalog/banner/ss-banner-img-3-286x145.jpg" alt="">
-          </div>
-        </div>
-      </div>
-      <div class="col-4 banner-right">
-        <img src="https://bigboom.exdomain.net/image/cache/catalog/banner/ss-banner-img-1-287x485.jpg" alt="">
-      </div>
-    </div> -->
-    <!-- <div class="row banner-adv">
-      <div class="col-6">
-        <img src="https://bigboom.exdomain.net/image/cache/catalog/banner/bg-top1-570x230.jpg" alt="">
-      </div>
-      <div class="col-6"></div>
-      <img src="https://bigboom.exdomain.net/image/cache/catalog/banner/bg-top2-570x230.jpg" alt="">
-    </div> -->
     <div class="row list-product">
       <div class="menu-head-sub">
         <div class="title-menu">Thời trang nam</div>
@@ -37,15 +27,29 @@
           <ul class="nav nav-tabs" id="myTab" role="tablist">
             <li class="nav-item" *ngFor="let category of categorys">
               <a class="nav-link" id="home-tab" data-toggle="tab"
-                [ngClass]="{'active': category.id === firstCategoryId}" (click)="filterProducts(category.id)"
-                href="#home" role="tab" aria-controls="home" aria-selected="true">{{category?.categoryName}}</a>
+                [ngClass]="{'active': category.id === firstCategoryId}"
+                (click)="filterProducts(category.id, 'category')" role="tab" aria-controls="home" aria-selected="true"
+                [innerHTML]="category?.categoryName"></a>
+            </li>
+            <li class="show-more-catalog">
+              <div class="btn-group">
+                <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown"
+                  aria-haspopup="true" aria-expanded="false">
+                  More
+                </button>
+                <div class="dropdown-menu dropdown-menu-right">
+                  <a class="dropdown-item nav-link" *ngFor="let subCatalog of subCategorys"
+                    [ngClass]="{'active': subCatalog.id === firstCategoryId}"
+                    (click)="filterProducts(subCatalog?.id, 'subcategory')" [innerHTML]="subCatalog?.categoryName"></a>
+                </div>
+              </div>
             </li>
           </ul>
         </div>
       </div>
       <div class="product-item w-100">
         <div class="row">
-          <div class="col-sm-6 col-md-4 col-lg-3" *ngFor="let product of products">
+          <div class="col-sm-4 col-md-3 col-lg-3 mb-4" *ngFor="let product of products">
             <shop-product [product]="product"></shop-product>
           </div>
           <div class="row w-100">

@@ -1,0 +1,32 @@
+:host {
+  display: block;
+  section {
+    background: url(http://nguyendai.me/images/contact.jpg) no-repeat;
+    background-position: center;
+    background-size: cover;
+    background-attachment: fixed;
+    .container {
+      .row {
+        padding-top: 4em;
+        ul {
+          li {
+            list-style: none;
+            padding: 10px;
+            i {
+              padding-right: 7px;
+            }
+          }
+        }
+        .cover {
+          padding-left: 40px;
+        }
+        form {
+          input,
+          textarea {
+            background: transparent;
+          }
+        }
+      }
+    }
+  }
+}

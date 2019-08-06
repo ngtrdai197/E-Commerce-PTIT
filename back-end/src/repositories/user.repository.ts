@@ -5,12 +5,12 @@ import { IUser, userModel } from "../entities";
 @injectable()
 export class UserRepository implements IUserRepository {
   findOne = async (query: any): Promise<IUser> => {
-    const user = await userModel.findOne(query).select('-__v');
+    const user = await userModel.findOne(query).select('-__v -password');
     return user as IUser;
   };
 
   findAll = async (): Promise<IUser[]> => {
-    return await userModel.find({ isDeleted: false }).select('-__v');
+    return await userModel.find({ isDeleted: false }).select('-__v -password');
   };
 
   getUserProfile = async (query: any): Promise<IUser> => {
@@ -23,9 +23,8 @@ export class UserRepository implements IUserRepository {
   };
 
   update = async (user: IUser): Promise<IUser> => {
-    await userModel.findByIdAndUpdate(user.id, user);
-    const updated = await userModel.findById(user.id).select('-__v');
-
+    const updated = await userModel.findByIdAndUpdate(user.id, user).select('-password');
+    // const updated = await userModel.findById(user.id).select('-__v');
     return updated as IUser;
   };
 

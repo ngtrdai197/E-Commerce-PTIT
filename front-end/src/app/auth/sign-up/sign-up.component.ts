@@ -4,7 +4,7 @@ import { IUser } from 'src/@core/interface/IUser.interface';
 import { UserService } from 'src/@core/services/user.service';
 import { ToastrService } from 'ngx-toastr';
 import { Router } from '@angular/router';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { FormGroup, FormBuilder, Validators, FormControl, AbstractControl } from '@angular/forms';
 
 @Component({
   selector: 'shop-sign-up',
@@ -44,13 +44,39 @@ export class SignUpComponent implements OnInit {
 
   private buildForm() {
     this.registerForm = this.formBuilder.group({
-      username: ['', [Validators.required, Validators.minLength(8), Validators.maxLength(16)]],
-      password: ['', [Validators.required, Validators.minLength(8), Validators.maxLength(16)]],
-      fullName: ['', [Validators.required, Validators.minLength(8), Validators.maxLength(30)]],
-      phone: ['', [Validators.required]],
-      email: ['', [Validators.required, Validators.email]],
-      address: ['', [Validators.required]]
+      username: new FormControl('', Validators.compose([
+        Validators.required,
+        Validators.minLength(8), Validators.maxLength(16)
+      ])),
+      password: new FormControl('', Validators.compose([
+        Validators.required,
+        Validators.minLength(8),
+        Validators.maxLength(16)
+      ])),
+      confirmPassword: new FormControl('', Validators.compose([
+        Validators.required,
+        Validators.minLength(8), Validators.maxLength(16),
+        this.matchPassWord
+      ])),
+      fullName: new FormControl('', Validators.compose([
+        Validators.required,
+        Validators.minLength(8), Validators.maxLength(30)
+      ])),
+      phone: new FormControl('', [Validators.required]),
+      email: new FormControl('', Validators.compose([Validators.required, Validators.email])),
+      address: new FormControl('', [Validators.required])
     });
   }
+
+  matchPassWord(c: AbstractControl): any {
+    if (!c.parent || !c) { return; }
+    const pwd = c.parent.get('password');
+    const cpwd = c.parent.get('confirmPassword');
+    if (!pwd || !cpwd) { return; }
+    if (pwd.value !== cpwd.value) {
+      return { invalid: true };
+    }
+  }
+
 
 }

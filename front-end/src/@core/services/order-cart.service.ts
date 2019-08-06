@@ -118,9 +118,12 @@ export class OrderCartService {
                     if (!transform['cartEmpty']) {
                         transform["order"].map((order: any) => {
                             order.carts.map((cart: any) => {
-                                cart.product.images = cart.product.images.map((img: string) => {
-                                    return (img = `${API.HOST}/${img}`);
-                                });
+                                if (cart.product.images) {
+                                    cart.product.images = cart.product.images.map((img: string) => {
+                                        return (img = `${API.HOST}/${img}`);
+                                    });
+                                }
+                                return cart;
                             });
                         });
                     }

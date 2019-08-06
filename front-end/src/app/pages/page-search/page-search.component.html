@@ -1,3 +1,21 @@
 <shop-header></shop-header>
-<p>page-search works!</p>
+<ngx-spinner bdColor="rgba(51,51,51,0.8)" size="medium" color="#fff" type="line-scale-party">
+  <p style="color: #fff">Đang tìm kiếm. Vui lòng đợi !</p>
+</ngx-spinner>
+<section>
+  <div class="container">
+    <div class="row">
+      <ng-container *ngIf="isLoading">
+        <ng-container *ngIf="products.length > 0">
+          <div class="col-sm-6 col-md-4 col-lg-3" *ngFor="let product of products">
+            <shop-product [product]="product"></shop-product>
+          </div>
+        </ng-container>
+        <ng-container *ngIf="products.length === 0">
+          <div class="alert alert-danger">Không tìm thấy sản phẩm nào theo từ khóa</div>
+        </ng-container>
+      </ng-container>
+    </div>
+  </div>
+</section>
 <shop-footer></shop-footer>

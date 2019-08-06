@@ -28,7 +28,7 @@
 
   <!-- Nav Item - Pages Collapse Menu -->
   <li class="nav-item">
-    <a class="nav-link collapsed" routerLink="/admin/dash-board/order-management" routerLinkActive="active-link"
+    <a class="nav-link collapsed" routerLink="/admin/dashboard/order-management" routerLinkActive="active-link"
       data-toggle="collapse" data-target="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
       <i class="fas fa-fw fa-cog"></i>
       <span>Quản lý đơn hàng</span>
@@ -37,13 +37,13 @@
       <div class="bg-white py-2 collapse-inner rounded">
         <h6 class="collapse-header">Order management</h6>
         <a class="collapse-item" routerLinkActive="active-link" [routerLinkActiveOptions]="{exact:
-        true}" [routerLink]="['/admin/dash-board/order-management', 'ordered']">Đang đặt hàng</a>
+        true}" [routerLink]="['/admin/dashboard/order-management', 'ordered']">Đang đặt hàng</a>
         <a class="collapse-item" routerLinkActive="active-link" [routerLinkActiveOptions]="{exact:
-        true}" [routerLink]="['/admin/dash-board/order-management', 'completed']">Đã giao hàng</a>
+        true}" [routerLink]="['/admin/dashboard/order-management', 'completed']">Đã giao hàng</a>
         <a class="collapse-item" routerLinkActive="active-link" [routerLinkActiveOptions]="{exact:
-          true}" [routerLink]="['/admin/dash-board/order-management', 'not-ordered']">Chưa đặt hàng</a><a
+          true}" [routerLink]="['/admin/dashboard/order-management', 'not-ordered']">Chưa đặt hàng</a><a
           class="collapse-item" routerLinkActive="active-link" [routerLinkActiveOptions]="{exact:
-            true}" [routerLink]="['/admin/dash-board/order-management', 'delivered']">Đang chuyển hàng</a>
+            true}" [routerLink]="['/admin/dashboard/order-management', 'delivered']">Đang chuyển hàng</a>
       </div>
     </div>
   </li>
@@ -67,7 +67,7 @@
         <ng-container *ngFor="let item of categoryTypes">
           <h6 class="collapse-header">{{item?.categoryName}}: </h6>
           <a class="collapse-item" routerLinkActive="active-link" [routerLinkActiveOptions]="{exact:
-          true}" [routerLink]="['/admin/dash-board/product-management',item.id ]"
+          true}" [routerLink]="['/admin/dashboard/product-management',item.id ]"
             (click)="selectCategory(item)">{{item.categoryName}}</a>
           <div class="collapse-divider"></div>
         </ng-container>
@@ -77,16 +77,16 @@
 
   <!-- Nav Item - Charts -->
   <li class="nav-item">
-    <a class="nav-link" routerLink="/admin/dash-board/user-management" routerLinkActive="active-link"
+    <a class="nav-link" routerLink="/admin/dashboard/user-management" routerLinkActive="active-link"
       [routerLinkActiveOptions]="{exact:
   true}">
       <i class="fas fa-users"></i>
-      <span>Users</span></a>
+      <span>Người dùng</span></a>
   </li>
 
   <!-- Nav Item - Tables -->
   <li class="nav-item">
-    <a class="nav-link" routerLink="/admin/dash-board/category-management" routerLinkActive="active-link"
+    <a class="nav-link" routerLink="/admin/dashboard/category-management" routerLinkActive="active-link"
       [routerLinkActiveOptions]="{exact:
     true}">
       <i class="fas fa-fw fa-table"></i>

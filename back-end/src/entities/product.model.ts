@@ -9,20 +9,16 @@ export interface IProduct {
     description?: string;
     currentPrice?: number
     oldPrice?: number;
-    discount?: number;
     images?: string[];
     category?: string | ICategory;
     productTotal?: number;
-    productAvailable?: number;
+    textSlug?: string;
+    // discount?: number;
+    // productAvailable?: number;
     ratings?: number; // ratings
     sex?: number; // 0 male 1 female
-    productBoughtBy?: Customer;
-    feeback?: IFeedback
-}
-
-export interface Customer {
-    customer?: string | IUser;
-    boughtAtDate?: Date;
+    feeback?: IFeedback,
+    isDeleted?: boolean
 }
 
 export interface IFeedback {
@@ -66,7 +62,6 @@ const productSchema = new mongoose.Schema(
         },
         description: String,
         oldPrice: Number,
-        discount: Number,
         images: [{
             type: String
         }],
@@ -78,10 +73,18 @@ const productSchema = new mongoose.Schema(
             type: Number,
             required: true
         },
-        productAvailable: {
-            type: Number,
+        textSlug: {
+            type: String,
             required: true
         },
+        // discount:{
+        //     type: Number,
+        //     required: true
+        // },
+        // productAvailable: {
+        //     type: Number,
+        //     required: true
+        // },
         ratings: {
             type: Number
         },
@@ -89,16 +92,10 @@ const productSchema = new mongoose.Schema(
             type: Number,
             required: true
         },
-        productBoughtBy: new mongoose.Schema({
-            customerId: {
-                type: mongoose.Schema.Types.ObjectId, ref: 'User',
-                required: true
-            },
-            boughtAtDate: {
-                type: Date,
-                required: true
-            }
-        }),
+        isDeleted: {
+            type: Boolean,
+            default: false
+        },
         feedback: [feedbackSchema]
     },
     {

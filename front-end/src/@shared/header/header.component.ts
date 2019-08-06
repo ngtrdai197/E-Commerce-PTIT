@@ -4,11 +4,10 @@ import { JwtService } from 'src/@core/services/jwt.service';
 import { IUser, IProduct } from 'src/@core/interface';
 import { API } from 'src/@core/config/API';
 import { ToastrService } from 'ngx-toastr';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms';
 import { UserService } from 'src/@core/services/user.service';
 import { OrderCartService } from 'src/@core/services/order-cart.service';
 import { Subscription } from 'rxjs';
-import { IOrder } from 'src/@core/interface/IOrder.interface';
 
 @Component({
   selector: 'shop-header',
@@ -22,16 +21,16 @@ export class HeaderComponent implements OnInit, OnDestroy {
   editForm: FormGroup;
   avatarDefault = 'assets/auth/user-default.png';
   isChangeAvatar = false;
-  order: IOrder = {};
+  order: any = {};
   subscription: Subscription;
   totalOrders = 0;
+
   constructor(
     private router: Router, private toastService: ToastrService,
     private jwtService: JwtService, private userService: UserService,
     private toast: ToastrService, private formBuilder: FormBuilder,
-    private cd: ChangeDetectorRef, private orderCartService: OrderCartService,
-  ) {
-  }
+    private cd: ChangeDetectorRef, private orderCartService: OrderCartService
+  ) { }
 
   ngOnInit() {
     this.buildForm();
@@ -43,7 +42,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
   }
 
   onGetOrders() {
-    this.orderCartService.orderCart.subscribe((data: IOrder) => {
+    this.orderCartService.orderCart.subscribe((data: any) => {
       this.totalOrders = 0;
       if (data) {
         this.order = data;
@@ -54,6 +53,10 @@ export class HeaderComponent implements OnInit, OnDestroy {
         this.order = {};
       }
     });
+  }
+
+  onSearch(keyword) {
+    this.router.navigate(['/page-search', keyword]);
   }
 
   removeItem(product: IProduct) {
@@ -105,12 +108,15 @@ export class HeaderComponent implements OnInit, OnDestroy {
       this.currentUser.avatar = this.avatarDefault;
     }
     this.editForm = this.formBuilder.group({
-      username: [this.currentUser.username, [Validators.required]],
-      fullName: [this.currentUser.fullName, [Validators.required]],
-      email: [this.currentUser.email, [Validators.required]],
-      address: [this.currentUser.address, [Validators.required]],
-      phone: [this.currentUser.phone, [Validators.required]],
-      avatar: [this.currentUser.avatar]
+      username: new FormControl(this.currentUser.username, Validators.required),
+      fullName: new FormControl(this.currentUser.fullName, Validators.required),
+      email: new FormControl(this.currentUser.email, Validators.compose([
+        Validators.required,
+        Validators.email
+      ])),
+      address: new FormControl(this.currentUser.address, Validators.required),
+      phone: new FormControl(this.currentUser.phone, Validators.required),
+      avatar: new FormControl(this.currentUser.avatar)
     });
   }
 
@@ -119,7 +125,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
   }
 
   onNavigateAdmin() {
-    this.router.navigate(['/admin/dash-board']);
+    this.router.navigate(['/admin/dashboard']);
   }
 
   onSignOut() {
@@ -131,12 +137,15 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
   private buildForm() {
     this.editForm = this.formBuilder.group({
-      username: ['', [Validators.required]],
-      email: ['', Validators.required],
-      fullName: ['', Validators.required],
-      address: ['', [Validators.required]],
-      phone: ['', [Validators.required]],
-      avatar: [null]
+      username: new FormControl('', Validators.required),
+      email: new FormControl('', Validators.compose([
+        Validators.required,
+        Validators.email
+      ])),
+      fullName: new FormControl('', Validators.required),
+      address: new FormControl('', Validators.required),
+      phone: new FormControl('', Validators.required),
+      avatar: new FormControl(null)
     });
   }
 

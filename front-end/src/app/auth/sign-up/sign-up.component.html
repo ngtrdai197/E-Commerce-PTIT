@@ -55,6 +55,13 @@
               Password is
               required</div>
           </div>
+          <div class="lowin-group">
+            <label>Confirm Password</label>
+            <input type="password" name="password" class="lowin-input" formControlName="confirmPassword">
+            <div class="alert alert-danger mt-1 py-1 mb-0"
+              *ngIf="registerForm.controls['confirmPassword'].invalid && (registerForm.controls['confirmPassword'].dirty || registerForm.controls['confirmPassword'].touched)">
+              Confirm password not math</div>
+          </div>
           <button type="submit" [disabled]="!registerForm.valid" class="lowin-btn">Sign Up</button>
           <div class="text-foot">
             Already have an account? <a href="" class="login-link" routerLink="/auth/sign-in">Login</a>

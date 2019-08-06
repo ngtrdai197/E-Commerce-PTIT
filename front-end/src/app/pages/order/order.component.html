@@ -1,5 +1,6 @@
 <shop-header></shop-header>
-<ngx-spinner bdColor="rgba(51,51,51,0.8)" size="medium" color="#fff" type="ball-scale-multiple">
+<ngx-spinner bdColor="rgba(51,51,51,0.8)" size="medium" color="#fff" type="line-scale-party">
+  <p style="color: #fff">Đang gửi đơn hàng. Vui lòng đợi !</p>
 </ngx-spinner>
 <section style="background: #eae4e461">
   <div class="container">
@@ -20,8 +21,9 @@
               </td>
               <td>
                 <div class="cover-price">
-                  <div class="current-price">{{order?.product?.currentPrice}} đ</div>
-                  <div class="old-price">{{order?.product?.oldPrice}} đ</div>
+                  <div class="current-price">{{order?.product?.currentPrice | currency:' ': 'symbol' : '1.0-3'}} đ</div>
+                  <div class="old-price" *ngIf="order?.product?.oldPrice">
+                    {{order?.product?.oldPrice | currency:' ': 'symbol' : '1.0-3'}} đ</div>
                 </div>
               </td>
               <td>{{order?.quantity}}</td>
@@ -49,11 +51,11 @@
           <div class="infor-cart">Thông tin đơn hàng</div>
           <div class="cover-quantity">
             <div class="quantity">Tạm tính: ( {{order?.carts.length}} sản phẩm )</div>
-            <div class="payment">{{totalPayment}} đ</div>
+            <div class="payment">{{totalPayment | currency:' ': true : '1.0-3'}} đ</div>
           </div>
           <div class="send-order mt-5" *ngIf="order">
             <button class="btn btn-block btn-primary" (click)="confirmOrder()">Xác nhận đặt hàng</button>
-            <div class="p-3 mb-2 text-center bg-info text-white">Đã đặt hàng</div>
+            <!-- <div class="p-3 mb-2 text-center bg-info text-white">Đã đặt hàng</div> -->
           </div>
         </div>
       </div>

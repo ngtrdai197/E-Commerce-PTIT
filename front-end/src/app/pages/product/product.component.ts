@@ -20,8 +20,7 @@ export class ProductComponent implements OnInit {
     private router: Router
   ) { }
 
-  ngOnInit() {
-
+  ngOnInit() {    
   }
 
   addToCart(product) {

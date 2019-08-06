@@ -40,6 +40,17 @@ export class ProductService {
         }));
     }
 
+    relatedProduct(categoryId: string): Observable<IProduct[]> {
+        return this.http.get<IProduct[]>(`${API.HOST}/${API.SEARCH.BASE}/${API.PRODUCT.RELATED_PRODUCT}/${categoryId}`).pipe(
+            tap(products => {
+                return products.map(p => {
+                    return p.images = p.images.map(i => {
+                        return `${API.HOST}/${i}`;
+                    });
+                })
+            }));
+    }
+
     deleteProduct(id: string): Observable<any> {
         return this.http.delete<any>(`${API.HOST}/${API.PRODUCT.BASE}/${id}`);
     }
