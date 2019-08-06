@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { OrderCartService } from 'src/@core/services/order-cart.service';
 import { IOrder } from 'src/@core/interface/IOrder.interface';
@@ -67,31 +67,29 @@ export class OrderManagementComponent implements OnInit {
   onShowOrderDetails(order: IOrder) {
     this.currentOrderId = order.id;
     this.orderDetailsForm = this.formBuilder.group({
-      payments: [order.payments, Validators.required],
-      stateOrder: [order.stateOrder, Validators.required],
-      statePayment: [order.statePayment ? 'Đã thanh toán' : 'Chưa thanh toán', Validators.required],
-      address: [(order.user as IUser).address, Validators.required],
-      fullName: [(order.user as IUser).fullName, Validators.required],
-      email: [(order.user as IUser).email, Validators.required],
-      phone: [(order.user as IUser).phone, Validators.required],
-      productName: ['', Validators.required],
-      quantity: ['', Validators.required],
-      totalPayment: ['', Validators.required],
+      payments: new FormControl(order.payments, Validators.required),
+      stateOrder: new FormControl(order.stateOrder, Validators.required),
+      statePayment: new FormControl(order.statePayment ? 'Đã thanh toán' : 'Chưa thanh toán', Validators.required),
+      address: new FormControl((order.user as IUser).address, Validators.required),
+      fullName: new FormControl((order.user as IUser).fullName, Validators.required),
+      email: new FormControl((order.user as IUser).email, Validators.required),
+      phone: new FormControl((order.user as IUser).phone, Validators.required),
+      productName: new FormControl('', Validators.required),
+      totalPayment: new FormControl('', Validators.required),
     })
   }
 
   private buildForm() {
     this.orderDetailsForm = this.formBuilder.group({
-      payments: ['', Validators.required],
-      stateOrder: ['', Validators.required],
-      statePayment: ['', Validators.required],
-      address: ['', Validators.required],
-      fullName: ['', Validators.required],
-      email: ['', Validators.required],
-      phone: ['', Validators.required],
-      productName: ['', Validators.required],
-      quantity: ['', Validators.required],
-      totalPayment: ['', Validators.required],
+      payments: new FormControl('', Validators.required),
+      stateOrder: new FormControl('', Validators.required),
+      statePayment: new FormControl('', Validators.required),
+      address: new FormControl('', Validators.required),
+      fullName: new FormControl('', Validators.required),
+      email: new FormControl('', Validators.required),
+      phone: new FormControl('', Validators.required),
+      productName: new FormControl('', Validators.required),
+      totalPayment: new FormControl('', Validators.required),
     })
   }
 

@@ -3,10 +3,13 @@ import { CommonModule } from '@angular/common';
 import { PageSearchComponent } from './page-search.component';
 import { Routes, RouterModule } from '@angular/router';
 import { SharedModule } from 'src/@shared/shared.module';
-import { NgxSpinnerModule } from 'ngx-spinner'
+import { NgxSpinnerModule } from 'ngx-spinner';
+import { MatSelectModule } from '@angular/material/select';
+
 
 const routes: Routes = [
-  { path: '', component: PageSearchComponent }
+  { path: ':keyword', component: PageSearchComponent },
+  { path: '', redirectTo: ' ', pathMatch: 'full' }
 ]
 
 @NgModule({
@@ -14,6 +17,7 @@ const routes: Routes = [
   imports: [
     CommonModule,
     SharedModule,
+    MatSelectModule,
     NgxSpinnerModule,
     RouterModule.forChild(routes)
   ]

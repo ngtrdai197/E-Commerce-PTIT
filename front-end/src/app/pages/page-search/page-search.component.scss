@@ -1,0 +1,11 @@
+:host {
+  .pagination-row {
+    .pagination {
+      li {
+        &.page-item {
+          cursor: pointer;
+        }
+      }
+    }
+  }
+}

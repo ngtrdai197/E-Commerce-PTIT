@@ -151,10 +151,10 @@
         aria-haspopup="true" aria-expanded="false">
         <span class="mr-2 d-none d-lg-inline text-gray-600 small">{{user?.fullName}}</span>
         <div class="avatar" *ngIf="user?.avatar">
-          <img class="preview" [src]="user.avatar" alt=""style="width: 50px; height: 50px; border-radius: 50%;">
+          <img class="preview" [src]="user.avatar" alt="" style="width: 50px; height: 50px; border-radius: 50%;">
         </div>
         <div class="avatar" *ngIf="!user?.avatar">
-          <img class="preview" [src]="avatarDefault" alt=""style="width: 50px; height: 50px; border-radius: 50%;">
+          <img class="preview" [src]="avatarDefault" alt="" style="width: 50px; height: 50px; border-radius: 50%;">
         </div>
       </a>
       <!-- Dropdown - User Information -->
@@ -205,18 +205,31 @@
         <input type="text" class="form-control" autocomplete="" formControlName="username" disabled>
         <label for="">Full name</label>
         <input type="text" class="form-control" autocomplete="" formControlName="fullName">
+        <div class="alert alert-danger mt-1 py-1 mb-0"
+          *ngIf="editForm.controls['fullName'].invalid && (editForm.controls['fullName'].dirty || editForm.controls['fullName'].touched)">
+          Họ tên không được để trống</div>
         <label for="">Email</label>
         <input type="email" class="form-control" autocomplete="" formControlName="email">
+        <div class="alert alert-danger mt-1 py-1 mb-0"
+          *ngIf="editForm.controls['email'].invalid && (editForm.controls['email'].dirty || editForm.controls['email'].touched)">
+          Email không được để trống</div>
         <label for="">Address</label>
         <input type="text" class="form-control" autocomplete="" formControlName="address">
+        <div class="alert alert-danger mt-1 py-1 mb-0"
+          *ngIf="editForm.controls['address'].invalid && (editForm.controls['address'].dirty || editForm.controls['address'].touched)">
+          Địa chỉ không được để trống</div>
         <label for="">Phone</label>
         <input type="text" class="form-control" autocomplete="" formControlName="phone">
+        <div class="alert alert-danger mt-1 py-1 mb-0"
+          *ngIf="editForm.controls['phone'].invalid && (editForm.controls['phone'].dirty || editForm.controls['phone'].touched)">
+          Số điện thoại không được để trống</div>
+        <!-- Modal footer -->
+        <div class="modal-footer">
+          <button type="button" class="btn btn-danger" data-dismiss="modal" (click)="onUpdateProfile()"
+            [disabled]="!editForm.valid">Update</button>
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        </div>
       </form>
-      <!-- Modal footer -->
-      <div class="modal-footer">
-        <button type="button" class="btn btn-danger" data-dismiss="modal" (click)="onUpdateProfile()">Update</button>
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-      </div>
     </div>
   </div>
 </div>

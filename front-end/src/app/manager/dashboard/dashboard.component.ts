@@ -49,6 +49,7 @@ export class DashboardComponent implements OnInit {
   prepareRoute(outlet: RouterOutlet) {
     return outlet && outlet.activatedRouteData && outlet.activatedRouteData['animation'];
   }
+  
   onSetTitle() {
     this.title.setTitle('Dash board');
   }

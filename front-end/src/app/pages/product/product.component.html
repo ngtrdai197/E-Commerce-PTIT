@@ -5,7 +5,7 @@
       <span data-toggle="tooltip" (click)="addToCart(product)" data-placement="top" title="Thêm vào giỏ hàng"
         class="cart"><i class="fa fa-cart-plus" aria-hidden="true"></i></span>
       <span data-toggle="tooltip" data-placement="top" title="Xem chi tiết" class="eye"
-        [routerLink]="['/product', product?.id]">
+        [routerLink]="['/product', slug(product?.title), product?.id]">
         <i class="fa fa-eye" aria-hidden="true"></i></span>
     </div>
   </div>

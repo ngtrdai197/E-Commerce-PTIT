@@ -14,8 +14,7 @@
           <div>Phone: {{order?.user?.phone}}</div>
           <div>Address: {{order?.user?.address}}</div>
           <div>Ngày tạo đơn: {{order?.createdDate | date:'dd/MM/yyyy, hh:mm:a'}}</div>
-          <a mdbBtn color="primary" class="d-flex justify-content-center" data-toggle="modal"
-            data-target="#order-details" mdbWavesEffect (click)="onShowOrderDetails(order)">Chi tiết</a>
+          <a mdbBtn color="primary" class="d-flex justify-content-center" mdbWavesEffect (click)="onShowOrderDetails(order)" routerLink="/admin/dashboard/order-details">Chi tiết</a>
         </mdb-card-body>
       </mdb-card>
     </div>
@@ -35,7 +34,7 @@
   Hiện tại chưa có đơn hàng nào được giao thành công
 </div>
 <!-- Modal -->
-<div class="modal fade" id="order-details" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+<!-- <div class="modal fade" id="order-details" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
   aria-hidden="true">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
@@ -65,7 +64,7 @@
             <option value="completed" class="w-100">Đã giao hàng thành công</option>
           </select>
           <label for="">Trạng thái thanh toán</label>
-          <input type="text" class="form-control" autocomplete="" formControlName="statePayment">
+          <input type="text" class="form-control" autocomplete="" formControlName="statePayment" disabled>
         </form>
       </div>
       <div class="modal-footer">
@@ -74,4 +73,4 @@
       </div>
     </div>
   </div>
-</div>
+</div> -->

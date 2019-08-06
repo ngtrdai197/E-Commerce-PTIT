@@ -62,8 +62,6 @@ export class HomepageComponent implements OnInit {
       this.categorys = data.length >= 5 ? data.slice(0, 4) : data;
       if (this.categorys.length === 4 && data.length >= 5) {
         this.subCategorys = data.slice(4, data.length);
-        console.log(this.subCategorys);
-        
       }
       this.firstCategoryId = this.categorys[0].id as string
       this.filterProducts(this.firstCategoryId, 'category');

@@ -2,7 +2,7 @@ import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { JwtService } from 'src/@core/services/jwt.service';
 import { Router } from '@angular/router';
 import { IUser } from 'src/@core/interface';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms';
 import { UserService } from 'src/@core/services/user.service';
 import { ToastrService } from 'ngx-toastr';
 
@@ -44,8 +44,6 @@ export class HeaderManagerComponent implements OnInit {
       id: this.user.id
     };
     const formData = new FormData();
-    console.log(user);
-    
     formData.append('address', user.address as string);
     formData.append('email', user.email as string);
     formData.append('fullName', user.fullName as string);
@@ -89,12 +87,12 @@ export class HeaderManagerComponent implements OnInit {
       this.user.avatar = this.avatarDefault;
     }
     this.editForm = this.formBuilder.group({
-      username: [this.user.username, [Validators.required]],
-      fullName: [this.user.fullName, [Validators.required]],
-      email: [this.user.email, [Validators.required]],
-      address: [this.user.address, [Validators.required]],
-      phone: [this.user.phone, [Validators.required]],
-      avatar: [this.user.avatar]
+      username: new FormControl(this.user.username, Validators.required),
+      fullName: new FormControl(this.user.fullName, Validators.required),
+      email: new FormControl(this.user.email, Validators.required),
+      address: new FormControl(this.user.address, Validators.required),
+      phone: new FormControl(this.user.phone, Validators.required),
+      avatar: new FormControl(this.user.avatar)
     });
   }
 
@@ -106,12 +104,12 @@ export class HeaderManagerComponent implements OnInit {
 
   private buildForm() {
     this.editForm = this.formBuilder.group({
-      username: ['', [Validators.required]],
-      fullName: ['', [Validators.required]],
-      email: ['', [Validators.required]],
-      address: ['', [Validators.required]],
-      phone: ['', [Validators.required]],
-      avatar: ['']
+      username: new FormControl('', Validators.required),
+      fullName: new FormControl('', Validators.required),
+      email: new FormControl('', Validators.required),
+      address: new FormControl('', Validators.required),
+      phone: new FormControl('', Validators.required),
+      avatar: new FormControl(null)
     });
   }
 }

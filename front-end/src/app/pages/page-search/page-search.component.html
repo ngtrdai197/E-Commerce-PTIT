@@ -5,16 +5,60 @@
 <section>
   <div class="container">
     <div class="row">
-      <ng-container *ngIf="isLoading">
-        <ng-container *ngIf="products.length > 0">
-          <div class="col-sm-6 col-md-4 col-lg-3" *ngFor="let product of products">
-            <shop-product [product]="product"></shop-product>
+      <div class="col-sm-12 col-md-2">
+
+      </div>
+      <div class="col-sm-12 col-md-10">
+        <ng-container *ngIf="isLoading">
+          <div class="row" style="padding: 15px 0; font-size: 14px">
+            <div class="col-sm-12 col-md-6 d-flex align-items-center">
+              Tổng số {{page?.total}} mặt hàng được tìm thấy <span *ngIf="keyword.length > 0" style="padding-left: 5px">theo "{{keyword}}"</span>
+            </div>
+            <div class="col-sm-12 col-md-6" style="font-size: 14px">
+              Sắp xếp theo:
+              <span class="pl-2">
+                <mat-form-field>
+                  <mat-select (selectionChange)="onChangeAndFilter()" [(value)]="selected">
+                    <mat-option value="1">Giá từ thấp tới cao</mat-option>
+                    <mat-option value="-1">Giá từ cao xuống thấp</mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </span>
+            </div>
+          </div>
+          <div class="row">
+            <ng-container *ngIf="products.length > 0">
+              <div class="col-sm-6 col-md-4 col-lg-3 mb-3" *ngFor="let product of products">
+                <shop-product [product]="product"></shop-product>
+              </div>
+            </ng-container>
+            <ng-container *ngIf="products.length === 0">
+              <div class="alert alert-danger">Không tìm thấy sản phẩm nào theo từ khóa</div>
+            </ng-container>
+          </div>
+          <div class="row pagination-row justify-content-center pt-3" *ngIf="page?.pages.length > 1">
+            <nav aria-label="Page navigation example">
+              <ul class="pagination">
+                <li class="page-item" *ngIf="page?.current > 1" (click)="nextAndPrevious('pre')">
+                  <a class="page-link" aria-label="Previous">
+                    <span aria-hidden="true">&laquo;</span>
+                    <span class="sr-only">Previous</span>
+                  </a>
+                </li>
+                <li class="page-item" [ngClass]="{'active': i+1 == page.current}" *ngFor="let p of page?.pages let i = index" (click)="navigatePage(i)">
+                  <a class="page-link" [innerHTML]="i+1"></a>
+                </li>
+                <li class="page-item" *ngIf="page?.current < page?.pages.length" (click)="nextAndPrevious('next')">
+                  <a class="page-link" aria-label="Next">
+                    <span aria-hidden="true">&raquo;</span>
+                    <span class="sr-only">Next</span>
+                  </a>
+                </li>
+              </ul>
+            </nav>
           </div>
         </ng-container>
-        <ng-container *ngIf="products.length === 0">
-          <div class="alert alert-danger">Không tìm thấy sản phẩm nào theo từ khóa</div>
-        </ng-container>
-      </ng-container>
+      </div>
     </div>
   </div>
 </section>

@@ -12,9 +12,9 @@ const routes: Routes = [
   { path: '', loadChildren: () => import('./pages/homepage/homepage.module').then(m => m.HomepageModule) },
   { path: 'auth', loadChildren: () => import('./auth/auth.module').then(m => m.AuthModule) },
   { path: 'admin', loadChildren: () => import('./manager/manager.module').then(m => m.ManagerModule), canActivate: [AuthGuard] },
-  { path: 'product/:id', loadChildren: () => import('./pages/product-details/product-details.module').then(m => m.ProductDetailsModule) },
+  { path: 'product/:name/:id', loadChildren: () => import('./pages/product-details/product-details.module').then(m => m.ProductDetailsModule) },
   { path: 'order', loadChildren: () => import('./pages/order/order.module').then(m => m.OrderModule) },
-  { path: 'page-search/:keyword', loadChildren: () => import('./pages/page-search/page-search.module').then(m => m.PageSearchModule) },
+  { path: 'page-search', loadChildren: () => import('./pages/page-search/page-search.module').then(m => m.PageSearchModule) },
   { path: 'my-order', loadChildren: () => import('./pages/order-me/order-me.module').then(m => m.OrderMeModule) },
   { path: 'contact', loadChildren: () => import('./pages/contact/contact.module').then(m => m.ContactModule) },
   { path: '**', component: PageNotFoundComponent }

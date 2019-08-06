@@ -3,9 +3,9 @@ import { MatPaginator, MatTableDataSource, MatSort, MatDialog } from '@angular/m
 import { Title } from '@angular/platform-browser';
 import { UserService } from 'src/@core/services/user.service';
 import { IUser } from 'src/@core/interface/IUser.interface';
-import { DialogDashUserComponent } from '../dialog-dash-user/dialog-dash-user.component';
 import { ToastrService } from 'ngx-toastr';
 import { NgxSpinnerService } from 'ngx-spinner';
+import { DialogDashUserComponent } from '../dialog-dash-user/dialog-dash-user.component';
 
 @Component({
   selector: 'shop-dash-user',

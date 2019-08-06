@@ -12,7 +12,8 @@
     </div>
     <div class="col-md-7 col-lg-7 content-product">
       <h3>{{product?.title}}</h3>
-      <p class="price">{{product?.oldPrice}}</p><span class="new-price"> {{product?.currentPrice}}</span>
+      <p class="price">{{product?.currentPrice | currency:' ': 'symbol' : '1.0-3'}} đ</p><span class="new-price"
+        *ngIf="product?.oldPrice"> {{product?.oldPrice | currency:' ': 'symbol' : '1.0-3'}} đ</span>
       <div class="description">{{product?.description}}</div>
       <div class="actions">
         <div class="btn-toolbar" role="toolbar" aria-label="Toolbar with button groups">
@@ -115,7 +116,8 @@
                 <mdb-card-title>
                   <h4 style="font-size: 15px" [title]="card?.description">{{card?.title}}</h4>
                 </mdb-card-title>
-                <a href="#" mdbBtn color="primary" class="waves-light" mdbWavesEffect style="padding: 10px 30px;">Chi tiết</a>
+                <a href="#" mdbBtn color="primary" class="waves-light" mdbWavesEffect style="padding: 10px 30px;">Chi
+                  tiết</a>
               </mdb-card-body>
             </mdb-card>
           </div>

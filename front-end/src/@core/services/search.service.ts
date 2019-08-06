@@ -10,11 +10,11 @@ import { IProduct } from '../interface';
 export class SearchService {
     constructor(private http: HttpClient) { }
 
-    search(keyword: string): Observable<IProduct[]> {
-        return this.http.get<IProduct[]>(`${API.HOST}/${API.SEARCH.BASE}/${keyword}`).pipe(
-            tap(products => {
-                return products.map(p => {
-                   return p.images = p.images.map(i => {
+    search(keyword: string, sort: number, pagination: any): Observable<IProduct[] | any> {
+        return this.http.get<IProduct[] | any>(`${API.HOST}/${API.SEARCH.BASE}?keyword=${keyword}&sort=${sort}&page=${pagination.page}&perPage=${pagination.perPage}`).pipe(
+            tap(data => {
+                return data.products.map(p => {
+                    return p.images = p.images.map(i => {
                         return `${API.HOST}/${i}`;
                     });
                 })

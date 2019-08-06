@@ -5,68 +5,40 @@ import { HeaderManagerComponent } from './header-manager/header-manager.componen
 import { Routes, RouterModule } from '@angular/router';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { DashboardContentComponent } from './dashboard-content/dashboard-content.component';
-import { DashUserComponent } from './dash-user/dash-user.component';
-import { DashProductComponent } from './dash-product/dash-product.component';
-import { MatTableModule } from '@angular/material/table';
-import { MatPaginatorModule, MatFormFieldModule, MatInputModule, MatButtonModule, MatSelectModule, MatOptionModule, MatSidenavModule } from '@angular/material';
-import { MatSortModule } from '@angular/material/sort';
-import { MatDialogModule } from '@angular/material/dialog';
-import { DialogDashUserComponent } from './dialog-dash-user/dialog-dash-user.component';
-import { MatTooltipModule } from '@angular/material/tooltip';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { DashCategoryComponent } from './dash-category/dash-category.component';
-import { DialogDashCategoryComponent } from './dialog-dash-category/dialog-dash-category.component';
-import { DialogDashProductComponent } from './dialog-dash-product/dialog-dash-product.component';
 import { SharedModule } from 'src/@shared/shared.module';
-import { OrderManagementComponent } from './order-management/order-management.component';
 import { NgxSpinnerModule } from 'ngx-spinner';
-import { MDBBootstrapModule } from 'angular-bootstrap-md';
 
 const routes: Routes = [
   {
     path: 'dashboard', component: DashboardComponent, children: [
-      { path: '', redirectTo: 'user-management', pathMatch: 'full' },
-      { path: 'user-management', component: DashUserComponent, data: { animation: 'Dash-User' } },
-      { path: 'product-management/:id', component: DashProductComponent, data: { animation: 'Dash-Product' } },
-      { path: 'category-management', component: DashCategoryComponent, data: { animation: 'Dash-Category' } },
-      { path: 'order-management/:state', component: OrderManagementComponent, data: { animation: 'Dash-Order' } }
+      { path: '', redirectTo: 'user', pathMatch: 'full' },
+      { path: 'user', loadChildren: () => import('./dash-user/dash-user.module').then(m => m.DashUserModule), data: { animation: 'Dash-User' } },
+      { path: 'product', loadChildren: () => import('./dash-product/dash-product.module').then(m => m.DashProductModule), data: { animation: 'Dash-Product' } },
+      { path: 'category', loadChildren: () => import('./dash-category/dash-category.module').then(m => m.DashCategoryModule), data: { animation: 'Dash-Category' } },
+      { path: 'order', loadChildren: () => import('./order-management/order-management.module').then(m => m.OrderManagementModule), data: { animation: 'Dash-Order' } },
+      { path: 'order-details', loadChildren: () => import('./order-details-management/order-details-management.module').then(m => m.OrderDetailsManagementModule), data: { animation: 'Dash-Order-Details' } }
     ]
   }
 ]
 
 @NgModule({
   declarations: [
-    SideMenuComponent, HeaderManagerComponent,
-    DashboardComponent, DashboardContentComponent,
-    DashUserComponent, DashProductComponent,
-    DialogDashUserComponent, DashCategoryComponent,
-    DialogDashCategoryComponent, DialogDashProductComponent, 
-    OrderManagementComponent
+    SideMenuComponent,
+    HeaderManagerComponent,
+    DashboardComponent,
+    DashboardContentComponent,
   ],
   imports: [
     CommonModule,
-    MDBBootstrapModule,
     NgxSpinnerModule,
     FormsModule,
     SharedModule,
-    MatTableModule,
-    MatPaginatorModule,
-    MatSortModule,
-    MatFormFieldModule,
-    MatInputModule,
-    MatDialogModule,
-    MatButtonModule,
-    MatTooltipModule,
-    MatSelectModule,
-    MatOptionModule,
-    MatSidenavModule,
     ReactiveFormsModule,
     RouterModule.forChild(routes)
   ],
   entryComponents: [
-    DialogDashUserComponent,
-    DialogDashCategoryComponent,
-    DialogDashProductComponent
+
   ]
 })
 export class ManagerModule { }

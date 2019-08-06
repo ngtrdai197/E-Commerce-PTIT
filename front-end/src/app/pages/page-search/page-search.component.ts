@@ -12,7 +12,15 @@ import { NgxSpinnerService } from 'ngx-spinner';
 export class PageSearchComponent implements OnInit {
 
   products: IProduct[] = [];
+  page: any;
   isLoading = false;
+  keyword = '';
+  selected = '1';
+  currentPage = 1;
+  pagination = {
+    page: 1,
+    perPage: 4
+  }
   constructor(
     private activatedRoute: ActivatedRoute,
     private searchService: SearchService,
@@ -22,13 +30,39 @@ export class PageSearchComponent implements OnInit {
   ngOnInit() {
     this.activatedRoute.params.subscribe(params => {
       this.spinner.show();
-      this.searchService.search(params['keyword']).subscribe(data => {
-        console.log(data);
-        this.products = data;
-        this.isLoading = true;
-        this.spinner.hide();
-      });
+      this.keyword = params['keyword'];
+      this.onChangeAndFilter();
     });
+  }
+
+  onLoading() {
+    this.searchService.search(this.keyword, +this.selected, this.pagination).subscribe(data => {
+      this.products = data.products;
+      this.page = {
+        current: data.current,
+        pages: new Array(data.pages),
+        total: data.total
+      };
+      this.isLoading = true;
+      this.spinner.hide();
+    });
+  }
+
+  navigatePage(pageNumber) {
+    this.currentPage = +pageNumber + 1;
+    this.spinner.show();
+    this.pagination.page = +pageNumber + 1;
+    this.onLoading();
+  }
+
+  nextAndPrevious(action: string) {
+    this.spinner.show();
+    this.pagination.page = action == 'pre' ? --this.currentPage : ++this.currentPage;
+    this.onLoading();
+  }
+
+  onChangeAndFilter() {
+    this.onLoading();
   }
 
 }

@@ -2,6 +2,13 @@
   display: block;
   max-height: 99%;
   overflow-y: auto;
+  .container{
+    .card-body{
+      div{
+        padding-bottom: 10px;
+      }
+    }
+  }
   .not-order {
     text-align: center;
     position: absolute;
