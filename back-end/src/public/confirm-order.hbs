@@ -11,13 +11,14 @@
 <body style="margin: 0; padding: 0;">
 	<div
 		style="color: #153643; font-family: Arial, sans-serif; font-size: 19px; margin-bottom: 30px; text-align: center;">
+		<div>Xin chào: <strong>{{user.fullName}}</strong></div>
 		<b>Xác nhận đơn hàng</b>
 		<br>
 		<b>Mã đơn đặt hàng của bạn là: {{order.id}}</b>
 		<br>
 		<b>Thanh toán: {{order.payments}}</b>
 		<div>
-			Tình trạng: Đang đóng gói sản phẩm và chuẩn bị giao cho đơn vị giao hàng !
+			Tình trạng: {{notify}}
 		</div>
 	</div>
 	<table class="w3-table" align="center" border="0" cellpadding="0" cellspacing="0" width="300">

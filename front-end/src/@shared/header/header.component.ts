@@ -54,8 +54,8 @@ export class HeaderComponent implements OnInit, OnDestroy {
     });
   }
 
-  onSearch(keyword) {
-    this.router.navigate(['/page-search', this.slug(keyword)]);
+  onSearch(keyword: string) {
+    this.router.navigate(['/page-search'], { queryParams: { keyword: this.slug(keyword) } });
   }
 
   removeItem(product: IProduct) {

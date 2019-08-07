@@ -48,12 +48,6 @@ export class OrderController {
             };
             const created = await this.orderRepo.create(order);
             const data = await this.orderRepo.pushCart(created.id as string, cart);
-            //update order to user
-            // const user = await this.userRepo.findOne(req.user.id);
-            // const orders = [];
-            // orders.push(created.id);
-            // (user.orders as string[]) = orders as string[];
-            // await this.userRepo.update(user);
             return res.status(200).send(data);
         } catch (error) {
             return res.status(500).send({ message: error.message });
@@ -108,12 +102,35 @@ export class OrderController {
                 query = { stateOrder: req.body.state };
             }
             const updated = await this.orderRepo.updateState(orderId, query);
+            const user = await this.userRepo.findOne({ _id: req.body.order.user });
+
             if (updated) {
-                const order = await this.orderRepo.findOne({ _id: orderId });
-                return res.status(200).send(order);
+                let notify = '';
+                if (req.body.state == 'ordered') {
+                    notify = 'Đang đóng gói sản phẩm và chuẩn bị giao cho đơn vị giao hàng !';
+                }
+                if (req.body.state == 'delivered') {
+                    notify = 'Sản phẩm đã được đóng gói và đang trên đường chuyển hàng !';
+                }
+                if (req.body.state == 'completed') {
+                    notify = 'Sản phẩm đã được giao đến khách hàng !';
+                }
+                const content = {
+                    user,
+                    order: req.body.order,
+                    notify: notify
+                };
+                const result = await email.sendEmail(user.email as string, content);
+                const respon = await this.orderRepo.findOnePopulate({ _id: orderId });
+                if (updated && result) {
+                    return res.status(200).send(respon);
+                }
+                return res.status(400).send({ statusCode: 400, message: 'Gửi mail thất bại' });
             }
             return res.status(400).json({ statusCode: 400, message: 'Cập nhật không thành công. Kiểm tra lại thông tin' });
         } catch (error) {
+            console.log(error);
+
             return res.status(500).json({ statusCode: 500, message: error.message });
         }
     }
@@ -151,6 +168,20 @@ export class OrderController {
             throw error;
         }
     }
+
+    @httpGet('/orderbyid/:id', parser([constants.ROLES.ADMIN]))
+    public async getOrderById(req: Request, res: Response) {
+        try {
+            const order = await this.orderRepo.findOnePopulate({ _id: req.params.id });
+            if (order) {
+                return res.status(200).send(order);
+            }
+            return res.status(404).json({ statusCode: 404, message: 'Đơn hàng không tồn tại' });
+        } catch (error) {
+            throw error;
+        }
+    }
+
 
     @httpGet('/filter', parser([constants.ROLES.ADMIN]))
     public async getOrderWithFilter(req: any, res: Response) {

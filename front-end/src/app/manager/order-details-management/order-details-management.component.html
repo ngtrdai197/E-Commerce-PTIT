@@ -1,1 +1,58 @@
-<p>order-details-management works!</p>
+<section class="order-details">
+  <div class="container h-100">
+    <div class="row h-100">
+      <div class="col-sm-12 col-md-4 information">
+        <h5>Thông tin đơn hàng</h5>
+        <div class="name">Họ tên khách hàng: Nguyễn Đại</div>
+        <div class="address">Địa chỉ: Hà Nội</div>
+        <div class="phone">Số điện thoại: 0375.629.888</div>
+        <div class="email">Email: ngtrdai290197@gmail.com</div>
+        <h5 class="mt-2">Thông tin đơn hàng</h5>
+        <div class="status-payment"
+          [innerHTML]="order?.statePayment ? 'Trạng thái thanh toán: Đã thanh toán' : 'Trạng thái thanh toán: Chưa thanh toán'">
+        </div>
+        <div class="status-order" *ngIf="order?.stateOrder === 'not-ordered'">Trạng thái đơn hàng: Chưa đặt hàng</div>
+        <div class="status-order" *ngIf="order?.stateOrder === 'completed'">Trạng thái đơn hàng: Giao hàng hoàn thành
+        </div>
+        <div class="status-order" *ngIf="order?.stateOrder === 'ordered'">Trạng thái đơn hàng: Đã đặt hàng</div>
+        <div class="status-order" *ngIf="order?.stateOrder === 'delivered'">Trạng thái đơn hàng: Đang chuyển hàng</div>
+        <div class="quantity">Số lượng sản phẩm: ({{order?.carts.length}} sản phẩm)</div>
+        <div class="payment">Số tiền thanh toán: {{totalPayment | currency:' ': 'symbol' : '1.0-3'}} đ</div>
+        <select class="form-control" (change)="getValueSelect($event.target.value)">
+          <option value="ordered" class="w-100" *ngIf="order?.stateOrder !== 'ordered'"
+            [disabled]="order?.stateOrder === 'completed'? true : false">Đã đặt hàng</option>
+          <option value="ordered" class="w-100" *ngIf="order?.stateOrder == 'ordered'" selected="selected">Đã đặt hàng
+          </option>
+          <option value="not-ordered" class="w-100" *ngIf="order?.stateOrder !== 'not-ordered'"
+            [disabled]="order?.stateOrder === 'completed'? true : false">Chưa đặt hàng</option>
+          <option value="not-ordered" class="w-100" *ngIf="order?.stateOrder == 'not-ordered'" selected="selected">Chưa
+            đặt hàng</option>
+          <option value="delivered" class="w-100" *ngIf="order?.stateOrder !== 'delivered'"
+            [disabled]="order?.stateOrder === 'completed'? true : false">Đang chuyển hàng</option>
+          <option value="delivered" class="w-100" *ngIf="order?.stateOrder == 'delivered'" selected="selected">Đang
+            chuyển hàng</option>
+          <option value="completed" class="w-100" *ngIf="order?.stateOrder !== 'completed'">Đã giao hàng thành công
+          </option>
+          <option value="completed" class="w-100" *ngIf="order?.stateOrder == 'completed'" selected="selected">Đã giao
+            hàng thành công</option>
+        </select>
+        <div class="update" *ngIf="order?.stateOrder !== 'completed'">
+          <button class="btn btn-danger btn-block mt-2" (click)="updateOrder(order)">Cập nhật</button>
+        </div>
+      </div>
+      <div class="col-sm-12 col-md-8 product-list">
+        <div class="row">
+          <ng-container *ngIf="isLoading">
+            <div class="col-sm-12 col-md-6 mb-2 a-cart" *ngFor="let cart of order?.carts">
+              <shop-product [product]="cart?.product"></shop-product>
+              <div class="a-product">Số lượng: {{cart?.quantity}}</div>
+            </div>
+          </ng-container>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<ngx-spinner bdColor="rgba(51,51,51,0.8)" size="medium" color="#fff" type="line-scale-party">
+  <p style="color: #fff">Đang cập nhật đơn hàng. Vui lòng đợi !</p>
+</ngx-spinner>

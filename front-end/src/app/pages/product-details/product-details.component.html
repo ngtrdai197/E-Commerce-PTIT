@@ -111,7 +111,7 @@
           <div class="col-md-3" [ngClass]="{'d-none d-md-block': cardIndex !== 0}"
             *ngFor="let card of item; let cardIndex = index">
             <mdb-card class="my-1">
-              <mdb-card-img [src]="card?.images[0]" [alt]="card?.title"></mdb-card-img>
+              <mdb-card-img [src]="card?.images[0]" [alt]="card?.title" style="height: 280px;"></mdb-card-img>
               <mdb-card-body>
                 <mdb-card-title>
                   <h4 style="font-size: 15px" [title]="card?.description">{{card?.title}}</h4>

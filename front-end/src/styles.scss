@@ -12,15 +12,21 @@ html {
 
 .bg-gradient-primary {
   background-color: #4e73df;
-  background-image: -webkit-gradient(
-    linear,
-    left top,
-    left bottom,
-    color-stop(10%, #4e73df),
-    to(#224abe)
-  );
+  background-image: -webkit-gradient(linear,
+      left top,
+      left bottom,
+      color-stop(10%, #4e73df),
+      to(#224abe));
   background-image: linear-gradient(180deg, #2a3967 10%, #224abe 100%);
   background-size: cover;
+}
+
+.a-cart {
+  .wrapping-img {
+    img {
+      height: 200px !important;
+    }
+  }
 }
 
 // modal
@@ -36,23 +42,24 @@ html {
 
 /* Track */
 ::-webkit-scrollbar-track {
-  background: #f1f1f1; 
+  background: #f1f1f1;
 }
- 
+
 /* Handle */
 ::-webkit-scrollbar-thumb {
-  background: #888; 
+  background: #888;
 }
 
 /* Handle on hover */
 ::-webkit-scrollbar-thumb:hover {
-  background: #555; 
+  background: #555;
 }
 
-.primary-color{
-  background-color: #4285f4!important;
+.primary-color {
+  background-color: #4285f4 !important;
 }
-.nav-link{
+
+.nav-link {
   border: none !important;
 }
 
@@ -118,8 +125,9 @@ ol {
 }
 
 .icon-loading {
+
   &.la-ball-clip-rotate,
-  &.la-ball-clip-rotate > div {
+  &.la-ball-clip-rotate>div {
     position: relative;
     -webkit-box-sizing: border-box;
     -moz-box-sizing: border-box;
@@ -136,7 +144,7 @@ ol {
     color: #333;
   }
 
-  &.la-ball-clip-rotate > div {
+  &.la-ball-clip-rotate>div {
     display: inline-block;
     float: none;
     background-color: currentColor;
@@ -148,7 +156,7 @@ ol {
     height: 32px;
   }
 
-  &.la-ball-clip-rotate > div {
+  &.la-ball-clip-rotate>div {
     width: 32px;
     height: 32px;
     background: transparent;
@@ -166,7 +174,7 @@ ol {
     height: 16px;
   }
 
-  &.la-ball-clip-rotate.la-sm > div {
+  &.la-ball-clip-rotate.la-sm>div {
     width: 16px;
     height: 16px;
     border-width: 1px;
@@ -181,7 +189,7 @@ ol {
     transform: translate(-50%);
   }
 
-  &.la-ball-clip-rotate.la-3x > div {
+  &.la-ball-clip-rotate.la-3x>div {
     width: 65px;
     height: 65px;
     border-width: 6px;

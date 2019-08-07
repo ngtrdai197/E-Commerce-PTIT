@@ -14,7 +14,7 @@
             <div class="col-sm-12 col-md-6 d-flex align-items-center">
               Tổng số {{page?.total}} mặt hàng được tìm thấy <span *ngIf="keyword.length > 0" style="padding-left: 5px">theo "{{keyword}}"</span>
             </div>
-            <div class="col-sm-12 col-md-6" style="font-size: 14px">
+            <div class="col-sm-12 col-md-6" style="font-size: 14px" *ngIf="products.length > 0">
               Sắp xếp theo:
               <span class="pl-2">
                 <mat-form-field>

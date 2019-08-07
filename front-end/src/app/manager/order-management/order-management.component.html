@@ -14,7 +14,8 @@
           <div>Phone: {{order?.user?.phone}}</div>
           <div>Address: {{order?.user?.address}}</div>
           <div>Ngày tạo đơn: {{order?.createdDate | date:'dd/MM/yyyy, hh:mm:a'}}</div>
-          <a mdbBtn color="primary" class="d-flex justify-content-center" mdbWavesEffect (click)="onShowOrderDetails(order)" routerLink="/admin/dashboard/order-details">Chi tiết</a>
+          <a mdbBtn color="primary" class="d-flex justify-content-center"
+            [routerLink]="['/admin/dashboard/order-details', order.id]">Chi tiết</a>
         </mdb-card-body>
       </mdb-card>
     </div>
@@ -33,44 +34,3 @@
 <div class="not-order" *ngIf="cartEmpty && actionFilter === 'completed'">
   Hiện tại chưa có đơn hàng nào được giao thành công
 </div>
-<!-- Modal -->
-<!-- <div class="modal fade" id="order-details" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-  aria-hidden="true">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Chi tiết đơn hàng</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-        <form [formGroup]="orderDetailsForm">
-          <label for="">Tên khách hàng</label>
-          <input type="text" class="form-control" autocomplete="" formControlName="fullName" readonly>
-          <label for="">Địa chỉ khách hàng</label>
-          <input type="text" class="form-control" autocomplete="" formControlName="address" readonly>
-          <label for="">Email khách hàng</label>
-          <input type="text" class="form-control" autocomplete="" formControlName="email" readonly>
-          <label for="">Số điện thoại khách hàng</label>
-          <input type="text" class="form-control" autocomplete="" formControlName="phone" readonly>
-          <label for="">Hình thức thanh toán</label>
-          <input type="text" class="form-control" autocomplete="" formControlName="payments">
-          <label for="">Trạng thái đặt hàng</label>
-          <select class="form-control" formControlName="stateOrder">
-            <option value="ordered" class="w-100">Đã đặt hàng</option>
-            <option value="not-ordered" class="w-100">Chưa đặt hàng</option>
-            <option value="delivered" class="w-100">Đang chuyển hàng</option>
-            <option value="completed" class="w-100">Đã giao hàng thành công</option>
-          </select>
-          <label for="">Trạng thái thanh toán</label>
-          <input type="text" class="form-control" autocomplete="" formControlName="statePayment" disabled>
-        </form>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary" data-dismiss="modal" (click)="updateOrder()">Save changes</button>
-      </div>
-    </div>
-  </div>
-</div> -->

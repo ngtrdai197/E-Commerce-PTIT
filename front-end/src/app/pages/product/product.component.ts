@@ -24,6 +24,7 @@ export class ProductComponent implements OnInit {
   }
 
   slug(name: string) {
+    if(!name) return;
     name = name.toLowerCase();
     name = name.replace(/(à|á|ạ|ả|ã|â|ầ|ấ|ậ|ẩ|ẫ|ă|ằ|ắ|ặ|ẳ|ẵ)/g, 'a');
     name = name.replace(/(è|é|ẹ|ẻ|ẽ|ê|ề|ế|ệ|ể|ễ)/g, 'e');

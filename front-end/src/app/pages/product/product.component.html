@@ -14,6 +14,6 @@
   <div class="price" *ngIf="product?.oldPrice > product?.currentPrice">
     <span class="old">
       {{product?.oldPrice | currency:' ': 'symbol' : '1.0-3'}} đ</span>
-    <span class="percent">- {{((product?.oldPrice - product?.currentPrice)/ product.oldPrice) | percent}}</span>
+    <span class="percent">- {{((product?.oldPrice - product?.currentPrice)/ product?.oldPrice) | percent}}</span>
   </div>
 </div>

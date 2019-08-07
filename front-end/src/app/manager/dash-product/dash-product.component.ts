@@ -54,14 +54,14 @@ export class DashProductComponent implements OnInit {
   }
 
   onViewImages(images: string[], productId: string) {
-    this.currentProduct = productId;
     if (images.length === 0) {
       this.toastService.info('Sản phẩm chưa có hình ảnh.', 'Thông báo');
-      return;
+    } else {
+      this.currentProduct = productId;
+      this.viewImages = [...images.map(x => {
+        return x = `http://localhost:3000/` + x;
+      })];
     }
-    this.viewImages = [...images.map(x => {
-      return x = `http://localhost:3000/` + x;
-    })];
   }
 
   getUrlImageDelete(url: string) {
@@ -81,7 +81,7 @@ export class DashProductComponent implements OnInit {
           this.toastService.success(response['message']);
           this.refresh();
         }
-      })
+      });
       if (this.viewImages.length === 0) {
         this.closeModal.nativeElement.click();
       }
@@ -103,6 +103,7 @@ export class DashProductComponent implements OnInit {
       if (response) {
         this.refresh();
         this.toastService.success('Thêm sản phẩm thành công', 'Thông báo');
+        this.createForm.reset();
       }
     });
   }
@@ -136,7 +137,7 @@ export class DashProductComponent implements OnInit {
     this.productService.deleteProduct(this.selectedIdDetele).subscribe(response => {
       if (response) {
         this.refresh();
-        this.toastService.success('Xóa sản phẩm thành công', 'Thông báo');
+        this.toastService.success('Xóa sản phẩm thành công');
       }
     })
   }
@@ -166,7 +167,7 @@ export class DashProductComponent implements OnInit {
     this.productService.updateProduct(payload).subscribe((response) => {
       if (response) {
         this.refresh();
-        this.toastService.success('Cập nhật sản phẩm thành công', 'Thông báo');
+        this.toastService.success('Cập nhật sản phẩm thành công');
       }
     }, (error) => {
       this.toastService.error(error, 'Lỗi');

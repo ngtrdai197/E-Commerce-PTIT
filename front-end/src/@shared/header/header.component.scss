@@ -77,6 +77,8 @@
 
   .header-logo .logo img {
     display: block;
+    width: 80px;
+    height: 80px;
   }
 
   /*----------------------------*\
@@ -95,6 +97,8 @@
     margin-right: -4px;
     border-radius: 40px 0px 0px 40px;
     outline: none;
+    font-size: 14px;
+    padding-right: 0;
   }
 
   .header-search form .input {

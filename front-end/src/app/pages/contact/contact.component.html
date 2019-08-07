@@ -5,10 +5,9 @@
       <div class="col-xs-6 col-md-6">
         <div class="cover">
           <h3>Thông tin liên hệ</h3>
-          <p>Nếu bạn có bất kì câu hỏi hoặc thắc mắc nào về tôi. Có thể liên hệ với tôi thông qua thông
-            tin bên dưới.</p>
+          <p>Nếu bạn có bất kì câu hỏi hoặc thắc mắc nào về chúng tôi. Bạn Có thể liên hệ với tôi thông qua thông
+            tin bên dưới. Hoặc trực tiếp gửi phản hồi về hòm thư của chúng tôi</p>
         </div>
-
         <ul>
           <li><i class="fa fa-map-marker"></i><span>429/6 phường Tăng Nhơn Phú A, Quận 9, TP.Hồ Chí
               Minh</span></li>
@@ -36,6 +35,10 @@
 
     </div>
   </div>
-  <div class="cover-opacity"></div>
+</section>
+<section class="google-map-e-commerce">
+  <agm-map [latitude]="lat" [longitude]="lng">
+    <agm-marker [latitude]="lat" [longitude]="lng"></agm-marker>
+  </agm-map>
 </section>
 <shop-footer></shop-footer>

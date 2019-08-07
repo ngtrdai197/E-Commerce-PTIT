@@ -1,29 +1,64 @@
 :host {
   display: block;
+
   section {
+    &.google-map-e-commerce {
+      agm-map {
+        height: 300px;
+      }
+    }
+
     background: url(http://nguyendai.me/images/contact.jpg) no-repeat;
     background-position: center;
     background-size: cover;
     background-attachment: fixed;
+    box-shadow: 0 0 0 1000px rgba(0, 0, 0, 0.75) inset;
+    color: #fff;
+
     .container {
       .row {
         padding-top: 4em;
+
         ul {
           li {
             list-style: none;
             padding: 10px;
+            font-size: 14px;
             i {
               padding-right: 7px;
             }
           }
         }
+
         .cover {
           padding-left: 40px;
+
+          p {
+            font-size: 14px;
+            font-style: italic;
+            line-height: 30px;
+          }
         }
+
         form {
+
           input,
           textarea {
             background: transparent;
+            color: #fff;
+            font-weight: normal;
+            resize: none;
+            font-size: 13px;
+
+            &::placeholder {
+              color: #fff;
+              font-style: italic;
+              font-size: 13px;
+            }
+          }
+
+          .btn {
+            cursor: pointer;
           }
         }
       }

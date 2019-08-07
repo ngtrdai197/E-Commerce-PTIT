@@ -27,10 +27,10 @@
   <div id="header">
     <div class="container">
       <div class="row w-100">
-        <div class="col-md-3">
+        <div class="col-md-3 d-flex justify-content-center">
           <div class="header-logo">
             <a routerLink="/home" class="logo">
-              <!-- <img src="../../assets/logo.png" alt=""> -->
+              <img src="http://nguyendai.me/images/logo.png" alt="">
             </a>
           </div>
         </div>
@@ -49,13 +49,6 @@
         </div>
         <div class="col-md-3 clearfix">
           <div class="header-ctn">
-            <!-- <div>
-              <a href="#">
-                <i class="fa fa-heart-o"></i>
-                <span>Your Wishlist</span>
-                <div class="qty">2</div>
-              </a>
-            </div> -->
             <div class="dropdown">
               <a class="dropdown-toggle" data-toggle="dropdown" role="button" id="dropdownMenuLink"
                 aria-expanded="false" style="cursor: pointer;" *ngIf="currentUser?.role !== role.ADMIN">

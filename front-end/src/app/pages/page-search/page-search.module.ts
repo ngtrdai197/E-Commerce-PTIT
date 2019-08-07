@@ -8,8 +8,7 @@ import { MatSelectModule } from '@angular/material/select';
 
 
 const routes: Routes = [
-  { path: ':keyword', component: PageSearchComponent },
-  { path: '', redirectTo: ' ', pathMatch: 'full' }
+  { path: '', component: PageSearchComponent },
 ]
 
 @NgModule({

@@ -91,6 +91,18 @@ export class OrderCartService {
         });
     }
 
+    getOrderById(orderId: string): Observable<IOrder> {
+        return this.http.get<IOrder>(`${API.HOST}/${API.ORDER.BASE}/orderbyid/${orderId}`).pipe(tap(response => {
+            if (response) {
+                response.carts.map(order => {
+                    order.product['images'] = order.product['images'].map(img => {
+                        return (img = `${API.HOST}/${img}`);
+                    });
+                });
+            }
+        }))
+    }
+
     getOrdersCart() {
         this.http
             .get(`${API.HOST}/${API.ORDER.BASE}`)
@@ -131,8 +143,16 @@ export class OrderCartService {
             );
     }
 
-    updateStateOrder(orderId: string, state: string): Observable<any> {
-        const body = { state };
-        return this.http.put<any>(`${API.HOST}/${API.ORDER.BASE}/state/${orderId}`, body);
+    updateStateOrder(order: IOrder, state: string): Observable<IOrder> {
+        const body = { state, order };
+        return this.http.put<IOrder>(`${API.HOST}/${API.ORDER.BASE}/state/${order.id}`, body).pipe(tap(response => {
+            if (response) {
+                response.carts.map(order => {
+                    order.product['images'] = order.product['images'].map(img => {
+                        return (img = `${API.HOST}/${img}`);
+                    });
+                });
+            }
+        }));
     }
 }

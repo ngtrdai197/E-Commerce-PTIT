@@ -24,11 +24,11 @@ export class PageSearchComponent implements OnInit {
   constructor(
     private activatedRoute: ActivatedRoute,
     private searchService: SearchService,
-    private spinner: NgxSpinnerService,
+    private spinner: NgxSpinnerService
   ) { }
 
   ngOnInit() {
-    this.activatedRoute.params.subscribe(params => {
+    this.activatedRoute.queryParams.subscribe(params => {
       this.spinner.show();
       this.keyword = params['keyword'];
       this.onChangeAndFilter();
