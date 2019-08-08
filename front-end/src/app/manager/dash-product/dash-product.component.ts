@@ -20,7 +20,7 @@ export class DashProductComponent implements OnInit {
   categorys: IProduct[] = [];
   isToggle: Boolean = false;
   productChecked: '';
-  displayedColumns: string[] = ['productName', 'title', 'description', 'productTotal', 'currentPrice', 'oldPrice', 'discount', 'images', 'action'];
+  displayedColumns: string[] = ['productName', 'title', 'description', 'currentPrice', 'oldPrice', 'discount', 'images', 'action'];
   dataSource: MatTableDataSource<IProduct>;
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
   @ViewChild(MatSort, { static: true }) sort: MatSort;
@@ -96,7 +96,6 @@ export class DashProductComponent implements OnInit {
       oldPrice: this.createForm.value.oldPrice,
       description: this.createForm.value.description,
       title: this.createForm.value.title,
-      productTotal: this.createForm.value.productTotal,
       sex: +this.createForm.value.sex
     }
     this.productService.createProduct(product).subscribe((response) => {
@@ -122,7 +121,6 @@ export class DashProductComponent implements OnInit {
       oldPrice: new FormControl(product.oldPrice),
       description: new FormControl(product.description, Validators.required),
       title: new FormControl(product.title, Validators.required),
-      productTotal: new FormControl(product.productTotal, Validators.required),
       sex: new FormControl(product.sex),
       images: new FormControl(null)
     });
@@ -154,7 +152,6 @@ export class DashProductComponent implements OnInit {
     payload.append('category', this.categoryId);
     payload.append('currentPrice', this.editForm.value.currentPrice);
     payload.append('title', this.editForm.value.title);
-    payload.append('productTotal', this.editForm.value.productTotal);
     payload.append('sex', this.editForm.value.sex);
     payload.append('id', this.currentProduct);
 
@@ -198,7 +195,6 @@ export class DashProductComponent implements OnInit {
       currentPrice: new FormControl('', [Validators.required]),
       oldPrice: new FormControl(''),
       description: new FormControl('', [Validators.required]),
-      productTotal: new FormControl('', [Validators.required]),
       sex: new FormControl(null, [Validators.required]),
       images: new FormControl(null),
     });
@@ -208,7 +204,6 @@ export class DashProductComponent implements OnInit {
       currentPrice: new FormControl('', [Validators.required]),
       oldPrice: new FormControl(''),
       description: new FormControl('', [Validators.required]),
-      productTotal: new FormControl('', [Validators.required]),
       sex: new FormControl(null, [Validators.required]),
       images: new FormControl(null)
     });

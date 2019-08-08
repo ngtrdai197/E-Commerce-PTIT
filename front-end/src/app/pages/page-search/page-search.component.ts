@@ -19,7 +19,7 @@ export class PageSearchComponent implements OnInit {
   currentPage = 1;
   pagination = {
     page: 1,
-    perPage: 4
+    perPage: 10
   }
   constructor(
     private activatedRoute: ActivatedRoute,

@@ -11,14 +11,15 @@ export interface IProduct {
     oldPrice?: number;
     images?: string[];
     category?: string | ICategory;
-    productTotal?: number;
+    // productTotal?: number;
     textSlug?: string;
     // discount?: number;
     // productAvailable?: number;
-    ratings?: number; // ratings
+    // ratings?: number; // ratings
     sex?: number; // 0 male 1 female
     feeback?: IFeedback,
-    isDeleted?: boolean
+    isDeleted?: boolean,
+    createdAtDate?: Date
 }
 
 export interface IFeedback {
@@ -50,17 +51,22 @@ const productSchema = new mongoose.Schema(
     {
         productName: {
             type: String,
-            required: true
+            required: true,
+            trim: true
         },
         title: {
             type: String,
-            required: true
+            required: true,
+            trim: true
         },
         currentPrice: {
             type: Number,
             required: true
         },
-        description: String,
+        description: {
+            type:String,
+            trim: true
+        },
         oldPrice: Number,
         images: [{
             type: String
@@ -69,13 +75,15 @@ const productSchema = new mongoose.Schema(
             type: mongoose.Schema.Types.ObjectId, ref: 'Category',
             required: true
         },
-        productTotal: {
-            type: Number,
-            required: true
-        },
+        // productTotal: {
+        //     type: Number,
+        //     required: true,
+        //     trim: true
+        // },
         textSlug: {
             type: String,
-            required: true
+            required: true,
+            trim: true
         },
         // discount:{
         //     type: Number,
@@ -85,9 +93,9 @@ const productSchema = new mongoose.Schema(
         //     type: Number,
         //     required: true
         // },
-        ratings: {
-            type: Number
-        },
+        // ratings: {
+        //     type: Number
+        // },
         sex: {
             type: Number,
             required: true
@@ -96,7 +104,11 @@ const productSchema = new mongoose.Schema(
             type: Boolean,
             default: false
         },
-        feedback: [feedbackSchema]
+        feedback: [feedbackSchema],
+        createdAtDate: {
+            type: Date,
+            default: new Date(Date.now())
+        }
     },
     {
         toObject: {

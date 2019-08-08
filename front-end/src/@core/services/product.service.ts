@@ -12,6 +12,18 @@ export class ProductService {
 
     constructor(private http: HttpClient) { }
 
+    getAll(pagination: any) {
+        return this.http.get<any>(`${API.HOST}/${API.PRODUCT.BASE}?page=${pagination.page}&perPage=${pagination.perPage}`).pipe(
+            tap(response => {
+                return response.products.map(product => {
+                    return product.images = product.images.map(img => {
+                        return img = `${API.HOST}/${img}`;
+                    })
+                })
+            })
+        );
+    }
+
     fetchProductsByCategory(categoryId: string): Observable<IProduct[]> {
         return this.http.get<IProduct[]>(`${API.HOST}/${API.PRODUCT.BASE}/${API.PRODUCT.GET_BY_CATEGORY}/${categoryId}`);
     }

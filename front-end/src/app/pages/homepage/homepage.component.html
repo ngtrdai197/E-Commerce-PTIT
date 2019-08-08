@@ -20,74 +20,64 @@
 </section>
 <section class="homepage">
   <div class="container">
-    <div class="row list-product">
-      <div class="menu-head-sub">
-        <div class="title-menu">Thời trang nam</div>
-        <div class="item-menu">
-          <ul class="nav nav-tabs" id="myTab" role="tablist">
-            <li class="nav-item" *ngFor="let category of categorys">
-              <a class="nav-link" id="home-tab" data-toggle="tab"
-                [ngClass]="{'active': category.id === firstCategoryId}"
-                (click)="filterProducts(category.id, 'category')" role="tab" aria-controls="home" aria-selected="true"
-                [innerHTML]="category?.categoryName"></a>
-            </li>
-            <li class="show-more-catalog">
-              <div class="btn-group">
-                <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown"
-                  aria-haspopup="true" aria-expanded="false">
-                  More
-                </button>
-                <div class="dropdown-menu dropdown-menu-right">
-                  <a class="dropdown-item nav-link" *ngFor="let subCatalog of subCategorys"
-                    [ngClass]="{'active': subCatalog.id === firstCategoryId}"
-                    (click)="filterProducts(subCatalog?.id, 'subcategory')" [innerHTML]="subCatalog?.categoryName"></a>
-                </div>
-              </div>
-            </li>
-          </ul>
-        </div>
+    <h4>Danh muc</h4>
+    <div class="row list-catalog">
+      <div class="col-sm-6 col-md-2 item-catalog">
+        Giày Nam
       </div>
-      <div class="product-item w-100">
+      <div class="col-sm-6 col-md-2 item-catalog">
+        Giày Nam
+      </div>
+      <div class="col-sm-6 col-md-2 item-catalog">
+        Giày Nam
+      </div>
+      <div class="col-sm-6 col-md-2 item-catalog">
+        Giày Nam
+      </div>
+      <div class="col-sm-6 col-md-2 item-catalog">
+        Giày Nam
+      </div>
+      <div class="col-sm-6 col-md-2 item-catalog">
+        Giày Nam
+      </div>
+      <div class="col-sm-6 col-md-2 item-catalog">
+        Giày Nam
+      </div>
+      <div class="col-sm-6 col-md-2 item-catalog">
+        Giày Nam
+      </div>
+      <div class="col-sm-6 col-md-2 item-catalog">
+        Giày Nam
+      </div>
+    </div>
+    <div class="row list-product">
+      <div class="col-12">
         <div class="row">
           <div class="col-sm-4 col-md-3 col-lg-3 mb-4" *ngFor="let product of products">
             <shop-product [product]="product"></shop-product>
           </div>
-          <div class="row w-100">
-            <div class="col-12 text-center" style="color: #000; cursor: pointer; padding-bottom: 12px;">Xem thêm ...
-            </div>
-          </div>
         </div>
-      </div>
-    </div>
-    <div class="row list-product">
-      <div class="menu-head-sub">
-        <div class="title-menu">Thời trang nữ</div>
-        <div class="item-menu">
-          <ul class="nav nav-tabs" id="myTab" role="tablist">
-            <li class="nav-item">
-              <a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home"
-                aria-selected="true">Home</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" id="profile-tab" data-toggle="tab" href="#profile" role="tab" aria-controls="profile"
-                aria-selected="false">Profile</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" id="contact-tab" data-toggle="tab" href="#contact" role="tab" aria-controls="contact"
-                aria-selected="false">Contact</a>
-            </li>
-          </ul>
-        </div>
-      </div>
-      <div class="product-item">
-        <div class="row">
-          <div class="col-sm-6 col-md-4 col-lg-3">
-            <!-- <shop-product></shop-product> -->
-          </div>
-          <div class="row w-100">
-            <div class="col-12 text-center" style="color: #000; cursor: pointer; padding-bottom: 12px;">Xem thêm ...
-            </div>
-          </div>
+        <div class="row pagination-row justify-content-center pt-3" *ngIf="page?.pages.length > 1">
+          <nav aria-label="Page navigation example">
+            <ul class="pagination">
+              <li class="page-item" *ngIf="page?.current > 1" (click)="nextAndPrevious('pre')">
+                <a class="page-link" aria-label="Previous">
+                  <span aria-hidden="true">&laquo;</span>
+                  <span class="sr-only">Previous</span>
+                </a>
+              </li>
+              <li class="page-item" [ngClass]="{'active': i+1 == page.current}"
+                *ngFor="let p of page?.pages let i = index" (click)="navigatePage(i)">
+                <a class="page-link" [innerHTML]="i+1"></a>
+              </li>
+              <li class="page-item" *ngIf="page?.current < page?.pages.length" (click)="nextAndPrevious('next')">
+                <a class="page-link" aria-label="Next">
+                  <span aria-hidden="true">&raquo;</span>
+                  <span class="sr-only">Next</span>
+                </a>
+              </li>
+            </ul>
+          </nav>
         </div>
       </div>
     </div>

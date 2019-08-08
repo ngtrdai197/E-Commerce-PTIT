@@ -29,8 +29,20 @@ export class ProductRepository implements IProductRepository {
         return await productModel.find(query).limit(10);
     }
 
-    findAll = async (query: any): Promise<IProduct[]> => {
-        return await productModel.find(query);
+    findAll = async (query: any): Promise<IProduct[] | any> => {
+        const products = await productModel
+            .find({ isDeleted: query.isDeleted })
+            .sort({ 'createdAtDate': '-1' })
+            .skip((query.page * query.perPage) - query.perPage)
+            .limit(query.perPage);
+        const counter = await productModel.count({ isDeleted: query.isDeleted });
+        const result = {
+            products,
+            current: query.page,
+            total: counter,
+            pages: Math.ceil(counter / query.perPage)
+        };
+        return Promise.resolve(result);
     };
 
     create = async (product: IProduct): Promise<IProduct> => {

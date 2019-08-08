@@ -18,10 +18,6 @@
       <th mat-header-cell *matHeaderCellDef mat-sort-header> Mô tả </th>
       <td mat-cell *matCellDef="let product" [title]="product?.description"> {{product?.description | describe}} </td>
     </ng-container>
-    <ng-container matColumnDef="productTotal">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header> Số lượng </th>
-      <td mat-cell *matCellDef="let product"> {{product?.productTotal}} </td>
-    </ng-container>
     <ng-container matColumnDef="currentPrice">
       <th mat-header-cell *matHeaderCellDef mat-sort-header> Giá mới </th>
       <td mat-cell *matCellDef="let product"> {{product?.currentPrice | currency:' ': 'symbol' : '1.0-3'}} đ</td>
@@ -95,11 +91,6 @@
         <div class="alert alert-danger mt-1 py-1 mb-0"
           *ngIf="createForm.controls['description'].invalid && (createForm.controls['description'].dirty || createForm.controls['description'].touched)">
           Mô tả cho sản phẩm không được để trống</div>
-        <label for="">Số lượng</label>
-        <input type="number" class="form-control" autocomplete="" formControlName="productTotal">
-        <div class="alert alert-danger mt-1 py-1 mb-0"
-          *ngIf="createForm.controls['productTotal'].invalid && (createForm.controls['productTotal'].dirty || createForm.controls['productTotal'].touched)">
-          Số lượng sản phẩm không được để trống</div>
         <label for="">Giá hiện tại</label>
         <input type="number" class="form-control" autocomplete="" formControlName="currentPrice">
         <div class="alert alert-danger mt-1 py-1 mb-0"
@@ -191,11 +182,6 @@
         <div class="alert alert-danger mt-1 py-1 mb-0"
           *ngIf="editForm.controls['description'].invalid && (editForm.controls['description'].dirty || editForm.controls['description'].touched)">
           Mô tả cho sản phẩm không được để trống</div>
-        <label for="">Số lượng</label>
-        <input type="number" class="form-control" autocomplete="" formControlName="productTotal">
-        <div class="alert alert-danger mt-1 py-1 mb-0"
-          *ngIf="editForm.controls['productTotal'].invalid && (editForm.controls['productTotal'].dirty || editForm.controls['productTotal'].touched)">
-          Số lượng sản phẩm không được để trống</div>
         <label for="">Giá hiện tại</label>
         <input type="number" class="form-control" autocomplete="" formControlName="currentPrice">
         <div class="alert alert-danger mt-1 py-1 mb-0"

@@ -17,9 +17,13 @@ export class Product {
     ) { }
 
     @httpGet('/')
-    public async findAll(): Promise<IProduct[] | any> {
+    public async findAll(req: Request, res: Response): Promise<IProduct[] | any> {
         try {
-            const query = { isDeleted: false };
+            const query = {
+                page: +req.query.page,
+                perPage: +req.query.perPage,
+                isDeleted: false
+            }
             const products = await this.productRepo.findAll(query);
             // products.map(async p => {
             //     await this.productRepo.update(p);

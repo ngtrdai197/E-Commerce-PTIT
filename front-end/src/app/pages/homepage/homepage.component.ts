@@ -4,6 +4,7 @@ import { CategoryService } from 'src/@core/services/category.service';
 import { ICategory, IProduct } from 'src/@core/interface';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { SwiperConfigInterface } from 'ngx-swiper-wrapper';
+import { ProductService } from 'src/@core/services/product.service';
 
 @Component({
   selector: 'shop-homepage',
@@ -14,6 +15,8 @@ export class HomepageComponent implements OnInit {
 
   categorys: ICategory[] = [];
   subCategorys: ICategory[] = [];
+  productsMale: IProduct[] = [];
+  productsFemale: IProduct[] = [];
   products: IProduct[] = [];
   firstCategoryId = '';
   config: SwiperConfigInterface = {
@@ -26,47 +29,49 @@ export class HomepageComponent implements OnInit {
     navigation: true,
     pagination: false
   };
+  currentPage = 1;
+  pagination = {
+    page: 1,
+    perPage: 15
+  };
+  page: any;
 
   constructor(
     private title: Title,
     private categoryService: CategoryService,
-    private spinner: NgxSpinnerService
+    private spinner: NgxSpinnerService,
+    private productService: ProductService
   ) { }
 
   ngOnInit() {
-    this.onSetTitle();
-    this.onLoadCategory();
-  }
-
-  filterProducts(categoryId: string, action: string) {
-    this.firstCategoryId = categoryId;
-    if (action === 'category') {
-      this.categorys.filter(x => {
-        if (x.id === categoryId) {
-          this.products = x.products as IProduct[];
-        }
-      });
-    } else {
-      this.subCategorys.filter(x => {
-        if (x.id === categoryId) {
-          this.products = x.products as IProduct[];
-        }
-      });
-    }
-  }
-
-  onLoadCategory() {
     this.spinner.show();
-    this.categoryService.listCategory.subscribe(data => {
-      // sub for feat display category list
-      this.categorys = data.length >= 5 ? data.slice(0, 4) : data;
-      if (this.categorys.length === 4 && data.length >= 5) {
-        this.subCategorys = data.slice(4, data.length);
-      }
-      this.firstCategoryId = this.categorys[0].id as string
-      this.filterProducts(this.firstCategoryId, 'category');
+    this.onSetTitle();
+    this.getProducts();
+  }
+
+  getProducts() {
+    this.productService.getAll(this.pagination).subscribe(response => {
+      this.products = response.products;
+      this.page = {
+        current: response.current,
+        pages: new Array(response.pages),
+        total: response.total
+      };
       this.spinner.hide();
-    });
+    })
+  }
+
+  navigatePage(pageNumber) {
+    this.currentPage = +pageNumber + 1;
+    this.spinner.show();
+    this.pagination.page = +pageNumber + 1;
+    this.getProducts();
+  }
+
+  nextAndPrevious(action: string) {
+    this.spinner.show();
+    this.pagination.page = action == 'pre' ? --this.currentPage : ++this.currentPage;
+    this.getProducts();
   }
 
   onSetTitle() {
