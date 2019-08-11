@@ -4,6 +4,7 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
 import { ToastrService } from 'ngx-toastr';
 import { CategoryService } from 'src/@core/services/category.service';
 import { ICategory } from 'src/@core/interface/ICategory.interface';
+import { ShareService } from 'src/@core/services/share.service';
 
 @Component({
   selector: 'shop-dialog-dash-category',
@@ -16,7 +17,8 @@ export class DialogDashCategoryComponent implements OnInit {
     public dialogRef: MatDialogRef<DialogDashCategoryComponent>,
     @Inject(MAT_DIALOG_DATA) public data: IDialogCategory,
     private toastService: ToastrService,
-    private categoryService: CategoryService
+    private categoryService: CategoryService,
+    private shareService: ShareService
   ) { }
 
   ngOnInit() {
@@ -29,6 +31,7 @@ export class DialogDashCategoryComponent implements OnInit {
     }
     this.categoryService.onUpdateCategory(this.data.category).subscribe(response => {
       if (response) {
+        this.shareService.setEventEmitter(true);
         this.toastService.success(`Cập nhật danh mục thành công`);
       }
     }, err => {
@@ -48,6 +51,7 @@ export class DialogDashCategoryComponent implements OnInit {
     }
     this.categoryService.onAddCategory(category).subscribe(response => {
       if (response) {
+        this.shareService.setEventEmitter(true);
         this.toastService.success(`Thêm danh mục thành công`);
       }
     }, err => {

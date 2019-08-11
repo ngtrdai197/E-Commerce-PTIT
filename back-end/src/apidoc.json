@@ -1,0 +1,7 @@
+{
+    "name": "E-Commerce",
+    "version": "0.1.0",
+    "description": "Api doc for internship project",
+    "title": "Custom apiDoc browser title",
+    "url" : "http://localhost:3000"
+  }

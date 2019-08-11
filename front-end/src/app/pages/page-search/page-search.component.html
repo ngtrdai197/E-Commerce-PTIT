@@ -1,20 +1,18 @@
 <shop-header></shop-header>
-<ngx-spinner bdColor="rgba(51,51,51,0.8)" size="medium" color="#fff" type="line-scale-party">
-  <p style="color: #fff">Đang tìm kiếm. Vui lòng đợi !</p>
+<ngx-spinner bdColor="rgba(51,51,51,0.8)" size="small" color="#fff" type="line-scale-party">
+  <p style="color: #fff">Đang tải. Vui lòng đợi !</p>
 </ngx-spinner>
 <section>
   <div class="container">
     <div class="row">
-      <div class="col-sm-12 col-md-2">
-
-      </div>
-      <div class="col-sm-12 col-md-10">
+      <div class="col-sm-12 col-md-12">
         <ng-container *ngIf="isLoading">
+          <div class="col-sm-12 col-md-12 d-flex align-items-center mt-3" style="font-style: italic">
+            Tổng số {{page?.total}} mặt hàng được tìm thấy <span *ngIf="keyword.length > 0"
+              style="padding-left: 5px">theo "{{keyword}}"</span>
+          </div>
           <div class="row" style="padding: 15px 0; font-size: 14px">
-            <div class="col-sm-12 col-md-6 d-flex align-items-center">
-              Tổng số {{page?.total}} mặt hàng được tìm thấy <span *ngIf="keyword.length > 0" style="padding-left: 5px">theo "{{keyword}}"</span>
-            </div>
-            <div class="col-sm-12 col-md-6" style="font-size: 14px" *ngIf="products.length > 0">
+            <div class="col-sm-12 col-md-6 text-right" style="font-size: 14px">
               Sắp xếp theo:
               <span class="pl-2">
                 <mat-form-field>
@@ -25,6 +23,17 @@
                 </mat-form-field>
               </span>
             </div>
+            <div class="col-sm-12 col-md-6" style="font-size: 14px">
+                Giới tính:
+                <span class="pl-2">
+                  <mat-form-field>
+                    <mat-select (selectionChange)="onChangeAndFilter()" [(value)]="selectedSex">
+                      <mat-option value="0">Nam</mat-option>
+                      <mat-option value="1">Nữ</mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                </span>
+              </div>
           </div>
           <div class="row">
             <ng-container *ngIf="products.length > 0">
@@ -45,7 +54,8 @@
                     <span class="sr-only">Previous</span>
                   </a>
                 </li>
-                <li class="page-item" [ngClass]="{'active': i+1 == page.current}" *ngFor="let p of page?.pages let i = index" (click)="navigatePage(i)">
+                <li class="page-item" [ngClass]="{'active': i+1 == page.current}"
+                  *ngFor="let p of page?.pages let i = index" (click)="navigatePage(i)">
                   <a class="page-link" [innerHTML]="i+1"></a>
                 </li>
                 <li class="page-item" *ngIf="page?.current < page?.pages.length" (click)="nextAndPrevious('next')">

@@ -23,8 +23,8 @@ export class UserRepository implements IUserRepository {
   };
 
   update = async (user: IUser): Promise<IUser> => {
-    const updated = await userModel.findByIdAndUpdate(user.id, user).select('-password');
-    // const updated = await userModel.findById(user.id).select('-__v');
+    await userModel.findByIdAndUpdate(user.id, user);
+    const updated = await userModel.findById(user.id).select('-password');
     return updated as IUser;
   };
 

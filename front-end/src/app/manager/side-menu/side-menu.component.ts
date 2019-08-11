@@ -12,15 +12,20 @@ export class SideMenuComponent implements OnInit {
 
   toggleSideBar = true;
   categoryTypes: any[] = [];
-  constructor(private categoryService: CategoryService) { }
+  constructor(private categoryService: CategoryService, private shareService: ShareService) { }
 
   ngOnInit() {
+    this.onLoadingCategoryTypes();
+    this.shareService.getEventEmitter().subscribe(response => {
+      if(response){
+        this.onLoadingCategoryTypes();
+      }
+    });
+  }
+  onLoadingCategoryTypes() {
     this.categoryService.onCategoryTypes().subscribe(data => {
       this.categoryTypes = data;
     });
-  }
-  selectCategory(category: ICategory) {
-
   }
 
 }

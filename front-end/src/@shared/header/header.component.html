@@ -36,59 +36,56 @@
         </div>
         <div class="col-md-6">
           <div class="header-search">
-            <form class="d-flex">
-              <select class="input-select">
-                <option value="0">All Categories</option>
-                <option value="1">Category 01</option>
-                <option value="1">Category 02</option>
-              </select>
+            <form class="d-flex justify-content-center">
               <input class="input" #search (keyup.enter)="onSearch(search.value)" placeholder="Search here">
               <button class="search-btn" (click)="onSearch(search.value)">Search</button>
             </form>
           </div>
         </div>
-        <div class="col-md-3 clearfix">
-          <div class="header-ctn">
-            <div class="dropdown">
-              <a class="dropdown-toggle" data-toggle="dropdown" role="button" id="dropdownMenuLink"
-                aria-expanded="false" style="cursor: pointer;" *ngIf="currentUser?.role !== role.ADMIN">
-                <i class="fa fa-shopping-cart"></i>
-                <span>Your Cart</span>
-                <div class="qty">{{totalOrders}}</div>
-              </a>
-              <div class="dropdown-menu cart" aria-labelledby="dropdownMenuLink" style="max-height: 600px;
-              overflow-y: auto;">
-                <div *ngIf="order?.products?.length <= 0" class="text-center" style="font-size: 14px;">Giỏ hàng đang
-                  rỗng
-                </div>
-                <a class="dropdown-item" *ngFor="let item of order?.carts" [title]="item?.product?.title">
-                  <div class="product-widget">
-                    <div class="product-img text-center mb-2" [routerLink]="['/product', item?.product?.id]">
-                      <img [src]="item?.product.images[0]" alt="" style="width: 150px; height: 150px;">
-                    </div>
-                    <div class="product-body" [routerLink]="['/product', item?.product.id]">
-                      <h3 class="product-name"><a>{{item?.product?.title | subtitle}}</a></h3>
-                      <h4 class="product-price"><span class="qty">{{item?.quantity}} x
-                        </span>{{item?.product?.currentPrice}}</h4>
-                    </div>
-                    <div class="btn-delete">
-                      <button class="btn btn-danger" (click)="removeItem(item?.product)"><i
-                          class="fa fa-close"></i></button>
-                    </div>
-                  </div>
+        <ng-container *ngIf="currentUser?.role !== role.ADMIN">
+          <div class="col-md-3 clearfix">
+            <div class="header-ctn">
+              <div class="dropdown">
+                <a class="dropdown-toggle" data-toggle="dropdown" role="button" id="dropdownMenuLink"
+                  aria-expanded="false" style="cursor: pointer;">
+                  <i class="fa fa-shopping-cart"></i>
+                  <span>Your Cart</span>
+                  <div class="qty">{{totalOrders}}</div>
                 </a>
-                <button class="btn btn-primary btn-block mx-auto" style="width: 90%;" routerLink="/order"
-                  *ngIf="totalOrders > 0">Đặt hàng ngay</button>
+                <div class="dropdown-menu cart" aria-labelledby="dropdownMenuLink" style="max-height: 600px;
+              overflow-y: auto;">
+                  <div *ngIf="order?.products?.length <= 0" class="text-center" style="font-size: 14px;">Giỏ hàng đang
+                    rỗng
+                  </div>
+                  <a class="dropdown-item" *ngFor="let item of order?.carts" [title]="item?.product?.title">
+                    <div class="product-widget">
+                      <div class="product-img text-center mb-2" [routerLink]="['/product', item?.product?.id]">
+                        <img [src]="item?.product.images[0]" alt="" style="width: 150px; height: 150px;">
+                      </div>
+                      <div class="product-body" [routerLink]="['/product', item?.product.id]">
+                        <h3 class="product-name"><a>{{item?.product?.title | subtitle}}</a></h3>
+                        <h4 class="product-price"><span class="qty">{{item?.quantity}} x
+                          </span>{{item?.product?.currentPrice}}</h4>
+                      </div>
+                      <div class="btn-delete">
+                        <button class="btn btn-danger" (click)="removeItem(item?.product)"><i
+                            class="fa fa-close"></i></button>
+                      </div>
+                    </div>
+                  </a>
+                  <button class="btn btn-primary btn-block mx-auto" style="width: 90%;" routerLink="/order"
+                    *ngIf="totalOrders > 0">Đặt hàng ngay</button>
+                </div>
+              </div>
+              <div class="menu-toggle">
+                <a href="#">
+                  <i class="fa fa-bars"></i>
+                  <span>Menu</span>
+                </a>
               </div>
             </div>
-            <div class="menu-toggle">
-              <a href="#">
-                <i class="fa fa-bars"></i>
-                <span>Menu</span>
-              </a>
-            </div>
           </div>
-        </div>
+        </ng-container>
       </div>
     </div>
   </div>
@@ -97,7 +94,7 @@
   <div class="container">
     <div class="row justify-content-center">
       <nav class="navbar navbar-expand-lg navbar-dark primary-color">
-        <a class="navbar-brand" routerLink="/home">Shop 3S</a>
+        <a class="navbar-brand" routerLink="/home">Shop 3s</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#basicExampleNav"
           aria-controls="basicExampleNav" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
@@ -109,14 +106,14 @@
                 <span class="sr-only">(current)</span>
               </a>
             </li>
-            <li class="nav-item">
-              <a class="nav-link" href="#">Danh mục sản phẩm</a>
+            <li class="nav-item" style="cursor: pointer" (click)="onSearch('show')">
+              <a class="nav-link">Sản phẩm</a>
             </li>
             <li class="nav-item">
               <a class="nav-link" routerLink="/contact">Liên hệ</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="#">Giới thiệu</a>
+              <a class="nav-link" routerLink="/about-me">Giới thiệu</a>
             </li>
           </ul>
         </div>

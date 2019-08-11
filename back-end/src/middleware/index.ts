@@ -15,7 +15,7 @@ export const parser = (roles?: String[]) => {
             next();
             return;
           } else {
-            return res.status(403).send({ statusCode: 403, message: 'You have not permisstion' });
+            return res.status(403).send({ statusCode: 403, message: 'You have not permission' });
           }
         }
       });

@@ -13,4 +13,5 @@ export abstract class IOrderRepository {
     abstract update(order: IOrder): Promise<IOrder>;
     abstract updateState(orderId: string, query: any): Promise<any>;
     abstract delete(id: string): Promise<any>;
+    abstract checkProductExist(productId: string): Promise<boolean>;
 }

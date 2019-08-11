@@ -5,6 +5,7 @@ import { Routes, RouterModule } from '@angular/router';
 import { SharedModule } from 'src/@shared/shared.module';
 import { AgmCoreModule } from '@agm/core';
 import { environment } from 'src/environments/environment.prod';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 const routes: Routes = [{
   path: '', component: ContactComponent
@@ -15,6 +16,8 @@ const routes: Routes = [{
   imports: [
     CommonModule,
     SharedModule,
+    FormsModule,
+    ReactiveFormsModule,
     AgmCoreModule.forRoot({
       apiKey: environment.MAP_KEY
     }),

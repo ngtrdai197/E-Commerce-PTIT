@@ -4,6 +4,7 @@ import { InversifyExpressServer } from "inversify-express-utils";
 import * as bodyParser from "body-parser";
 import * as helmet from "helmet";
 import * as cors from 'cors';
+import * as morgan from 'morgan';
 
 export const inversifyExpressServer = async (
     app: express.Application
@@ -24,7 +25,9 @@ export const inversifyExpressServer = async (
             })
         );
         app.use('*', cors());
+        app.use(morgan('dev'));
         app.use(express.static(__dirname + '/public'));
+        app.use('/api-docs', express.static('apidoc'));
         app.use(bodyParser.json());
         app.use(helmet());
     });

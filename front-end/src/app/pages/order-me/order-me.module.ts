@@ -4,6 +4,7 @@ import { OrderMeComponent } from './order-me.component';
 import { Routes, RouterModule } from '@angular/router';
 import { SharedModule } from 'src/@shared/shared.module';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { NgxSpinnerModule } from 'ngx-spinner';
 
 const routes: Routes = [
   { path: '', component: OrderMeComponent }
@@ -15,6 +16,7 @@ const routes: Routes = [
     CommonModule,
     MatProgressSpinnerModule,
     SharedModule,
+    NgxSpinnerModule,
     RouterModule.forChild(routes)
   ]
 })

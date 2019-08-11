@@ -27,7 +27,7 @@
           </div> 
         -->
           <div class="btn-group mr-2" role="group" aria-label="Second group">
-            <button type="button" class="btn btn-black add-cart" (click)="updateOrders(product)">Thêm vào giỏ
+            <button type="button" class="btn btn-black add-cart" (click)="updateOrders(product)" [disabled]="currentUser?.role == role.ADMIN ? true : false">Thêm vào giỏ
               hàng</button>
           </div>
         </div>

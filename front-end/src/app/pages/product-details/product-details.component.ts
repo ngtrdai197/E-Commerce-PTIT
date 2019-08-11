@@ -1,12 +1,14 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { ProductService } from 'src/@core/services/product.service';
-import { IProduct, IFeedback } from 'src/@core/interface';
+import { IProduct, IFeedback, IUser } from 'src/@core/interface';
 import { OrderCartService } from 'src/@core/services/order-cart.service';
 import { ToastrService } from 'ngx-toastr';
 import * as moment from 'moment';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms';
+import { API } from 'src/@core/config/API';
+import { JwtService } from 'src/@core/services/jwt.service';
 
 @Component({
   selector: 'shop-product-details',
@@ -15,62 +17,6 @@ import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms'
 })
 export class ProductDetailsComponent implements OnInit {
 
-  // cards = [
-  //   {
-  //     title: 'Card Title 1',
-  //     description: 'Some quick example text to build on the card title and make up the bulk of the card content',
-  //     buttonText: 'Button',
-  //     img: 'https://mdbootstrap.com/img/Photos/Horizontal/Nature/4-col/img%20(34).jpg'
-  //   },
-  //   {
-  //     title: 'Card Title 2',
-  //     description: 'Some quick example text to build on the card title and make up the bulk of the card content',
-  //     buttonText: 'Button',
-  //     img: 'https://mdbootstrap.com/img/Photos/Horizontal/Nature/4-col/img%20(34).jpg'
-  //   },
-  //   {
-  //     title: 'Card Title 3',
-  //     description: 'Some quick example text to build on the card title and make up the bulk of the card content',
-  //     buttonText: 'Button',
-  //     img: 'https://mdbootstrap.com/img/Photos/Horizontal/Nature/4-col/img%20(34).jpg'
-  //   },
-  //   {
-  //     title: 'Card Title 4',
-  //     description: 'Some quick example text to build on the card title and make up the bulk of the card content',
-  //     buttonText: 'Button',
-  //     img: 'https://mdbootstrap.com/img/Photos/Horizontal/Nature/4-col/img%20(34).jpg'
-  //   },
-  //   {
-  //     title: 'Card Title 5',
-  //     description: 'Some quick example text to build on the card title and make up the bulk of the card content',
-  //     buttonText: 'Button',
-  //     img: 'https://mdbootstrap.com/img/Photos/Horizontal/Nature/4-col/img%20(34).jpg'
-  //   },
-  //   {
-  //     title: 'Card Title 6',
-  //     description: 'Some quick example text to build on the card title and make up the bulk of the card content',
-  //     buttonText: 'Button',
-  //     img: 'https://mdbootstrap.com/img/Photos/Horizontal/Nature/4-col/img%20(34).jpg'
-  //   },
-  //   {
-  //     title: 'Card Title 7',
-  //     description: 'Some quick example text to build on the card title and make up the bulk of the card content',
-  //     buttonText: 'Button',
-  //     img: 'https://mdbootstrap.com/img/Photos/Horizontal/Nature/4-col/img%20(34).jpg'
-  //   },
-  //   {
-  //     title: 'Card Title 8',
-  //     description: 'Some quick example text to build on the card title and make up the bulk of the card content',
-  //     buttonText: 'Button',
-  //     img: 'https://mdbootstrap.com/img/Photos/Horizontal/Nature/4-col/img%20(34).jpg'
-  //   },
-  //   {
-  //     title: 'Card Title 9',
-  //     description: 'Some quick example text to build on the card title and make up the bulk of the card content',
-  //     buttonText: 'Button',
-  //     img: 'https://mdbootstrap.com/img/Photos/Horizontal/Nature/4-col/img%20(34).jpg'
-  //   },
-  // ];
   slides: any = [[]];
   relatedProduct: IProduct[] = [];
   product: IProduct;
@@ -78,15 +24,18 @@ export class ProductDetailsComponent implements OnInit {
   count = 0;
   isLogin = localStorage.getItem('x-access-token');
   feedbackForm: FormGroup;
+  role = API.ROLES;
+  currentUser: IUser;
   constructor(private activatedRoute: ActivatedRoute,
     private productService: ProductService, private spinner: NgxSpinnerService,
     private orderCartService: OrderCartService, private toast: ToastrService,
-    private formBuilder: FormBuilder
+    private formBuilder: FormBuilder, private jwtService: JwtService
   ) { }
 
 
   ngOnInit() {
     this.spinner.show();
+    this.jwtService.getProfile.subscribe(data => this.currentUser = data);
     this.activatedRoute.params.subscribe(params => {
       this.onLoadProduct(params['id']);
       this.orderCartService.orderCart.subscribe(data => {

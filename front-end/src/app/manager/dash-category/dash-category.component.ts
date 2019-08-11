@@ -6,6 +6,7 @@ import { DialogDashCategoryComponent } from '../dialog-dash-category/dialog-dash
 import { ICategory } from 'src/@core/interface/ICategory.interface';
 import { CategoryService } from 'src/@core/services/category.service';
 import { NgxSpinnerService } from 'ngx-spinner';
+import { ShareService } from 'src/@core/services/share.service';
 
 @Component({
   selector: 'shop-dash-category',
@@ -22,7 +23,7 @@ export class DashCategoryComponent implements OnInit {
 
   selectedIdDetele = '';
   constructor(public dialog: MatDialog, private title: Title,
-    private categoryService: CategoryService,
+    private categoryService: CategoryService, private shareService: ShareService,
     private toastService: ToastrService, private spinner: NgxSpinnerService
   ) { }
 
@@ -71,6 +72,7 @@ export class DashCategoryComponent implements OnInit {
         this.toastService.success(`Xóa danh mục thành công`, 'Thông báo');
         this.categorys.splice(this.categorys.findIndex(x => x.id === this.selectedIdDetele), 1);
         this.onDataTable();
+        this.shareService.setEventEmitter(true);
       }
     }, err => {
       if (err) {

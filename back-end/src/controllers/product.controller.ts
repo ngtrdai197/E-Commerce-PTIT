@@ -2,7 +2,7 @@ import { controller, httpGet, httpPost, httpDelete, httpPut, requestParam } from
 import { IProduct, IFeedback } from "../entities";
 import { inject } from "inversify";
 import { TYPES, constants } from "../common";
-import { IProductRepository, ICategoryRepository } from "../IRepositories";
+import { IProductRepository, ICategoryRepository, IOrderRepository } from "../IRepositories";
 import { Request, Response } from "express";
 import { upload } from "../multer";
 import { unlink } from 'fs';
@@ -13,7 +13,8 @@ import { toSlug } from '../common/slug';
 export class Product {
     constructor(
         @inject(TYPES.IProductRepository) private productRepo: IProductRepository,
-        @inject(TYPES.ICategoryRepository) private categoryRepo: ICategoryRepository
+        @inject(TYPES.ICategoryRepository) private categoryRepo: ICategoryRepository,
+        @inject(TYPES.IOrderRepository) private orderRepo: IOrderRepository,
     ) { }
 
     @httpGet('/')
@@ -112,7 +113,7 @@ export class Product {
         try {
             const { body } = req;
             const product = await this.productRepo.findOne({ _id: body.product });
-            if (!product.feeback) {
+            if (!product.feedback) {
                 const feedback: IFeedback = {
                     customer: req.user.id,
                     content: body.content
@@ -125,19 +126,23 @@ export class Product {
     }
 
 
-    // không cho xóa sản phẩm nếu đang tồn tại ở 1 giỏ hàng nào đó !
+    // không cho xóa sản phẩm nếu đang tồn tại ở 1 giỏ hàng nào đó ! chu lam
     @httpDelete('/:id')
     public async delete(req: Request, res: Response): Promise<any> {
         try {
             const { id } = req.params;
             const product = await this.productRepo.findOne({ _id: id });
             if (product) {
+                const result = await this.orderRepo.checkProductExist(product.id as string);
+                if (result) {
+                    return res.status(200).json({ isDeleted: false, message: `Không thể xóa sản phẩm này, vì nó đang nằm trong 1 giỏ hàng.` });
+                }
                 product.isDeleted = true;
                 const query = { $pull: { products: { $in: id } } };
                 await this.categoryRepo.updateMapping(query, product.category as string);
                 const updated = await this.productRepo.update(product);
                 if (updated) {
-                    return res.status(200).json({ isDeleted: true, message: `Successfully deleted product with id: ${id}` })
+                    return res.status(200).json({ isDeleted: true, message: `Successfully deleted product with id: ${id}` });
                 }
             }
             return res.status(400).json({ statusCode: 400, message: 'Xóa thất bại. Kiểm tra lại' });

@@ -1,24 +1,51 @@
 :host {
   .homepage {
     background: #fff;
+
     .banner-head {
       img {
         width: 100%;
       }
+
       .banner-right {
         img {
           height: 100%;
         }
       }
     }
-    .list-catalog{
-      .item-catalog{
-        border: 1px solid black;
-        border-left: none;
+
+    .list-catalog {
+      margin-top: 15px;
+      padding: 0 30px;
+      .item-catalog {
+        padding: 0 1px;
+        margin-bottom: 1px;
+        .cover {
+          border: 1px solid black;
+          display: flex;
+          align-items: center;
+          justify-content: space-evenly;
+          transition: all 0.4s ease-in-out;
+          cursor: pointer;
+          &:hover {
+            box-shadow: 0 5px 7px #333;
+            transform: translateY(-1px);
+            transition: all 0.4s ease-in-out;
+          }
+
+          img {
+            padding-right: 2px;
+            width: 100px;
+            height: 100px;
+            object-fit: fill;
+          }
+        }
       }
     }
+
     .list-product {
       margin: 15px 0;
+
       .pagination-row {
         .pagination {
           li {

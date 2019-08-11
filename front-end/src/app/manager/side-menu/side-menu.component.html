@@ -67,8 +67,7 @@
         <ng-container *ngFor="let item of categoryTypes">
           <h6 class="collapse-header">{{item?.categoryName}}: </h6>
           <a class="collapse-item" routerLinkActive="active-link" [routerLinkActiveOptions]="{exact:
-          true}" [routerLink]="['/admin/dashboard/product',item.id ]"
-            (click)="selectCategory(item)">{{item.categoryName}}</a>
+          true}" [routerLink]="['/admin/dashboard/product',item.id ]">{{item.categoryName}}</a>
           <div class="collapse-divider"></div>
         </ng-container>
       </div>
@@ -77,8 +76,7 @@
 
   <!-- Nav Item - Charts -->
   <li class="nav-item">
-    <a class="nav-link" routerLink="/admin/dashboard/user" routerLinkActive="active-link"
-      [routerLinkActiveOptions]="{exact:
+    <a class="nav-link" routerLink="/admin/dashboard/user" routerLinkActive="active-link" [routerLinkActiveOptions]="{exact:
   true}">
       <i class="fas fa-users"></i>
       <span>Người dùng</span></a>
@@ -86,8 +84,7 @@
 
   <!-- Nav Item - Tables -->
   <li class="nav-item">
-    <a class="nav-link" routerLink="/admin/dashboard/category" routerLinkActive="active-link"
-      [routerLinkActiveOptions]="{exact:
+    <a class="nav-link" routerLink="/admin/dashboard/category" routerLinkActive="active-link" [routerLinkActiveOptions]="{exact:
     true}">
       <i class="fas fa-fw fa-table"></i>
       <span>Danh mục sản phẩm</span></a>

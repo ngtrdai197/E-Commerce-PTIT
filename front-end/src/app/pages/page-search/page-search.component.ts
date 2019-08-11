@@ -16,6 +16,7 @@ export class PageSearchComponent implements OnInit {
   isLoading = false;
   keyword = '';
   selected = '1';
+  selectedSex = '0'
   currentPage = 1;
   pagination = {
     page: 1,
@@ -36,7 +37,8 @@ export class PageSearchComponent implements OnInit {
   }
 
   onLoading() {
-    this.searchService.search(this.keyword, +this.selected, this.pagination).subscribe(data => {
+    this.keyword = this.keyword === 'show' ? '' : this.keyword;
+    this.searchService.search(this.keyword, parseInt(this.selected), +this.selectedSex, this.pagination).subscribe(data => {
       this.products = data.products;
       this.page = {
         current: data.current,
@@ -62,6 +64,7 @@ export class PageSearchComponent implements OnInit {
   }
 
   onChangeAndFilter() {
+    this.spinner.show();
     this.onLoading();
   }
 

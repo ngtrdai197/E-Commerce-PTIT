@@ -10,8 +10,8 @@ import { IProduct } from '../interface';
 export class SearchService {
     constructor(private http: HttpClient) { }
 
-    search(keyword: string, sort: number, pagination: any): Observable<IProduct[] | any> {
-        return this.http.get<IProduct[] | any>(`${API.HOST}/${API.SEARCH.BASE}?keyword=${keyword}&sort=${sort}&page=${pagination.page}&perPage=${pagination.perPage}`).pipe(
+    search(keyword: string, sort: number, sex: number, pagination: any): Observable<IProduct[] | any> {
+        return this.http.get<IProduct[] | any>(`${API.HOST}/${API.SEARCH.BASE}?keyword=${keyword}&sort=${sort}&sex=${sex}&page=${pagination.page}&perPage=${pagination.perPage}`).pipe(
             tap(data => {
                 return data.products.map(p => {
                     return p.images = p.images.map(i => {

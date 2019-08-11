@@ -11,11 +11,11 @@ export class ProductRepository implements IProductRepository {
 
     search = async (query: any): Promise<any> => {
         const products = await productModel
-            .find({ textSlug: { $regex: query.keyword, $options: "i" }, isDeleted: false })
+            .find({ textSlug: { $regex: query.keyword, $options: "i" }, isDeleted: false, sex: query.sex })
             .sort({ currentPrice: query.sort })
             .skip((query.page * query.perPage) - query.perPage)
             .limit(query.perPage);
-        const counter = await productModel.count({ textSlug: { $regex: query.keyword, $options: "i" }, isDeleted: false });
+        const counter = await productModel.count({ textSlug: { $regex: query.keyword, $options: "i" }, isDeleted: false, sex: query.sex });
         const result = {
             products,
             current: query.page,

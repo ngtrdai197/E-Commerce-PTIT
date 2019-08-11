@@ -5,6 +5,13 @@ import { IOrder, orderModel, ICart } from "../entities";
 @injectable()
 export class OrderRepository implements IOrderRepository {
 
+    checkProductExist = async (productId: string): Promise<boolean> => {
+        const result = await orderModel.find({ 'carts.product': productId });
+        let flag = true;
+        result.length > 0 ? flag : flag = false;
+        return flag;
+    }
+
     findOne = async (query: any): Promise<IOrder> => {
         const order = await orderModel.findOne(query);
         return order as IOrder;

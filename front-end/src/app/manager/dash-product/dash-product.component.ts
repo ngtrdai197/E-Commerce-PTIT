@@ -77,7 +77,7 @@ export class DashProductComponent implements OnInit {
       };
       this.viewImages.splice(index, 1);
       this.productService.unLinkImage(body).subscribe(response => {
-        if (response) {
+        if (response.isDeleted) {
           this.toastService.success(response['message']);
           this.refresh();
         }
@@ -109,6 +109,8 @@ export class DashProductComponent implements OnInit {
 
   updateImages(event) {
     const files = event.target.files;
+    console.log(files);
+    
     this.editForm.get('images').setValue({
       images: files
     });
@@ -133,9 +135,12 @@ export class DashProductComponent implements OnInit {
 
   delete() {
     this.productService.deleteProduct(this.selectedIdDetele).subscribe(response => {
-      if (response) {
+      if (response.isDeleted) {
         this.refresh();
         this.toastService.success('Xóa sản phẩm thành công');
+      } else {
+        this.refresh();
+        this.toastService.error(response.message);
       }
     })
   }

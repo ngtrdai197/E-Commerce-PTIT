@@ -4,3 +4,4 @@ export * from './product.controller';
 export * from './auth.controller';
 export * from './order.controller';
 export * from './search.controller';
+export * from './feedback.controller';

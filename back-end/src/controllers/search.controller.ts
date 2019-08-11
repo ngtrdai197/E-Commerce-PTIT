@@ -15,6 +15,7 @@ export class SearchController {
             const query = {
                 keyword: req.query.keyword,
                 sort: req.query.sort,
+                sex: req.query.sex,
                 page: +req.query.page,
                 perPage: +req.query.perPage,
             }
@@ -36,7 +37,6 @@ export class SearchController {
             return products;
         } catch (error) {
             throw error;
-            // return res.status(500).json({ statusCode: 500, message: error.message });
         }
     }
 }

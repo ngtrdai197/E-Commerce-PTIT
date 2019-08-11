@@ -25,34 +25,17 @@ export interface ICart {
 }
 
 const cartSchema = new mongoose.Schema({
-    quantity: {
-        type: Number,
-        required: true
-    },
-    totalPayment: {
-        type: Number,
-        required: true
-    },
+    quantity: { type: Number,required: true },
+    totalPayment: {type: Number, required: true},
     product: { type: mongoose.Schema.Types.ObjectId, ref: 'Product' },
 })
 
 export const orderSchema = new mongoose.Schema({
-    createdDate: {
-        type: Date,
-        default: new Date
-    },
+    createdDate: { type: Date, default: new Date },
     completedDate: Date,
-    payments: {
-        type: String,
-        default: "Nhận tiền khi giao dịch"
-    },
-    stateOrder: {
-        type: String
-    },
-    statePayment: {
-        type: Boolean,
-        default: false
-    },
+    payments: { type: String, default: "Nhận tiền khi giao dịch" },
+    stateOrder: { type: String },
+    statePayment: { type: Boolean, default: false },
     carts: [cartSchema],
     user: { type: mongoose.Schema.Types.ObjectId, ref: 'User' }
 },

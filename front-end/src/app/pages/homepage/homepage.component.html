@@ -20,35 +20,17 @@
 </section>
 <section class="homepage">
   <div class="container">
-    <h4>Danh muc</h4>
+    <h4 class="mt-4">Danh mục sản phẩm</h4>
     <div class="row list-catalog">
-      <div class="col-sm-6 col-md-2 item-catalog">
-        Giày Nam
-      </div>
-      <div class="col-sm-6 col-md-2 item-catalog">
-        Giày Nam
-      </div>
-      <div class="col-sm-6 col-md-2 item-catalog">
-        Giày Nam
-      </div>
-      <div class="col-sm-6 col-md-2 item-catalog">
-        Giày Nam
-      </div>
-      <div class="col-sm-6 col-md-2 item-catalog">
-        Giày Nam
-      </div>
-      <div class="col-sm-6 col-md-2 item-catalog">
-        Giày Nam
-      </div>
-      <div class="col-sm-6 col-md-2 item-catalog">
-        Giày Nam
-      </div>
-      <div class="col-sm-6 col-md-2 item-catalog">
-        Giày Nam
-      </div>
-      <div class="col-sm-6 col-md-2 item-catalog">
-        Giày Nam
-      </div>
+      <ng-container *ngFor="let item of categorys">
+        <div class="col-sm-6 col-md-3 item-catalog" *ngIf="item?.products[0]?.images[0]"
+          (click)="onSearch(item?.categoryName)">
+          <div class="cover">
+            <img [src]="item?.products[0]?.images[0]" [alt]="item?.categoryName">
+            <div class="title" [innerHTML]="item?.categoryName"></div>
+          </div>
+        </div>
+      </ng-container>
     </div>
     <div class="row list-product">
       <div class="col-12">

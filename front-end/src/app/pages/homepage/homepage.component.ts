@@ -5,6 +5,7 @@ import { ICategory, IProduct } from 'src/@core/interface';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { SwiperConfigInterface } from 'ngx-swiper-wrapper';
 import { ProductService } from 'src/@core/services/product.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'shop-homepage',
@@ -14,11 +15,7 @@ import { ProductService } from 'src/@core/services/product.service';
 export class HomepageComponent implements OnInit {
 
   categorys: ICategory[] = [];
-  subCategorys: ICategory[] = [];
-  productsMale: IProduct[] = [];
-  productsFemale: IProduct[] = [];
   products: IProduct[] = [];
-  firstCategoryId = '';
   config: SwiperConfigInterface = {
     a11y: true,
     direction: 'horizontal',
@@ -40,13 +37,15 @@ export class HomepageComponent implements OnInit {
     private title: Title,
     private categoryService: CategoryService,
     private spinner: NgxSpinnerService,
-    private productService: ProductService
+    private productService: ProductService,
+    private router: Router
   ) { }
 
   ngOnInit() {
     this.spinner.show();
     this.onSetTitle();
     this.getProducts();
+    this.getCategories();
   }
 
   getProducts() {
@@ -61,6 +60,16 @@ export class HomepageComponent implements OnInit {
     })
   }
 
+  onSearch(keyword: string){
+    this.router.navigate(['/page-search'], { queryParams: { keyword: this.slug(keyword) } });
+  }
+
+  getCategories() {
+    this.categoryService.listCategory.subscribe(response => {
+      this.categorys = response;
+    });
+  }
+
   navigatePage(pageNumber) {
     this.currentPage = +pageNumber + 1;
     this.spinner.show();
@@ -72,6 +81,22 @@ export class HomepageComponent implements OnInit {
     this.spinner.show();
     this.pagination.page = action == 'pre' ? --this.currentPage : ++this.currentPage;
     this.getProducts();
+  }
+
+  private slug(name: string) {
+    name = name.toLowerCase();
+    name = name.replace(/(à|á|ạ|ả|ã|â|ầ|ấ|ậ|ẩ|ẫ|ă|ằ|ắ|ặ|ẳ|ẵ)/g, 'a');
+    name = name.replace(/(è|é|ẹ|ẻ|ẽ|ê|ề|ế|ệ|ể|ễ)/g, 'e');
+    name = name.replace(/(ì|í|ị|ỉ|ĩ)/g, 'i');
+    name = name.replace(/(ò|ó|ọ|ỏ|õ|ô|ồ|ố|ộ|ổ|ỗ|ơ|ờ|ớ|ợ|ở|ỡ)/g, 'o');
+    name = name.replace(/(ù|ú|ụ|ủ|ũ|ư|ừ|ứ|ự|ử|ữ)/g, 'u');
+    name = name.replace(/(ỳ|ý|ỵ|ỷ|ỹ)/g, 'y');
+    name = name.replace(/(đ)/g, 'd');
+    name = name.replace(/([^0-9a-z-\s])/g, '');
+    name = name.replace(/(\s+)/g, '-');
+    name = name.replace(/^-+/g, '');
+    name = name.replace(/-+$/g, '');
+    return name;
   }
 
   onSetTitle() {

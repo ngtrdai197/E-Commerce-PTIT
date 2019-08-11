@@ -11,7 +11,6 @@ export interface IUser {
   address?: string;
   isDeleted?: boolean;
   avatar?: string;
-  // orders?: string[] | IOrder[];
 }
 
 export interface IUserModel extends IUser, mongoose.Document {
@@ -20,43 +19,15 @@ export interface IUserModel extends IUser, mongoose.Document {
 
 const userSchema = new mongoose.Schema(
   {
-    username: {
-      type: String,
-      required: true
-    },
-    password: {
-      type: String,
-      required: true
-    },
-    fullName: {
-      type: String,
-      required: true
-    },
-    phone: {
-      type: String,
-      required: true
-    },
-    isDeleted: {
-      type: Boolean,
-      default: false
-    },
-    email: {
-      type: String,
-      required: true
-    },
-    role: {
-      type: String,
-      default: "User"
-    },
-    address: {
-      type: String,
-      required: true
-    },
+    username: { type: String, required: true },
+    password: { type: String, required: true },
+    fullName: { type: String, required: true },
+    phone: { type: String, required: true },
+    isDeleted: { type: Boolean, default: false },
+    email: { type: String, required: true },
+    role: { type: String, default: "User" },
+    address: { type: String, required: true },
     avatar: String
-    // orderDetails: [
-    //   { type: mongoose.Schema.Types.ObjectId, ref: 'OrderDetails' }
-    // ],
-    // orders: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Orders' }]
   },
   {
     toObject: {

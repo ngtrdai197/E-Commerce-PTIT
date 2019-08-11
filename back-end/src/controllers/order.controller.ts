@@ -19,9 +19,14 @@ export class OrderController {
         try {
             const user = await this.userRepo.findOne({ _id: req.body.user });
             const orderUpdated = await this.orderRepo.update(req.body);
+            let notify;
+            if(orderUpdated){
+                notify = 'Đang đóng gói sản phẩm và chuẩn bị giao cho đơn vị giao hàng !';
+            }
             const content = {
                 user,
-                order: req.body
+                order: req.body,
+                notify
             };
             const result = await email.sendEmail(user.email as string, content);
             if (result) {
@@ -182,8 +187,7 @@ export class OrderController {
         }
     }
 
-
-    @httpGet('/filter', parser([constants.ROLES.ADMIN]))
+    @httpGet('/filter', parser([constants.ROLES.ADMIN, constants.ROLES.USER]))
     public async getOrderWithFilter(req: any, res: Response) {
         try {
             const { stateOrder, statePayment } = req.query;

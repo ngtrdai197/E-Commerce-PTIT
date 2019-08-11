@@ -17,6 +17,7 @@ const routes: Routes = [
   { path: 'page-search', loadChildren: () => import('./pages/page-search/page-search.module').then(m => m.PageSearchModule) },
   { path: 'my-order', loadChildren: () => import('./pages/order-me/order-me.module').then(m => m.OrderMeModule) },
   { path: 'contact', loadChildren: () => import('./pages/contact/contact.module').then(m => m.ContactModule) },
+  { path: 'about-me', loadChildren: () => import('./pages/about-me/about-me.module').then(m => m.AboutMeModule) },
   { path: '**', component: PageNotFoundComponent }
 ];
 

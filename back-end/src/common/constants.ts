@@ -6,7 +6,7 @@ export const constants = {
     PASS_EMAIL: 'Daingtrdai1102',
     ROLES: {
         ADMIN: 'Admin',
-        USER: 'Admin'
+        USER: 'User'
     },
     ADMIN_USER: ['ngtrdai197', 'ngtrdai2k']
 

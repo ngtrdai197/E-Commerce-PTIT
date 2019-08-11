@@ -30,7 +30,7 @@ class Email {
             }
             attacks.push(att);
         });
-        
+
         content.images = attacks;
         return new Promise((resolve, reject) => {
             var transporter = nodeMailer.createTransport(smtpTransport({
@@ -59,6 +59,41 @@ class Email {
                 }
             });
         });
+    }
+
+    public async sendFeedback(toEmail: string, content: any): Promise<string> {
+        try {
+            const source = fs.readFileSync(path.join(__dirname, '../public/feedback.hbs'), 'utf8');
+            const template = handlebars.compile(source);
+            return new Promise((resolve, reject) => {
+                var transporter = nodeMailer.createTransport(smtpTransport({
+                    host: 'smtp.gmail.com', port: 465, secure: true,
+                    service: 'gmail',
+                    auth: {
+                        user: constants.EMAIL,
+                        pass: constants.PASS_EMAIL
+                    },
+                    tls: { rejectUnauthorized: false }
+                }));
+                // setup email data with unicode symbols
+                let mailOptions = {
+                    from: constants.EMAIL,
+                    subject: 'Shop 3s', // sender address
+                    to: toEmail, // list of receivers
+                    html: template(content)
+                };
+                transporter.sendMail(mailOptions, (error: any, info: any) => {
+                    if (error) {
+                        return reject(error);
+                    }
+                    else {
+                        return resolve(info.messageId);
+                    }
+                });
+            });
+        } catch (error) {
+            throw error;
+        }
     }
 }
 
