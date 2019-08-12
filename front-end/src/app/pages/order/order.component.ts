@@ -32,8 +32,6 @@ export class OrderComponent implements OnInit, OnDestroy {
     this.onSetTitle();
     this.subscription = this.orderCartService.orderCart.subscribe((data: IOrder) => {
       this.order = data;
-      console.log(data);
-      
       this.totalPayment = 0;
       if (data) {
         this.stateOrder = this.order.stateOrder;

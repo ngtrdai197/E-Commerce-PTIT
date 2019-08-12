@@ -35,12 +35,12 @@ export class HeaderComponent implements OnInit, OnDestroy {
     this.buildForm();
     this.subscription = this.jwtService.getProfile.subscribe(data => this.currentUser = data);
     if (this.jwtService.getToken()) {
-      this.orderCartService.getOrdersCart();
       this.onGetOrders();
     }
   }
 
   onGetOrders() {
+    this.orderCartService.getOrdersCart();
     this.orderCartService.orderCart.subscribe((data: any) => {
       this.totalOrders = 0;
       if (data) {

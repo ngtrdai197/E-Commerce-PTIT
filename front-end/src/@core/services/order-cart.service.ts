@@ -37,16 +37,16 @@ export class OrderCartService {
 
     removeItem(product: IProduct) {
         this.http.put(`${API.HOST}/${API.ORDER.BASE}/delete`, product).pipe(
-            map(transform => {
-                if (transform) {
-                    transform['carts'].map(order => {
+            tap(response => {
+                if (response) {
+                    response['carts'].map(order => {
                         order.product.images = order.product.images.map((img: string) => {
                             return (img = `${API.HOST}/${img}`);
                         });
                     });
                 }
             })
-        ).subscribe((data) => {
+        ).subscribe(data => {
             this.spinner.hide();
             this.orders.next(data);
             this.toast.success('Đã cập nhật giỏ hàng.');
