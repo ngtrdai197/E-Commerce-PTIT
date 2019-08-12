@@ -26,9 +26,6 @@ export class Product {
                 isDeleted: false
             }
             const products = await this.productRepo.findAll(query);
-            // products.map(async p => {
-            //     await this.productRepo.update(p);
-            // })
             return products;
         } catch (error) {
             throw error;
@@ -109,11 +106,11 @@ export class Product {
     }
 
     @httpPut("/feedback", parser([constants.ROLES.ADMIN, constants.ROLES.USER]))
-    public async updateFeeback(req: any): Promise<any> {
+    public async updateFeeback(req: any, res: Response) {
         try {
             const { body } = req;
             const product = await this.productRepo.findOne({ _id: body.product });
-            if (!product.feedback) {
+            if (product) {
                 const feedback: IFeedback = {
                     customer: req.user.id,
                     content: body.content
@@ -121,7 +118,7 @@ export class Product {
                 return await this.productRepo.update(product, feedback);
             }
         } catch (error) {
-            throw error;
+            return res.status(500).json({ statusCode: 500, message: error.message })
         }
     }
 

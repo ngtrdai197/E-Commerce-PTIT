@@ -57,7 +57,6 @@ export class ProductRepository implements IProductRepository {
             }
             return await productModel.findByIdAndUpdate(product.id, product).populate('feedback.customer');
         }
-        // return updated as IProduct;
     };
 
     delete = async (id: string): Promise<any> => {

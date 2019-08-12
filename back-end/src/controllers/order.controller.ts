@@ -20,7 +20,7 @@ export class OrderController {
             const user = await this.userRepo.findOne({ _id: req.body.user });
             const orderUpdated = await this.orderRepo.update(req.body);
             let notify;
-            if(orderUpdated){
+            if (orderUpdated) {
                 notify = 'Đang đóng gói sản phẩm và chuẩn bị giao cho đơn vị giao hàng !';
             }
             const content = {
@@ -108,7 +108,6 @@ export class OrderController {
             }
             const updated = await this.orderRepo.updateState(orderId, query);
             const user = await this.userRepo.findOne({ _id: req.body.order.user });
-
             if (updated) {
                 let notify = '';
                 if (req.body.state == 'ordered') {
@@ -134,8 +133,6 @@ export class OrderController {
             }
             return res.status(400).json({ statusCode: 400, message: 'Cập nhật không thành công. Kiểm tra lại thông tin' });
         } catch (error) {
-            console.log(error);
-
             return res.status(500).json({ statusCode: 500, message: error.message });
         }
     }
@@ -144,7 +141,7 @@ export class OrderController {
     public async delete(req: any, res: Response) {
         try {
             const product: IProduct = req.body;
-            const order = await this.orderRepo.findOne({ user: req.user.id, statePayment: false });
+            const order = await this.orderRepo.findOne({ user: req.user.id, stateOrder: 'not-ordered', statePayment: false });
             if (order) {
                 let carts = order.carts as ICart[];
                 const index = carts.findIndex(p => p.product == product.id);
