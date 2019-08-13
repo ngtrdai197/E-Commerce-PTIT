@@ -6,6 +6,7 @@ import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { MDBBootstrapModule } from 'angular-bootstrap-md';
 import { NgxSpinnerModule } from 'ngx-spinner';
 import { SharedModule } from 'src/@shared/shared.module';
+import { MatInputModule, MatNativeDateModule, MatButtonModule, MatDatepickerModule } from '@angular/material';
 
 const routes: Routes = [
     { path: ':state', component: OrderManagementComponent }
@@ -17,10 +18,15 @@ const routes: Routes = [
         CommonModule,
         NgxSpinnerModule,
         MDBBootstrapModule,
+        MatDatepickerModule,
+        MatNativeDateModule,
+        MatButtonModule,
+        MatInputModule,
         SharedModule,
         FormsModule,
         ReactiveFormsModule,
         RouterModule.forChild(routes)
-    ]
+    ],
+    providers: []
 })
 export class OrderManagementModule { }

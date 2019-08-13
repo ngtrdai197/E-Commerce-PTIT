@@ -9,14 +9,13 @@ import { MatPaginatorModule, MatFormFieldModule, MatInputModule, MatButtonModule
 import { MatSortModule } from '@angular/material/sort';
 import { MatDialogModule } from '@angular/material/dialog';
 import { DashProductComponent } from './dash-product.component';
-import { DialogDashProductComponent } from '../dialog-dash-product/dialog-dash-product.component';
 
 const routes: Routes = [
     { path: ':id', component: DashProductComponent }
 ]
 
 @NgModule({
-    declarations: [DashProductComponent, DialogDashProductComponent],
+    declarations: [DashProductComponent],
     imports: [
         CommonModule,
         MatTableModule,
@@ -35,6 +34,6 @@ const routes: Routes = [
         FormsModule,
         ReactiveFormsModule,
         RouterModule.forChild(routes)
-    ], entryComponents: [DialogDashProductComponent]
+    ], entryComponents: []
 })
 export class DashProductModule { }

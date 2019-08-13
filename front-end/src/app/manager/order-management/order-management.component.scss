@@ -2,13 +2,27 @@
   display: block;
   max-height: 99%;
   overflow-y: auto;
-  .container{
-    .card-body{
-      div{
+
+  .container {
+    .search {
+      border-bottom: 1px solid gray;
+      box-shadow: 2px 4px 7px -2px;
+      margin-bottom: 15px;
+      // .input-search{
+      //   width: 85%;
+      // }
+      // .date-picker{
+      //   width: 75%;
+      // }
+    }
+
+    .card-body {
+      div {
         padding-bottom: 10px;
       }
     }
   }
+
   .not-order {
     text-align: center;
     position: absolute;

@@ -11,6 +11,7 @@ export interface IOrder {
     stateOrder?: string;
     user?: string | IUser;
     carts?: string[] | ICart[];
+    updatedAtDate?: string | Date;
 }
 
 export interface IOrderModel extends IOrder, mongoose.Document {
@@ -31,7 +32,8 @@ const cartSchema = new mongoose.Schema({
 })
 
 export const orderSchema = new mongoose.Schema({
-    createdDate: { type: Date, default: new Date },
+    createdDate: { type: Date, default: new Date(Date.now()) },
+    updatedAtDate: { type: Date, default: new Date(Date.now()) },
     completedDate: Date,
     payments: { type: String, default: "Nhận tiền khi giao dịch" },
     stateOrder: { type: String },

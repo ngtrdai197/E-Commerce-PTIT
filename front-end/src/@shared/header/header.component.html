@@ -59,10 +59,12 @@
                   </div>
                   <a class="dropdown-item" *ngFor="let item of order?.carts" [title]="item?.product?.title">
                     <div class="product-widget">
-                      <div class="product-img text-center mb-2" [routerLink]="['/product', item?.product?.id]">
+                      <div class="product-img text-center mb-2"
+                        [routerLink]="['/product', slug(item?.product?.title), item?.product?.id]">
                         <img [src]="item?.product.images[0]" alt="" style="width: 150px; height: 150px;">
                       </div>
-                      <div class="product-body" [routerLink]="['/product', item?.product.id]">
+                      <div class="product-body"
+                        [routerLink]="['/product', slug(item?.product?.title) ,item?.product.id]">
                         <h3 class="product-name"><a>{{item?.product?.title | subtitle}}</a></h3>
                         <h4 class="product-price"><span class="qty">{{item?.quantity}} x
                           </span>{{item?.product?.currentPrice}}</h4>

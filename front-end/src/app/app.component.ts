@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { JwtService } from 'src/@core/services/jwt.service';
-import { Router, NavigationEnd, RouterOutlet } from '@angular/router';
+import { Router, NavigationEnd } from '@angular/router';
 
 @Component({
   selector: 'shop-root',

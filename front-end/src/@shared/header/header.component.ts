@@ -116,7 +116,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
         this.toastService.success('Cập nhật thành công', 'Thông báo');
         this.isChangeAvatar = false;
       }
-    });
+    }, err => this.toast.warning(err.error.message));
   }
   uploadProfile() {
     if (!this.currentUser.avatar) {

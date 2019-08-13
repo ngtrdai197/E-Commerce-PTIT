@@ -69,7 +69,7 @@ export class UserController {
   @httpGet("/")
   public async findAll(): Promise<IUser[]> {
     try {
-      const users = await this.userRepository.findAll();
+      const users = await this.userRepository.findAll({ isDeleted: false });
       return users;
     } catch (error) {
       throw error;
@@ -225,11 +225,15 @@ export class UserController {
       if (!checkUserName) {
         const checkEmail = await this.userRepository.findOne({ email: user.email });
         if (!checkEmail) {
-          user.password = await hashSync((user.password as string), 10);
-          const created = await this.userRepository.create(user);
-          if (created) {
-            return res.status(200).json({ statusCode: 200, message: 'Tạo tài khoản thành công!' });
+          const checkPhone = await this.userRepository.findOne({ phone: user.phone });
+          if (!checkPhone) {
+            user.password = await hashSync((user.password as string), 10);
+            const created = await this.userRepository.create(user);
+            if (created) {
+              return res.status(200).json({ statusCode: 200, message: 'Tạo tài khoản thành công!' });
+            }
           }
+          return res.status(400).send({ statusCode: 400, message: 'Số điện thoại đã bị trùng' });
         }
         return res.status(400).send({ statusCode: 400, message: 'Email đã bị trùng' });
       }
@@ -312,8 +316,16 @@ export class UserController {
       if (user.password) {
         user.password = await hashSync(user.password as string, 10);
       }
-      const result = await this.userRepository.update(user);
-      return res.status(200).send(result);
+      const checkEmail = await this.userRepository.findOne({ email: user.email, _id: { $ne: user.id } });
+      if (!checkEmail) {
+        const checkPhone = await this.userRepository.findOne({ phone: user.phone, _id: { $ne: user.id } });
+        if (!checkPhone) {
+          const result = await this.userRepository.update(user);
+          return res.status(200).send(result);
+        }
+        return res.status(400).send({ statusCode: 400, message: 'Số điện thoại đã bị trùng' });
+      }
+      return res.status(400).send({ statusCode: 400, message: 'Email đã bị trùng' });
     } catch (error) {
       return res.status(500).json({ statusCode: 500, message: error.message });
     }

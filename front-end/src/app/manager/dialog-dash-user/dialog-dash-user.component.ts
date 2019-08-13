@@ -63,11 +63,7 @@ export class DialogDashUserComponent implements OnInit {
         this.dialogRef.close();
       }
     }, err => {
-      if (err) {
-        if (err.error.statusCode === 404) {
-          this.toastService.error(`${err.error}`, 'Thông báo');
-        }
-      }
+      this.toastService.error(err.error.message);
     });
     this.dialogRef.close();
   }
@@ -81,11 +77,7 @@ export class DialogDashUserComponent implements OnInit {
         this.dialogRef.close();
       }
     }, err => {
-      console.log(err);
-      
-      if (err) {
-        this.toastService.error(`${err.error}`, 'Thông báo');
-      }
+      this.toastService.error(`${err.error.message}`, 'Thông báo');
     });
   }
 }

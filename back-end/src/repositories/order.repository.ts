@@ -32,7 +32,7 @@ export class OrderRepository implements IOrderRepository {
             .populate({ path: 'user', select: '-password' });
     };
 
-    create = async (order: IOrder, cart?: ICart): Promise<any> => {
+    create = async (order: IOrder): Promise<any> => {
         return await orderModel.create(order);
     };
 

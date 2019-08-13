@@ -9,8 +9,8 @@ export class UserRepository implements IUserRepository {
     return user as IUser;
   };
 
-  findAll = async (): Promise<IUser[]> => {
-    return await userModel.find({ isDeleted: false }).select('-__v -password');
+  findAll = async (query: any): Promise<IUser[]> => {
+    return await userModel.find(query).select('-__v -password');
   };
 
   getUserProfile = async (query: any): Promise<IUser> => {

@@ -14,10 +14,31 @@ export class OrderController {
         @inject(TYPES.IUserRepository) private userRepo: IUserRepository
     ) { }
 
+    @httpGet('/search', parser([constants.ROLES.ADMIN]))
+    public async searchOrder(req: Request, res: Response) {
+        try {
+            const user = await this.userRepo.findOne({ phone: req.query.keyword });
+            if (!user) return res.status(400).json({ statusCode: 400, message: 'Không tìm thấy đơn theo số điện thoại' });
+            const query = {
+                user: user.id,
+                updatedAtDate: { "$gte": new Date(req.query.date), "$lt": new Date(req.query.tomorrow) },
+                stateOrder: req.query.stateOrder
+            };
+            const ordered = await this.orderRepo.findWithFilter(query);
+            if (ordered) {
+                return res.status(200).send(ordered);
+            }
+            return res.status(400).json({ statusCode: 400, message: 'Không tìm thấy đơn' });
+        } catch (error) {
+            return res.status(500).json({ statusCode: 500, message: error.message });
+        }
+    }
+
     @httpPost('/confirm/order', parser([constants.ROLES.ADMIN, constants.ROLES.USER]))
     public async confirmOrders(req: any, res: Response) {
         try {
             const user = await this.userRepo.findOne({ _id: req.body.user });
+            req.body.updatedAtDate = new Date(Date.now());
             const orderUpdated = await this.orderRepo.update(req.body);
             let notify;
             if (orderUpdated) {

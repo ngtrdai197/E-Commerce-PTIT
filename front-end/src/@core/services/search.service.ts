@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { API } from '../config/API';
 import { IProduct } from '../interface';
+import { IOrder } from '../interface/IOrder.interface';
 
 @Injectable({ providedIn: 'root' })
 
@@ -19,5 +20,9 @@ export class SearchService {
                     });
                 })
             }));
+    }
+
+    searchWithOrder(keyword: string, date: string, tomorrow: string, stateOrder: string): Observable<IOrder[]> {
+        return this.http.get<IOrder[]>(`${API.HOST}/${API.ORDER.BASE}/search?keyword=${keyword}&date=${date}&tomorrow=${tomorrow}&stateOrder=${stateOrder}`);
     }
 }
