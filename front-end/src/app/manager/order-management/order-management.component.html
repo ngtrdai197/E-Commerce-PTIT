@@ -49,19 +49,29 @@
         </mdb-card>
       </div>
     </ng-container>
-    <div class="alert alert-danger" *ngIf="orders?.length === 0">Không tìm thấy đơn hàng nào</div>
+    <ng-container *ngIf="isLoading">
+      <div class="alert alert-danger" *ngIf="orders?.length === 0">Không tìm thấy đơn hàng nào</div>
+    </ng-container>
   </div>
 </div>
 
-<div class="not-order" *ngIf="cartEmpty && actionFilter === 'delivered'">
-  Hiện tại chưa có đơn hàng nào đang được chuyển đi
-</div>
-<div class="not-order" *ngIf="cartEmpty && actionFilter === 'ordered'">
-  Hiện tại chưa có đơn hàng nào đang được xác nhận đặt
-</div>
-<div class="not-order" *ngIf="cartEmpty && actionFilter === 'not-ordered'">
-  Hiện tại chưa có đơn hàng nào được tạo
-</div>
-<div class="not-order" *ngIf="cartEmpty && actionFilter === 'completed'">
-  Hiện tại chưa có đơn hàng nào được giao thành công
-</div>
+<ng-container *ngIf="isLoading">
+  <div class="not-order" *ngIf="cartEmpty && actionFilter === 'delivered'">
+    Hiện tại chưa có đơn hàng nào đang được chuyển đi
+  </div>
+</ng-container>
+<ng-container *ngIf="isLoading">
+  <div class="not-order" *ngIf="cartEmpty && actionFilter === 'ordered'">
+    Hiện tại chưa có đơn hàng nào đang được xác nhận đặt
+  </div>
+</ng-container>
+<ng-container *ngIf="isLoading">
+  <div class="not-order" *ngIf="cartEmpty && actionFilter === 'not-ordered'">
+    Hiện tại chưa có đơn hàng nào được tạo
+  </div>
+</ng-container>
+<ng-container *ngIf="isLoading">
+  <div class="not-order" *ngIf="cartEmpty && actionFilter === 'completed'">
+    Hiện tại chưa có đơn hàng nào được giao thành công
+  </div>
+</ng-container>

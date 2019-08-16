@@ -35,6 +35,10 @@ export class OrderCartService {
         return this.http.get(`${API.HOST}/${API.ORDER.BASE}`);
     }
 
+    removeOrdered(orderId: string){
+        return this.http.delete(`${API.HOST}/${API.ORDER.BASE}/delete/ordered/${orderId}`)
+    }
+
     removeItem(product: IProduct) {
         this.http.put(`${API.HOST}/${API.ORDER.BASE}/delete`, product).pipe(
             tap(response => {

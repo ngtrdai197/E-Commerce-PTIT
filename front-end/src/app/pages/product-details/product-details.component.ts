@@ -1,10 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { ProductService } from 'src/@core/services/product.service';
 import { IProduct, IFeedback, IUser } from 'src/@core/interface';
 import { OrderCartService } from 'src/@core/services/order-cart.service';
 import { ToastrService } from 'ngx-toastr';
-import * as moment from 'moment';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms';
 import { API } from 'src/@core/config/API';
@@ -29,7 +28,8 @@ export class ProductDetailsComponent implements OnInit {
   constructor(private activatedRoute: ActivatedRoute,
     private productService: ProductService, private spinner: NgxSpinnerService,
     private orderCartService: OrderCartService, private toast: ToastrService,
-    private formBuilder: FormBuilder, private jwtService: JwtService
+    private formBuilder: FormBuilder, private jwtService: JwtService,
+    private router: Router
   ) { }
 
 
@@ -49,6 +49,11 @@ export class ProductDetailsComponent implements OnInit {
   }
 
   updateOrders(product) {
+    if (!this.isLogin) {
+      this.toast.info('Đăng nhập để có thể mua hàng');
+      this.router.navigate(['/auth/sign-in']);
+      return;
+    }
     const order = {
       product,
       quantity: this.count
@@ -85,11 +90,6 @@ export class ProductDetailsComponent implements OnInit {
     this.productService.getProduct(id).subscribe(data => {
       this.product = data;
       this.feedbacks = this.product.feedback;
-      this.feedbacks.map(x => {
-        if (x.createdAtDate) {
-          x.createdAtDate = moment(x.createdAtDate).format('DD-MM-YYYY HH:mm');
-        }
-      });
       this.onRelatedProduct(); // Get list of related products
       this.spinner.hide();
     });
@@ -114,6 +114,23 @@ export class ProductDetailsComponent implements OnInit {
       R.push(arr.slice(i, i + chunkSize));
     }
     return R;
+  }
+
+  slug(name: string) {
+    if(!name) return;
+    name = name.toLowerCase();
+    name = name.replace(/(à|á|ạ|ả|ã|â|ầ|ấ|ậ|ẩ|ẫ|ă|ằ|ắ|ặ|ẳ|ẵ)/g, 'a');
+    name = name.replace(/(è|é|ẹ|ẻ|ẽ|ê|ề|ế|ệ|ể|ễ)/g, 'e');
+    name = name.replace(/(ì|í|ị|ỉ|ĩ)/g, 'i');
+    name = name.replace(/(ò|ó|ọ|ỏ|õ|ô|ồ|ố|ộ|ổ|ỗ|ơ|ờ|ớ|ợ|ở|ỡ)/g, 'o');
+    name = name.replace(/(ù|ú|ụ|ủ|ũ|ư|ừ|ứ|ự|ử|ữ)/g, 'u');
+    name = name.replace(/(ỳ|ý|ỵ|ỷ|ỹ)/g, 'y');
+    name = name.replace(/(đ)/g, 'd');
+    name = name.replace(/([^0-9a-z-\s])/g, '');
+    name = name.replace(/(\s+)/g, '-');
+    name = name.replace(/^-+/g, '');
+    name = name.replace(/-+$/g, '');
+    return name;
   }
 
   private buildForm() {

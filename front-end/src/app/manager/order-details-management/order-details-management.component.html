@@ -3,10 +3,10 @@
     <div class="row h-100">
       <div class="col-sm-12 col-md-4 information">
         <h5>Thông tin đơn hàng</h5>
-        <div class="name">Họ tên khách hàng: Nguyễn Đại</div>
-        <div class="address">Địa chỉ: Hà Nội</div>
-        <div class="phone">Số điện thoại: 0375.629.888</div>
-        <div class="email">Email: ngtrdai290197@gmail.com</div>
+        <div class="name">Họ tên khách hàng: {{order?.user?.fullName}}</div>
+        <div class="address">Địa chỉ: {{order?.user?.address}}</div>
+        <div class="phone">Số điện thoại: {{order?.user?.phone}}</div>
+        <div class="email">Email: {{order?.user?.email}}</div>
         <h5 class="mt-2">Thông tin đơn hàng</h5>
         <div class="status-payment"
           [innerHTML]="order?.statePayment ? 'Trạng thái thanh toán: Đã thanh toán' : 'Trạng thái thanh toán: Chưa thanh toán'">
@@ -36,8 +36,13 @@
           <option value="completed" class="w-100" *ngIf="order?.stateOrder == 'completed'" selected="selected">Đã giao
             hàng thành công</option>
         </select>
-        <div class="update" *ngIf="order?.stateOrder !== 'completed'">
-          <button class="btn btn-danger btn-block mt-2" (click)="updateOrder(order)">Cập nhật</button>
+        <div class="update" *ngIf="order?.stateOrder !== 'completed' && isLoading">
+          <button class="btn btn-success btn-block mt-2" (click)="updateOrder(order)">Cập nhật</button>
+        </div>
+        <div class="update" *ngIf="order?.stateOrder == 'ordered' && isLoading">
+          <button class="btn btn-danger btn-block mt-2" data-toggle="modal"
+          data-target="#deleteOrder">
+          <i class="fa fa-trash" style="padding-right: 7px;"></i>Xóa đơn hàng</button>
         </div>
       </div>
       <div class="col-sm-12 col-md-8 product-list">
@@ -53,6 +58,25 @@
     </div>
   </div>
 </section>
+
+<!-- Delete a image -->
+<div class="modal fade" id="deleteOrder">
+  <div class="modal-dialog">
+    <div class="modal-content">
+
+      <!-- Modal Header -->
+      <div class="modal-header">
+        <h5 class="modal-title">Bạn có chắc chắn muốn xóa đơn hàng này ?</h5>
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+      </div>
+      <!-- Modal footer -->
+      <div class="modal-footer">
+        <button type="button" class="btn btn-danger" data-dismiss="modal" (click)="removeOrdered()">Xóa</button>
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Hủy bỏ</button>
+      </div>
+    </div>
+  </div>
+</div>
 <ngx-spinner bdColor="rgba(51,51,51,0.8)" size="medium" color="#fff" type="line-scale-party">
   <p style="color: #fff">Đang cập nhật đơn hàng. Vui lòng đợi !</p>
 </ngx-spinner>

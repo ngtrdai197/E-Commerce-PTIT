@@ -21,6 +21,7 @@ export class OrderManagementComponent implements OnInit {
   currentOrderId = '';
   maxDate = new Date(Date.now());
   selectedDate: any;
+  isLoading = false;
   constructor(
     private activatedRoute: ActivatedRoute, private title: Title,
     private orderCartService: OrderCartService, private spinner: NgxSpinnerService,
@@ -42,20 +43,25 @@ export class OrderManagementComponent implements OnInit {
   }
 
   onSearchOrder(keyword: string) {
-    const tomorrow = moment(new Date(this.selectedDate)).add(1, 'days').format('YYYY-MM-DD');
-    const date = moment(new Date(this.selectedDate)).format('YYYY-MM-DD')
-    if (keyword && this.selectedDate) {
+    if (!keyword && !this.selectedDate) {
+      this.toast.warning('Vui lòng nhập đầy đủ thông tin');
+      return;
+    } else {
+      let tomorrow = '';
+      let date = '';
+      if (this.selectedDate) {
+        tomorrow = moment(new Date(this.selectedDate)).add(1, 'days').format('YYYY-MM-DD');
+        date = moment(new Date(this.selectedDate)).format('YYYY-MM-DD');
+      }
       this.spinner.show();
       this.searchService.searchWithOrder(keyword, date, tomorrow, this.actionFilter).subscribe(data => {
         this.orders = data;
         this.spinner.hide();
+        this.isLoading = true;
       }, error => {
         this.spinner.hide();
         this.toast.error(error.error.message);
       });
-    } else {
-      this.toast.warning('Vui lòng nhập đầy đủ thông tin');
-      return;
     }
   }
   onSelectDate(event) {
@@ -68,6 +74,7 @@ export class OrderManagementComponent implements OnInit {
         if (data) {
           this.orders = data.order;
           this.cartEmpty = data.cartEmpty;
+          this.isLoading = true;
           this.spinner.hide();
         }
       });
@@ -76,6 +83,7 @@ export class OrderManagementComponent implements OnInit {
         if (data) {
           this.orders = data.order;
           this.cartEmpty = data.cartEmpty;
+          this.isLoading = true;
           this.spinner.hide();
         }
       });

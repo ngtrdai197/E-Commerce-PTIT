@@ -57,6 +57,9 @@ html {
 
 .primary-color {
   background-color: #4285f4 !important;
+  @media (max-width: 992px) {
+    width: 100%;
+  }
 }
 
 .nav-link {
