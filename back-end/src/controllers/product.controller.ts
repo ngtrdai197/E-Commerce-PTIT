@@ -113,7 +113,8 @@ export class Product {
             if (product) {
                 const feedback: IFeedback = {
                     customer: req.user.id,
-                    content: body.content
+                    content: body.content,
+                    createdAtDate: new Date(Date.now())
                 };
                 return await this.productRepo.update(product, feedback);
             }

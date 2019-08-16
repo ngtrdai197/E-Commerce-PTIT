@@ -18,7 +18,7 @@ export class OrderRepository implements IOrderRepository {
     };
 
     findOnePopulate = async (query: any): Promise<IOrder> => {
-        const order = await orderModel.findOne(query).populate('carts.product');
+        const order = await orderModel.findOne(query).populate('carts.product').populate({ path: 'user', select: '-password' });
         return order as IOrder;
     };
 
@@ -31,6 +31,11 @@ export class OrderRepository implements IOrderRepository {
             .populate('carts.product')
             .populate({ path: 'user', select: '-password' });
     };
+
+    findAllOrderAndFilter = async (query: any): Promise<IOrder[]> => {
+        return await orderModel.find(query)
+            .populate({ path: 'user', select: '-password' });
+    }
 
     create = async (order: IOrder): Promise<any> => {
         return await orderModel.create(order);
@@ -57,5 +62,9 @@ export class OrderRepository implements IOrderRepository {
     delete = async (id: string): Promise<any> => {
         await orderModel.findByIdAndRemove(id);
         return { isDeleted: true, message: `Successfully deleted order with id: ${id}` };
+    }
+
+    removeOrdered = async (id: string): Promise<any>=> {
+        return  await orderModel.findByIdAndRemove(id);
     }
 }

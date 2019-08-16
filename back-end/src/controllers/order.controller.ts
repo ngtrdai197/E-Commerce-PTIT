@@ -1,4 +1,4 @@
-import { controller, httpPost, httpGet, httpPut } from "inversify-express-utils";
+import { controller, httpPost, httpGet, httpPut, requestParam, httpDelete, response } from "inversify-express-utils";
 import { Response, Request } from "express";
 import { inject } from "inversify";
 import { TYPES, constants } from "../common";
@@ -6,6 +6,7 @@ import { IOrderRepository, IUserRepository } from "../IRepositories";
 import { parser } from "../middleware";
 import { ICart, IOrder, IProduct } from "../entities";
 import { email } from "../common/email";
+import * as express from "express";
 
 @controller('/order')
 export class OrderController {
@@ -17,20 +18,45 @@ export class OrderController {
     @httpGet('/search', parser([constants.ROLES.ADMIN]))
     public async searchOrder(req: Request, res: Response) {
         try {
-            const user = await this.userRepo.findOne({ phone: req.query.keyword });
-            if (!user) return res.status(400).json({ statusCode: 400, message: 'Không tìm thấy đơn theo số điện thoại' });
-            const query = {
-                user: user.id,
-                updatedAtDate: { "$gte": new Date(req.query.date), "$lt": new Date(req.query.tomorrow) },
-                stateOrder: req.query.stateOrder
-            };
-            const ordered = await this.orderRepo.findWithFilter(query);
-            if (ordered) {
-                return res.status(200).send(ordered);
+            if (req.query.keyword && req.query.date) {
+                const user = await this.userRepo.findOne({ phone: req.query.keyword });
+                if (!user) return res.status(400).json({ statusCode: 400, message: 'Không tìm thấy đơn theo số điện thoại' });
+                const query = {
+                    user: user.id,
+                    updatedAtDate: { "$gte": new Date(req.query.date), "$lt": new Date(req.query.tomorrow) },
+                    stateOrder: req.query.stateOrder
+                };
+                const ordered = await this.orderRepo.findWithFilter(query);
+                if (ordered) {
+                    return res.status(200).send(ordered);
+                }
+                return res.status(400).json({ statusCode: 400, message: 'Không tìm thấy đơn' });
+            } else if (req.query.keyword && !req.query.date) {
+                const user = await this.userRepo.findOne({ phone: req.query.keyword });
+                if (!user) return res.status(400).json({ statusCode: 400, message: 'Không tìm thấy đơn theo số điện thoại' });
+                const query = {
+                    user: user.id,
+                    stateOrder: req.query.stateOrder
+                };
+                const ordered = await this.orderRepo.findWithFilter(query);
+                if (ordered) {
+                    return res.status(200).send(ordered);
+                }
+                return res.status(400).json({ statusCode: 400, message: 'Không tìm thấy đơn' });
+            } else {
+                const query = {
+                    updatedAtDate: { "$gte": new Date(req.query.date), "$lt": new Date(req.query.tomorrow) },
+                    stateOrder: req.query.stateOrder
+                };
+                const ordered = await this.orderRepo.findWithFilter(query);
+                if (ordered) {
+                    return res.status(200).send(ordered);
+                }
+                return res.status(400).json({ statusCode: 400, message: 'Không tìm thấy đơn' });
             }
-            return res.status(400).json({ statusCode: 400, message: 'Không tìm thấy đơn' });
+
         } catch (error) {
-            return res.status(500).json({ statusCode: 500, message: error.message });
+            throw error;
         }
     }
 
@@ -55,7 +81,7 @@ export class OrderController {
             }
             return res.status(400).send('Gửi thất bại. Kiểm tra lại');
         } catch (error) {
-            return res.status(500).send({ message: error.message });
+            throw error;
         }
     }
 
@@ -70,13 +96,14 @@ export class OrderController {
             };
             const order: IOrder = {
                 user: req.user.id,
-                stateOrder: 'not-ordered'
+                stateOrder: 'not-ordered',
+                createdDate: new Date(Date.now())
             };
             const created = await this.orderRepo.create(order);
             const data = await this.orderRepo.pushCart(created.id as string, cart);
             return res.status(200).send(data);
         } catch (error) {
-            return res.status(500).send({ message: error.message });
+            throw error;
         }
 
     }
@@ -113,7 +140,7 @@ export class OrderController {
             }
             return res.status(404).send({ message: 'Giỏ hàng không tồn tại. Kiểm tra lại!' });
         } catch (error) {
-            return res.status(500).send({ message: error.message });
+            throw error;
         }
     }
 
@@ -154,7 +181,7 @@ export class OrderController {
             }
             return res.status(400).json({ statusCode: 400, message: 'Cập nhật không thành công. Kiểm tra lại thông tin' });
         } catch (error) {
-            return res.status(500).json({ statusCode: 500, message: error.message });
+            throw error;
         }
     }
 
@@ -173,7 +200,22 @@ export class OrderController {
             }
             return res.status(500).send({ message: 'Giỏ hàng không tồn tại. Kiểm tra lại!' });
         } catch (error) {
-            return res.status(500).send({ message: error.message });
+            throw error;
+        }
+    }
+
+    @httpDelete('/delete/ordered/:orderID', parser([constants.ROLES.ADMIN, constants.ROLES.USER]))
+    public async removeOrdered(@requestParam('orderID') orderID: string, @response() res: express.Response) {
+        try {
+            const result = await this.orderRepo.removeOrdered(orderID as string);
+            console.log(result);
+            if (result) {
+                return res.status(200).send({ statusCode: 200, message: 'Đã xóa đơn hàng thành công!' });
+            } else {
+                return res.status(400).json({ statusCode: 400, message: 'Xóa thất bại. Kiểm tra lại' });
+            }
+        } catch (error) {
+            throw error;
         }
     }
 

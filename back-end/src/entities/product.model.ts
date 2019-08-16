@@ -21,6 +21,7 @@ export interface IProduct {
 export interface IFeedback {
     customer?: string | IUser;
     content?: string;
+    createdAtDate?: Date;
 }
 
 export interface IProductModel extends IProduct, mongoose.Document {
