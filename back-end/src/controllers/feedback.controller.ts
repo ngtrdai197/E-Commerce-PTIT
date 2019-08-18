@@ -5,7 +5,7 @@ import { email } from '../common/email';
 @controller('/feedback')
 export class FeedbackController {
     constructor() { }
-
+    
     @httpPost('/')
     public async sentFeedback(req: Request, res: Response) {
         try {

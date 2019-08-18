@@ -192,13 +192,32 @@ export class UserController {
     * @api {post} /api/user Create a user
     * @apiHeader {String} x-access-token Tokens review user permissions.
     * @apiName CreateUser
-    * @apiGroup User
+    * @apiGroup User 
+    * @apiSampleRequest http://localhost:3000/
+    * @apiParam {String} fullName Full name of the User.
+    * @apiParam {String} username  Username of the User.
+    * @apiParam {String} address  Address of the User.
+    * @apiParam {String} email  Email of the User.
+    * @apiParam {String} phone  Phone number of the User.
+    * @apiParam {String} password  Password of the User.
+    * 
+    * 
+    * @apiParamExample {json} Request-Example:
+    *   {
+    *     "username": "ngducloc123",
+    *     "fullName": "Nguyễn Đức Lộc",
+    *     "phone": "0986610028",
+    *     "email": "ngducloc123@gmail.com",
+    *     "address": "Ha Noi"
+    *   }
     *
-    * @apiSuccess {String} fullName Full name of the User.
-    * @apiSuccess {String} username  Username of the User.
-    * @apiSuccess {String} address  Address of the User.
-    * @apiSuccess {String} email  Email of the User.
-    * @apiSuccess {String} phone  Phone number of the User.
+    * @apiParam {String} fullName Full name of the User.
+    * @apiParam {String} username  Username of the User.
+    * @apiParam {String} address  Address of the User.
+    * @apiParam {String} email  Email of the User.
+    * @apiParam {String} phone  Phone number of the User.
+    * @apiParam {String} password  Password of the User.
+    * 
     *
     * @apiSuccessExample Success-Response:
     *     HTTP/1.1 200 OK
@@ -273,7 +292,20 @@ export class UserController {
    * @apiHeader {String} x-access-token Tokens review user permissions.
    * @apiName UpdateUser
    * @apiGroup User
-   *
+   * @apiSampleRequest http://localhost:3000/
+   * @apiParam {String} fullName Full name of the User.
+   * @apiParam {String} username  Username of the User.
+   * @apiParam {String} address  Address of the User.
+   * @apiParam {String} email  Email of the User.
+   * @apiParam {String} phone  Phone number of the User.
+   * @apiParamExample {json} Request-Example:
+   *   {
+   *     "username": "nguyendai.coder",
+   *     "fullName": "I am Coder <3",
+   *     "phone": "03756298889",
+   *     "email": "ngducloc123@gmail.com",
+   *     "address": "429/6 Đường 429, Phường Tăng Nhơn Phú A, Quận 9, TP.HCM"
+   *   }
    * @apiSuccess {String} fullName Full name of the User.
    * @apiSuccess {String} username  Username of the User.
    * @apiSuccess {String} address  Address of the User.
@@ -316,9 +348,9 @@ export class UserController {
       if (user.password) {
         user.password = await hashSync(user.password as string, 10);
       }
-      const checkEmail = await this.userRepository.findOne({ email: user.email, _id: { $ne: user.id } });
+      const checkEmail = await this.userRepository.findOne({ email: user.email, isDeleted: false, _id: { $ne: user.id } });
       if (!checkEmail) {
-        const checkPhone = await this.userRepository.findOne({ phone: user.phone, _id: { $ne: user.id } });
+        const checkPhone = await this.userRepository.findOne({ phone: user.phone, isDeleted: false, _id: { $ne: user.id } });
         if (!checkPhone) {
           const result = await this.userRepository.update(user);
           return res.status(200).send(result);

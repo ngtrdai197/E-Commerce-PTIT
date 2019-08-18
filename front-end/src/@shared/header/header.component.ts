@@ -159,7 +159,10 @@ export class HeaderComponent implements OnInit, OnDestroy {
       ])),
       fullName: new FormControl('', Validators.required),
       address: new FormControl('', Validators.required),
-      phone: new FormControl('', Validators.required),
+      phone: new FormControl('', Validators.compose([
+        Validators.required,
+        Validators.pattern('[0-9]+')
+      ])),
       avatar: new FormControl(null)
     });
   }

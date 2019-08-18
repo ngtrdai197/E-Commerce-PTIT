@@ -13,7 +13,7 @@ import { Title } from '@angular/platform-browser';
 })
 export class OrderDetailsManagementComponent implements OnInit {
 
-  order: IOrder;
+  order: any;
   totalPayment = 0;
   valueStateOrder = '';
   isLoading = false;

@@ -36,7 +36,10 @@ export class PageSearchComponent implements OnInit {
     });
   }
 
-  onLoading() {
+  onLoading(action: string) {
+    if(action == 'reload'){
+      this.pagination.page = 1;
+    }
     this.keyword = this.keyword === 'show' ? '' : this.keyword;
     this.searchService.search(this.keyword, parseInt(this.selected), +this.selectedSex, this.pagination).subscribe(data => {
       this.products = data.products;
@@ -54,18 +57,18 @@ export class PageSearchComponent implements OnInit {
     this.currentPage = +pageNumber + 1;
     this.spinner.show();
     this.pagination.page = +pageNumber + 1;
-    this.onLoading();
+    this.onLoading('navigate');
   }
 
   nextAndPrevious(action: string) {
     this.spinner.show();
     this.pagination.page = action == 'pre' ? --this.currentPage : ++this.currentPage;
-    this.onLoading();
+    this.onLoading('navigate');
   }
 
   onChangeAndFilter() {
     this.spinner.show();
-    this.onLoading();
+    this.onLoading('reload');
   }
 
 }

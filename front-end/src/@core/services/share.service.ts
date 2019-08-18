@@ -8,6 +8,7 @@ import { API } from '../config/API';
 })
 export class ShareService {
     private eventEmitter = new BehaviorSubject<boolean>(true);
+    private updateUser = new BehaviorSubject<boolean>(true);
     constructor(private http: HttpClient) { }
 
     sentEmail(body: any) {
@@ -20,5 +21,13 @@ export class ShareService {
 
     getEventEmitter() {
         return this.eventEmitter.asObservable();
+    }
+
+    setUpdateUser(state: boolean){
+        this.updateUser.next(state);
+    }
+
+    getUpdateUser(){
+        return this.updateUser.asObservable();
     }
 }

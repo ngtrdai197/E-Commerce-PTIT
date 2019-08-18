@@ -50,13 +50,14 @@ export class ProductRepository implements IProductRepository {
     };
 
     update = async (product: IProduct, feedback?: IFeedback): Promise<any> => {
-        const updated = await productModel.findById(product.id);
-        if (updated) {
-            if (feedback) {
-                return await productModel.findByIdAndUpdate(product.id, { $push: { feedback: feedback } }).populate({ path: 'feedback.customer' });
-            }
-            return await productModel.findByIdAndUpdate(product.id, product).populate('feedback.customer');
+        if (feedback) {
+            const updated = await productModel.findByIdAndUpdate(product.id, { $push: { feedback: feedback } }).populate({ path: 'feedback.customer' });
+            return await productModel.findById((updated as IProduct).id);
+        } else {
+            const updated = await productModel.findByIdAndUpdate(product.id, product).populate('feedback.customer');
+            return await productModel.findById((updated as IProduct).id);
         }
+
     };
 
     delete = async (id: string): Promise<any> => {

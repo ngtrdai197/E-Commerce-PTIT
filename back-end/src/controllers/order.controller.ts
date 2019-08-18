@@ -15,6 +15,123 @@ export class OrderController {
         @inject(TYPES.IUserRepository) private userRepo: IUserRepository
     ) { }
 
+    /**
+     * @api {get} /api/order/search Get order order created date || phone || filter with state order
+     * @apiPermission Admin
+     * @apiHeader {String} x-access-token Tokens review user permissions.
+     * @apiSampleRequest http://localhost:3000/api/order/search
+     * @apiParamExample {String} Request-Example:
+     *   ?keyword=01659999302&stateOrder&not-ordered&date=2019-08-13&tomorrow=2019-08-14
+     * @apiParam {String} [keyword] phone of customer you want to find (keyword or date && tomorrow).
+     * @apiParam {String} stateOrder State of order you want to find.
+     * @apiParam {String} [date] Date created of Order you want to find.
+     * @apiParam {String} [tomorrow] Tomorrow of order you want to find (keyword or date && tomorrow).
+     * @apiName SearchOrder
+     * @apiGroup Order
+     *
+     * @apiSuccess {String} createdDate Order creation date.
+     * @apiSuccess {String} updatedAtDate Order updated date.
+     * @apiSuccess {String} payments Type of pay.
+     * @apiSuccess {Object} user customer of order.
+     * @apiSuccess {String} user.fullName Full name of the User.
+     * @apiSuccess {String} user.username  Username of the User.
+     * @apiSuccess {String} user.address  Address of the User.
+     * @apiSuccess {String} user.email  Email of the User.
+     * @apiSuccess {String} user.phone  Phone number of the User.
+     * @apiSuccess {String} user.role  Role of the User.
+     * @apiSuccess {String} user.id  ID of the User.
+     * @apiSuccess {Boolean} user.isDeleted  whether the user state has been deleted or not.
+     * @apiSuccess {String} stateOrder  State current of order.
+     * @apiSuccess {Boolean} statePayment State payment of order.
+     * @apiSuccess {Object} carts cart of order includes products and product quantity and total pay.
+     * @apiSuccess {Object[]} carts.product List product of the cart.
+     * @apiSuccess {String[]} carts.product.images List image of the product.
+     * @apiSuccess {String} carts.product.createdDate Product creation date.
+     * @apiSuccess {String} carts.product.productName  Name of the product.
+     * @apiSuccess {String} carts.product.category  Id of the Category.
+     * @apiSuccess {String} carts.product.currentPrice  Current price of the product.
+     * @apiSuccess {String} [carts.product.oldPrice]  Old price of the product.
+     * @apiSuccess {String} carts.product.description  Description of the product.
+     * @apiSuccess {String} carts.product.title  Title of the product.
+     * @apiSuccess {String} carts.product.sex  Sex of the product.
+     * @apiSuccess {String} carts.product.textSlug  Text slug of the product.
+     * @apiSuccess {Object[]} carts.product.feedback  Feedback of the product.
+     * @apiSuccess {String} carts.product.feedback.createdAtDate  Feedback creation date.
+     * @apiSuccess {String} carts.product.feedback._id  Id of the feedback.
+     * @apiSuccess {String} carts.product.feedback.customer  Id of the Customer.
+     * @apiSuccess {String} carts.product.feedback.content  Content of the feedback about product.
+     *
+     * @apiSuccessExample Success-Response:
+     *     HTTP/1.1 200 OK
+     *   [
+     *       {
+     *           "createdDate": "2019-08-16T10:02:35.495Z",
+     *           "updatedAtDate": "2019-08-16T10:10:22.645Z",
+     *           "payments": "Nhận tiền khi giao dịch",
+     *           "statePayment": false,
+     *           "_id": "5d56809a86960171f4b08f89",
+     *           "user": {
+     *               "isDeleted": false,
+     *               "role": "User",
+     *               "_id": "5d56808086960171f4b08f88",
+     *               "username": "nguyenduc",
+     *               "fullName": "Nguyen Duc Hoang",
+     *               "phone": "01659999302",
+     *               "email": "nguyenduchoang@gmail.com",
+     *               "address": "96 Man Thien, Quan 9, Ho Chi Minh",
+     *               "__v": 0,
+     *               "id": "5d56808086960171f4b08f88"
+     *           },
+     *           "stateOrder": "not-ordered",
+     *           "carts": [
+     *               {
+     *                   "_id": "5d56809a86960171f4b08f8a",
+     *                   "product": {
+     *                       "images": [
+     *                           "products/1565336474005-(460x460)_fm_non_son_mWEB1_2_2.jpg",
+     *                           "products/1565337682692-(460x460)_fm_non_son_mWEB6.jpg",
+     *                           "products/1565337819438-(460x460)_fm_non-son-mWEB1_3_3.jpg"
+     *                       ],
+     *                       "isDeleted": false,
+     *                       "createdAtDate": "2019-08-09T07:35:41.330Z",
+     *                       "_id": "5d4d235d60fbc31e0815d03a",
+     *                       "productName": "Nón kết",
+     *                       "category": "5d4cfbe6c7473c2660edf4a2",
+     *                       "currentPrice": 390000,
+     *                       "oldPrice": 425000,
+     *                       "description": "Vải dù được dệt từ sợi tổng hợp, tùy vào chất liệu, hàm lượng và cách dệt mà vải sẽ có những thuộc tính và chất lượng khác nhau. Vải dù Nón Sơn nhập về được dệt, nhuộm màu bằng công nghệ hiện đại tạo ra màu sắc và chất lượng tuyệt hảo. Vải dù có độ bền cao, nhẹ, thoáng mát, không thấm nước, ít bám bụi, dễ giặt, độ bền màu cao khi tiếp xúc với bức xạ.",
+     *                       "title": "Nón kết MC001A-XXH10",
+     *                       "sex": 0,
+     *                       "textSlug": "non-ket-mc001a-xxh10",
+     *                       "feedback": [],
+     *                       "__v": 0,
+     *                       "id": "5d4d235d60fbc31e0815d03a"
+     *                   },
+     *                   "totalPayment": 390000,
+     *                   "quantity": 1
+     *               }
+     *           ],
+     *           "__v": 0,
+     *           "id": "5d56809a86960171f4b08f89"
+     *       }
+     *   ]
+     *
+     * @apiError NotAuthorization Not authorized.
+     * @apiError NotPermission You have not permission.
+     * 
+     *
+     * @apiErrorExample Error-Response:
+     *     HTTP/1.1 401 NotAuthorization
+     *     {
+     *       "statusCode": 401,
+     *       "message": "NotAuthorization" 
+     *     },
+     *     HTTP/1.2 403 NotPermission
+     *     {
+     *       "statusCode": 403,
+     *       "message": "NotPermission" 
+     *     }
+     */
     @httpGet('/search', parser([constants.ROLES.ADMIN]))
     public async searchOrder(req: Request, res: Response) {
         try {
@@ -23,7 +140,7 @@ export class OrderController {
                 if (!user) return res.status(400).json({ statusCode: 400, message: 'Không tìm thấy đơn theo số điện thoại' });
                 const query = {
                     user: user.id,
-                    updatedAtDate: { "$gte": new Date(req.query.date), "$lt": new Date(req.query.tomorrow) },
+                    createdDate: { "$gte": new Date(req.query.date), "$lt": new Date(req.query.tomorrow) },
                     stateOrder: req.query.stateOrder
                 };
                 const ordered = await this.orderRepo.findWithFilter(query);
@@ -45,7 +162,7 @@ export class OrderController {
                 return res.status(400).json({ statusCode: 400, message: 'Không tìm thấy đơn' });
             } else {
                 const query = {
-                    updatedAtDate: { "$gte": new Date(req.query.date), "$lt": new Date(req.query.tomorrow) },
+                    createdDate: { "$gte": new Date(req.query.date), "$lt": new Date(req.query.tomorrow) },
                     stateOrder: req.query.stateOrder
                 };
                 const ordered = await this.orderRepo.findWithFilter(query);
@@ -60,6 +177,171 @@ export class OrderController {
         }
     }
 
+
+    /**
+     * @api {get} /api/order/confirm/order Confirm order to server
+     * @apiHeader {String} x-access-token Tokens review user permissions.
+     * @apiName ConfirmOrder
+     * @apiGroup Order
+     * 
+     * @apiParam {String} createdDate Order creation date.
+     * @apiParam {String} updatedAtDate Order updated date.
+     * @apiParam {String} payments Type of pay.
+     * @apiParam {Object} user customer of order.
+     * @apiParam {String} user.fullName Full name of the User.
+     * @apiParam {String} user.username  Username of the User.
+     * @apiParam {String} user.address  Address of the User.
+     * @apiParam {String} user.email  Email of the User.
+     * @apiParam {String} user.phone  Phone number of the User.
+     * @apiParam {String} user.role  Role of the User.
+     * @apiParam {String} user.id  ID of the User.
+     * @apiParam {Boolean} user.isDeleted  whether the user state has been deleted or not.
+     * @apiParam {String} stateOrder  State current of order.
+     * @apiParam {Boolean} statePayment State payment of order.
+     * @apiParam {Object} carts cart of order includes products and product quantity and total pay.
+     * @apiParam {Object[]} carts.product List product of the cart.
+     * @apiParam {String[]} carts.product.images List image of the product.
+     * @apiParam {String} carts.product.createdDate Product creation date.
+     * @apiParam {String} carts.product.productName  Name of the product.
+     * @apiParam {String} carts.product.category  Id of the Category.
+     * @apiParam {String} carts.product.currentPrice  Current price of the product.
+     * @apiParam {String} [carts.product.oldPrice]  Old price of the product.
+     * @apiParam {String} carts.product.description  Description of the product.
+     * @apiParam {String} carts.product.title  Title of the product.
+     * @apiParam {String} carts.product.sex  Sex of the product.
+     * @apiParam {String} carts.product.textSlug  Text slug of the product.
+     * @apiParam {Object[]} carts.product.feedback  Feedback of the product.
+     * @apiParam {String} carts.product.feedback.createdAtDate  Feedback creation date.
+     * @apiParam {String} carts.product.feedback._id  Id of the feedback.
+     * @apiParam {String} carts.product.feedback.customer  Id of the Customer.
+     * @apiParam {String} carts.product.feedback.content  Content of the feedback about product.
+     *
+     * @apiParamExample {json} Request-Example:
+     *    [
+     *       {
+     *           "createdDate": "2019-08-16T10:02:35.495Z",
+     *           "updatedAtDate": "2019-08-16T10:10:22.645Z",
+     *           "payments": "Nhận tiền khi giao dịch",
+     *           "statePayment": false,
+     *           "_id": "5d56809a86960171f4b08f89",
+     *           "user": {
+     *               "isDeleted": false,
+     *               "role": "User",
+     *               "_id": "5d56808086960171f4b08f88",
+     *               "username": "nguyenduc",
+     *               "fullName": "Nguyen Duc Hoang",
+     *               "phone": "01659999302",
+     *               "email": "nguyenduchoang@gmail.com",
+     *               "address": "96 Man Thien, Quan 9, Ho Chi Minh",
+     *               "__v": 0,
+     *               "id": "5d56808086960171f4b08f88"
+     *           },
+     *           "stateOrder": "ordered",
+     *           "carts": [
+     *               {
+     *                   "_id": "5d56809a86960171f4b08f8a",
+     *                   "product": {
+     *                       "images": [
+     *                           "products/1565336474005-(460x460)_fm_non_son_mWEB1_2_2.jpg",
+     *                           "products/1565337682692-(460x460)_fm_non_son_mWEB6.jpg",
+     *                           "products/1565337819438-(460x460)_fm_non-son-mWEB1_3_3.jpg"
+     *                       ],
+     *                       "isDeleted": false,
+     *                       "createdAtDate": "2019-08-09T07:35:41.330Z",
+     *                       "_id": "5d4d235d60fbc31e0815d03a",
+     *                       "productName": "Nón kết",
+     *                       "category": "5d4cfbe6c7473c2660edf4a2",
+     *                       "currentPrice": 390000,
+     *                       "oldPrice": 425000,
+     *                       "description": "Vải dù được dệt từ sợi tổng hợp, tùy vào chất liệu, hàm lượng và cách dệt mà vải sẽ có những thuộc tính và chất lượng khác nhau. Vải dù Nón Sơn nhập về được dệt, nhuộm màu bằng công nghệ hiện đại tạo ra màu sắc và chất lượng tuyệt hảo. Vải dù có độ bền cao, nhẹ, thoáng mát, không thấm nước, ít bám bụi, dễ giặt, độ bền màu cao khi tiếp xúc với bức xạ.",
+     *                       "title": "Nón kết MC001A-XXH10",
+     *                       "sex": 0,
+     *                       "textSlug": "non-ket-mc001a-xxh10",
+     *                       "feedback": [],
+     *                       "__v": 0,
+     *                       "id": "5d4d235d60fbc31e0815d03a"
+     *                   },
+     *                   "totalPayment": 390000,
+     *                   "quantity": 1
+     *               }
+     *           ],
+     *           "__v": 0,
+     *           "id": "5d56809a86960171f4b08f89"
+     *       }
+     *   ]
+     * @apiSuccessExample Success-Response:
+     *     HTTP/1.1 200 OK
+     *   {  "data": [
+     *               {
+     *                   "createdDate": "2019-08-16T10:02:35.495Z",
+     *                   "updatedAtDate": "2019-08-16T10:10:22.645Z",
+     *                   "payments": "Nhận tiền khi giao dịch",
+     *                   "statePayment": false,
+     *                   "_id": "5d56809a86960171f4b08f89",
+     *                   "user": {
+     *                       "isDeleted": false,
+     *                       "role": "User",
+     *                       "_id": "5d56808086960171f4b08f88",
+     *                       "username": "nguyenduc",
+     *                       "fullName": "Nguyen Duc Hoang",
+     *                       "phone": "01659999302",
+     *                       "email": "nguyenduchoang@gmail.com",
+     *                       "address": "96 Man Thien, Quan 9, Ho Chi Minh",
+     *                       "__v": 0,
+     *                       "id": "5d56808086960171f4b08f88"
+     *                   },
+     *                   "stateOrder": "ordered",
+     *                   "carts": [
+     *                       {
+     *                           "_id": "5d56809a86960171f4b08f8a",
+     *                           "product": {
+     *                               "images": [
+     *                                   "products/1565336474005-(460x460)_fm_non_son_mWEB1_2_2.jpg",
+     *                                   "products/1565337682692-(460x460)_fm_non_son_mWEB6.jpg",
+     *                                   "products/1565337819438-(460x460)_fm_non-son-mWEB1_3_3.jpg"
+     *                               ],
+     *                               "isDeleted": false,
+     *                               "createdAtDate": "2019-08-09T07:35:41.330Z",
+     *                               "_id": "5d4d235d60fbc31e0815d03a",
+     *                               "productName": "Nón kết",
+     *                               "category": "5d4cfbe6c7473c2660edf4a2",
+     *                               "currentPrice": 390000,
+     *                               "oldPrice": 425000,
+     *                               "description": "Vải dù được dệt từ sợi tổng hợp, tùy vào chất liệu, hàm lượng và cách dệt mà vải sẽ có những thuộc tính và chất lượng khác nhau. Vải dù Nón Sơn nhập về được dệt, nhuộm màu bằng công nghệ hiện đại tạo ra màu sắc và chất lượng tuyệt hảo. Vải dù có độ bền cao, nhẹ, thoáng mát, không thấm nước, ít bám bụi, dễ giặt, độ bền màu cao khi tiếp xúc với bức xạ.",
+     *                               "title": "Nón kết MC001A-XXH10",
+     *                               "sex": 0,
+     *                               "textSlug": "non-ket-mc001a-xxh10",
+     *                               "feedback": [],
+     *                               "__v": 0,
+     *                               "id": "5d4d235d60fbc31e0815d03a"
+     *                           },
+     *                           "totalPayment": 390000,
+     *                           "quantity": 1
+     *                       }
+     *                   ],
+     *                   "__v": 0,
+     *                   "id": "5d56809a86960171f4b08f89"
+     *               }
+     *             ],
+     *             "message": 'Đặt hàng thành công'
+     *    }
+     *
+     * @apiError NotAuthorization Not authorized.
+     * @apiError BadRequest Gửi thất bại. Kiểm tra lại
+     * 
+     *
+     * @apiErrorExample Error-Response:
+     *     HTTP/1.1 401 NotAuthorization
+     *     {
+     *       "statusCode": 401,
+     *       "message": "NotAuthorization" 
+     *     },
+     *     HTTP/1.2 403 BadRequest
+     *     {
+     *       "statusCode": 400,
+     *       "message": "BadRequest" 
+     *     }
+     */
     @httpPost('/confirm/order', parser([constants.ROLES.ADMIN, constants.ROLES.USER]))
     public async confirmOrders(req: any, res: Response) {
         try {
@@ -208,7 +490,6 @@ export class OrderController {
     public async removeOrdered(@requestParam('orderID') orderID: string, @response() res: express.Response) {
         try {
             const result = await this.orderRepo.removeOrdered(orderID as string);
-            console.log(result);
             if (result) {
                 return res.status(200).send({ statusCode: 200, message: 'Đã xóa đơn hàng thành công!' });
             } else {

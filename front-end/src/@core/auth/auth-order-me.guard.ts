@@ -12,12 +12,11 @@ export class AuthOrderMeGuard implements CanActivate {
     this.orderCartService.orderCart.subscribe(data => {
       console.log(data);
       if (!data) {
-        this.router.navigate(['']);
         return false;
       }
       this.router.navigate(['order']);
       return true;
     });
-    return true;
+    return false;
   }
 }

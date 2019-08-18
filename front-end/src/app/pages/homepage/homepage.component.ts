@@ -29,7 +29,7 @@ export class HomepageComponent implements OnInit {
   currentPage = 1;
   pagination = {
     page: 1,
-    perPage: 15
+    perPage: 16
   };
   page: any;
 

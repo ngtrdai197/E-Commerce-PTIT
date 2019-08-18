@@ -110,7 +110,7 @@ export class DashProductComponent implements OnInit {
   updateImages(event) {
     const files = event.target.files;
     console.log(files);
-    
+
     this.editForm.get('images').setValue({
       images: files
     });
@@ -124,7 +124,7 @@ export class DashProductComponent implements OnInit {
       description: new FormControl(product.description, Validators.required),
       title: new FormControl(product.title, Validators.required),
       sex: new FormControl(product.sex),
-      images: new FormControl(null)
+      images: new FormControl('')
     });
     this.currentProduct = product.id as string;
   }
@@ -138,11 +138,8 @@ export class DashProductComponent implements OnInit {
       if (response.isDeleted) {
         this.refresh();
         this.toastService.success('Xóa sản phẩm thành công');
-      } else {
-        this.refresh();
-        this.toastService.error(response.message);
       }
-    })
+    }, error => this.toastService.error(error.error.message));
   }
 
   onUpdateProduct() {
@@ -169,10 +166,11 @@ export class DashProductComponent implements OnInit {
     this.productService.updateProduct(payload).subscribe((response) => {
       if (response) {
         this.refresh();
+        this.editForm.get('images').setValue({ images: '' });
         this.toastService.success('Cập nhật sản phẩm thành công');
       }
     }, (error) => {
-      this.toastService.error(error, 'Lỗi');
+      this.toastService.error('File tải lên phải là hình ảnh. Kiểm tra lại!');
     });
   }
 

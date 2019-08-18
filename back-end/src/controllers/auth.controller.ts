@@ -11,7 +11,39 @@ import { parser } from "../middleware";
 @controller('/auth')
 export class AuthController {
     constructor(@inject(TYPES.IUserRepository) private userRepo: IUserRepository) { }
-
+    /**
+        * @api {post} /api/auth/login Login into system
+        * @apiName Login
+        * @apiGroup Authentication 
+        * @apiSampleRequest http://localhost:3000/api/auth/login
+        * @apiParam {String} username  Username of the User.
+        * @apiParam {String} password  Password of the User.
+        * 
+        * @apiParamExample {json} Request-Example:
+        *   {
+        *     "username": "ngducloc123",
+        *     "password": "Aloalo123"
+        *   }
+        *
+        * @apiParam {String} username  Username of the User.
+        * @apiParam {String} password  Password of the User.
+        *
+        * @apiSuccessExample Success-Response:
+        *     HTTP/1.1 200 OK
+        *       {
+        *          "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVkMjM4NTRmNGI4ZWYyMzUyZTZiMTQ2YSIsInVzZXJuYW1lIjoibmdkdWNsb2MxMjMiLCJlbWFpbCI6Im5nZHVjbG9jMTIzQGdtYWlsLmNvbSIsInJvbGUiOiJVc2VyIiwiaWF0IjoxNTY2MDM0NzU4LCJleHAiOjE1NjY2Mzk1NTh9.jENSu3mhGU86MQFXl49Yhq1EivEQPIT_YriL_5tYlVE"
+        *      }
+        *
+        * @apiError BadRequest Thông tin đăng nhập không hợp lệ. Kiểm tra lại!.
+        * 
+        *
+        * @apiErrorExample Error-Response:
+        *     HTTP/1.1 400 BadRequest
+        *     {
+        *       "statusCode": 400,
+        *       "message": "BadRequest" 
+        *     }
+    */
     @httpPost('/login')
     async login(req: Request, res: Response): Promise<any> {
         try {
@@ -35,6 +67,44 @@ export class AuthController {
         }
     }
 
+    /**
+        * @api {get} /api/auth/profile Get profile of user
+        * @apiHeader {String} x-access-token Tokens review user permissions.
+        * @apiName GetProfileUser
+        * @apiGroup Authentication 
+        * @apiSampleRequest http://localhost:3000/api/auth/profile
+        *
+        * @apiSuccessExample Success-Response:
+        *     HTTP/1.1 200 OK
+        *     {
+        *        "isDeleted": false,
+        *        "role": "User",
+        *        "_id": "5d23854f4b8ef2352e6b146a",
+        *        "username": "ngducloc123",
+        *        "fullName": "Nguyễn Đức Lộc",
+        *        "phone": "0986610028",
+        *        "email": "ngducloc123@gmail.com",
+        *        "address": "Ha Noi",
+        *        "__v": 0,
+        *        "avatar": "avatars/1565342616789-mbuntu (3).png",
+        *        "id": "5d23854f4b8ef2352e6b146a"
+        *      }
+        *
+        * @apiError UnAuthorization Token invalid.
+        * 
+        *
+        * @apiErrorExample Error-Response:
+        *     HTTP/1.1 401 UnAuthorization
+        *     {
+        *       "statusCode": 401,
+        *       "message": "UnAuthorization" 
+        *     }
+    */
+    @httpGet('/profile', parser([constants.ROLES.ADMIN, constants.ROLES.USER]))
+    async getUserProfile(req: any): Promise<any> {
+        return await this.userRepo.getUserProfile({ _id: req.user.id });
+    }
+
     @httpPost('/changepassword')
     async changePassword(req: Request): Promise<any> {
         const body = req.body as IUser;
@@ -42,10 +112,5 @@ export class AuthController {
         if (user) {
             return user; // check salt and sent mail to verify
         }
-    }
-
-    @httpGet('/profile', parser([constants.ROLES.ADMIN, constants.ROLES.USER]))
-    async getUserProfile(req: any): Promise<any> {
-        return await this.userRepo.getUserProfile({ _id: req.user.id });
     }
 }

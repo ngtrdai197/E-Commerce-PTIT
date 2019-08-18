@@ -6,6 +6,7 @@ import { IUser } from 'src/@core/interface/IUser.interface';
 import { ToastrService } from 'ngx-toastr';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { DialogDashUserComponent } from '../dialog-dash-user/dialog-dash-user.component';
+import { ShareService } from 'src/@core/services/share.service';
 
 @Component({
   selector: 'shop-dash-user',
@@ -23,12 +24,17 @@ export class DashUserComponent implements OnInit {
 
   selectedIdDetele = '';
   constructor(public dialog: MatDialog, private title: Title,
-    private userService: UserService,
+    private userService: UserService, private shareService: ShareService,
     private toastService: ToastrService, private spinner: NgxSpinnerService
   ) { }
 
   ngOnInit() {
     this.onSetTitle();
+    this.shareService.getUpdateUser().subscribe(res => {
+      if(res){
+        this.onFetchUsers();
+      }
+    })
     this.onFetchUsers();
     this.spinner.show();
   }

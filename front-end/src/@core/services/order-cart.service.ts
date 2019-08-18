@@ -20,6 +20,7 @@ export class OrderCartService {
 
     confirmOrder(order: any): Observable<any> {
         order.stateOrder = 'ordered';
+        console.log(order)
         return this.http.post(`${API.HOST}/${API.ORDER.BASE}/confirm/order`, order);
     }
 

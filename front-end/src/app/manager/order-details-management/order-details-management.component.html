@@ -24,7 +24,7 @@
           <option value="ordered" class="w-100" *ngIf="order?.stateOrder == 'ordered'" selected="selected">Đã đặt hàng
           </option>
           <option value="not-ordered" class="w-100" *ngIf="order?.stateOrder !== 'not-ordered'"
-            [disabled]="order?.stateOrder === 'completed'? true : false">Chưa đặt hàng</option>
+            [disabled]="order?.stateOrder !== 'not-ordered'? true : false">Chưa đặt hàng</option>
           <option value="not-ordered" class="w-100" *ngIf="order?.stateOrder == 'not-ordered'" selected="selected">Chưa
             đặt hàng</option>
           <option value="delivered" class="w-100" *ngIf="order?.stateOrder !== 'delivered'"
