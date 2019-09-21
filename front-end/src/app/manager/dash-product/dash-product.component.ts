@@ -25,7 +25,6 @@ export class DashProductComponent implements OnInit {
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
   @ViewChild(MatSort, { static: true }) sort: MatSort;
   @ViewChild('closeModal', { static: false }) closeModal: ElementRef;
-
   selectedIdDetele = '';
   categoryId = '';
   currentProduct = '';
@@ -45,8 +44,8 @@ export class DashProductComponent implements OnInit {
   ngOnInit() {
     this.onSetTitle();
     this.buildForm();
-    this.activatedRoute.params.subscribe(params => {
-      this.categoryId = params['id'];
+    this.activatedRoute.paramMap.subscribe(params => {
+      this.categoryId = params.get('id');
       this.spinner.show();
       this.viewImages = [];
       this.refresh();
@@ -108,11 +107,10 @@ export class DashProductComponent implements OnInit {
   }
 
   updateImages(event) {
-    const files = event.target.files;
-    console.log(files);
-
+    console.log(event.target.files);
+    
     this.editForm.get('images').setValue({
-      images: files
+      images: event.target.files
     });
   }
 
@@ -124,7 +122,7 @@ export class DashProductComponent implements OnInit {
       description: new FormControl(product.description, Validators.required),
       title: new FormControl(product.title, Validators.required),
       sex: new FormControl(product.sex),
-      images: new FormControl('')
+      images: new FormControl(null)
     });
     this.currentProduct = product.id as string;
   }
@@ -158,6 +156,8 @@ export class DashProductComponent implements OnInit {
     payload.append('id', this.currentProduct);
 
     if (this.editForm.value.images) {
+      console.log(this.editForm.value.images);
+      
       for (let index = 0; index < this.editForm.value.images.images.length; index++) {
         const element = this.editForm.value.images.images[index];
         payload.append('images', element);
@@ -166,7 +166,6 @@ export class DashProductComponent implements OnInit {
     this.productService.updateProduct(payload).subscribe((response) => {
       if (response) {
         this.refresh();
-        this.editForm.get('images').setValue({ images: '' });
         this.toastService.success('Cập nhật sản phẩm thành công');
       }
     }, (error) => {
