@@ -46,7 +46,7 @@ class Email {
             let mailOptions = {
                 from: constants.EMAIL,
                 subject: 'Shop 3s', // sender address
-                to: 'ngtrdai290197@gmail.com', // list of receivers
+                to: 'adlas@gmail.com', // list of receivers
                 html: template(content),
                 attachments: attacks
             };
